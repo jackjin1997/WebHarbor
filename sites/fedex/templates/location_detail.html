@@ -2,7 +2,7 @@
 {% block title %}{{ location.name }}{% endblock %}
 {% block content %}
   <section class="card media">
-    <img src="{{ location.image_path }}" alt="{{ location.name }}">
+    <img src="{{ url_for('static', filename='external_cache/fedex-home/icon_retail_services_purple_med.png') }}" alt="" width="64" height="65">
     <div class="stack">
       <div class="badge-row">
         <span class="badge">{{ location.location_type }}</span>

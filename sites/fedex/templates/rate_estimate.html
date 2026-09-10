@@ -4,7 +4,7 @@
   <section class="section-title">
     <div>
       <div class="kicker">Rate estimate</div>
-      <h1>Compare seeded service levels by lane and package profile</h1>
+      <h1>Calculate shipping rates</h1>
     </div>
   </section>
   <div class="split">
@@ -42,7 +42,7 @@
             </select>
           </div>
         </div>
-        <input type="submit" value="Estimate demo rates">
+        <input type="submit" value="Get rates">
       </form>
     </section>
     <aside class="card">
@@ -58,7 +58,7 @@
     <section class="grid three">
       {% for quote in quotes %}
         <article class="card stack">
-          <img src="{{ quote.service.icon_path }}" alt="{{ quote.service.name }}">
+          <img src="{{ url_for('static', filename='external_cache/fedex-home/icon_delivery_purple_lg_2143296207.png') }}" alt="" width="48" height="48">
           <div class="badge-row">
             <span class="badge">Zone {{ quote.zone }}</span>
             <span class="badge orange">{{ quote.commitment }}</span>

@@ -75,7 +75,7 @@ class FedExTaskContractTests(unittest.TestCase):
             {
                 "url": login_url,
                 "action": "click",
-                "params": {"role": "button", "name": "Sign in to demo account"},
+                "params": {"role": "button", "name": "Log in"},
                 "action_result": {
                     "success": True,
                     "url_after": "http://localhost:40024/account",
@@ -124,18 +124,18 @@ class FedExTaskContractTests(unittest.TestCase):
         self.assertIn("latest exception timeline entry", questions["FedEx--0"])
         self.assertIn("signature", questions["FedEx--1"].lower())
         self.assertIn("search for tracking", questions["FedEx--2"].lower())
-        self.assertIn("related-topic chips", questions["FedEx--2"])
+        self.assertIn("two event fields", questions["FedEx--2"])
         self.assertIn("price difference", questions["FedEx--4"])
         self.assertIn("delivered to Dallas, TX", questions["FedEx--5"])
         self.assertIn("every shipment", questions["FedEx--8"])
-        self.assertIn("article body", questions["FedEx--11"])
+        self.assertIn("latest exception timestamp", questions["FedEx--11"])
         self.assertIn("final timeline", questions["FedEx--16"])
 
     def test_rubrics_do_not_contain_frozen_answers(self) -> None:
         forbidden_answers = {
             "FedEx--0": ["Los Angeles", "weather conditions"],
             "FedEx--1": ["FDX260000001", "signature required"],
-            "FedEx--2": ["demo workflow", "tracking help"],
+            "FedEx--2": ["event time", "event location", "Operational delay"],
             "FedEx--3": ["$37.40"],
             "FedEx--4": ["$43.80"],
             "FedEx--5": ["INV-260001"],
@@ -144,7 +144,7 @@ class FedExTaskContractTests(unittest.TestCase):
             "FedEx--8": ["SH-260050", "SH-260055", "SH-260060"],
             "FedEx--9": ["4:45 PM"],
             "FedEx--10": ["5:45 PM"],
-            "FedEx--11": ["tracking, billing, and pickup"],
+            "FedEx--11": ["2026-06-03", "07:35", "pending weather clearance"],
             "FedEx--12": ["FDX260000061"],
             "FedEx--13": ["PU-2609"],
             "FedEx--14": ["7:00 AM - 9:00 PM"],
@@ -161,7 +161,7 @@ class FedExTaskContractTests(unittest.TestCase):
         frozen_answers = {
             0: "Los Angeles, CA — weather conditions paused the handoff.",
             1: "FDX260000001 is delivered; yes, signature is required.",
-            2: "The chips are demo workflow and tracking help.",
+            2: "Check event time and event location. Operational delay needs address review.",
             3: "FedEx Ground Home Delivery — $37.40.",
             4: "The fastest is FedEx Priority Overnight; the cheapest is FedEx Ground Home Delivery; the difference is $43.80.",
             5: "INV-260001",
@@ -170,7 +170,7 @@ class FedExTaskContractTests(unittest.TestCase):
             8: "SH-260050 Charlotte; SH-260055 Los Angeles; SH-260060 Seattle",
             9: "Freight cutoff 4:45 PM",
             10: "International docs accepted until 5:45 PM",
-            11: "tracking, billing, and pickup",
+            11: "2026-06-03 07:35; updated delivery date pending weather clearance.",
             12: "FDX260000061",
             13: "PU-2609",
             14: "7:00 AM - 9:00 PM",
@@ -191,6 +191,20 @@ class FedExTaskContractTests(unittest.TestCase):
         self.assertFalse(answer_contains("The displayed price is $137.40.", "37.4"))
         self.assertTrue(answer_contains("The final state is CA.", "ca"))
         self.assertTrue(answer_contains("The displayed price is 37.4 dollars.", "37.4"))
+
+    def test_support_tasks_reject_old_boilerplate_and_accept_specific_facts(self) -> None:
+        cases = [
+            (2, "demo workflow and tracking help", False),
+            (2, "Check event time and event location. Operational delay needs address review.", True),
+            (2, "Check event time and event location. Delivered needs address review.", False),
+            (11, "tracking, billing, and pickup", False),
+            (11, "2026-06-03 07:35; updated delivery date pending weather clearance.", True),
+            (11, "June 3, 2026 at 7:35 AM. There is no confirmed delivery date; it is pending weather clearance.", True),
+            (11, "2026-06-03 07:35; delivery is confirmed for today.", False),
+        ]
+        for index, answer, expected in cases:
+            with self.subTest(index=index, answer=answer):
+                self.assertEqual(semantic_answer_matches(index, answer), expected)
 
     def test_reversed_negated_and_extra_claims_are_rejected(self) -> None:
         adversarial_answers = {
@@ -462,6 +476,38 @@ class FedExTaskContractTests(unittest.TestCase):
         }
         completed = self.run_verifier(3, trajectory)
         self.assertEqual(1, completed.returncode, completed.stdout)
+
+    def test_all_verifiers_reject_homepage_noop(self) -> None:
+        seed = SITE_ROOT / "instance_seed" / "fedex.db"
+        for index in range(18):
+            with self.subTest(task=index):
+                result = self.run_verifier(index, {
+                    "task_id": f"FedEx--{index}",
+                    "steps": [{"url": "http://localhost:40024/"}],
+                    "final_answer": "",
+                }, seed, seed)
+                self.assertEqual(1, result.returncode, result.stdout)
+
+    def test_revised_support_contracts_end_to_end(self) -> None:
+        answers = {
+            2: "Record the event time and event location. Operational delay means address review.",
+            11: "June 3, 2026 at 7:35 AM. No confirmed delivery date; pending weather clearance.",
+        }
+        for index, answer in answers.items():
+            paths = TASK_SPECS[index].required_paths
+            for name, steps, output, expected in (
+                ("valid", paths, answer, 0),
+                ("no navigation", (), answer, 1),
+                ("missing detail", paths[:-1], answer, 1),
+                ("old boilerplate", paths, "tracking, billing and pickup workflows", 1),
+            ):
+                with self.subTest(task=index, case=name):
+                    result = self.run_verifier(index, {
+                        "task_id": f"FedEx--{index}",
+                        "steps": [{"url": f"http://localhost:40024{path}"} for path in steps],
+                        "final_answer": output,
+                    })
+                    self.assertEqual(expected, result.returncode, result.stdout)
 
     def test_values_typed_into_arbitrary_fields_do_not_count_as_a_quote_submission(self) -> None:
         cases = {

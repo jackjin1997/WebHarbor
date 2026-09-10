@@ -23,6 +23,11 @@ jobs:
         run: |
           df -h
           docker system df
+          available_kib=$(df -Pk . | awk 'NR==2 {print $4}')
+          test "$available_kib" -ge 52428800
+          mkdir -p /tmp/full-smoke
+          git rev-parse HEAD > /tmp/full-smoke/ci-code-sha.txt
+          cp .assets-revision /tmp/full-smoke/assets-revision.txt
 
       - name: Fetch frozen assets and test FedEx regressions
         run: |
@@ -30,11 +35,16 @@ jobs:
           ./scripts/fetch_assets.sh
           ./scripts/check_assets.sh
           revision=$(awk '/^revision:/ {print $2}' .assets-revision)
-          test "$revision" = 6e32a4cd726fd6fa4bbe3a1fefd019a8d6d50d38
+          test "$revision" = 2dc7c769fd90b028fe2e5d707fe7cebfceb4e42b
           test "$(find "sites/.cache/tarballs/$revision" -maxdepth 1 -name '*.tar.gz' | wc -l | tr -d ' ')" = 25
           test "$(sha256sum "sites/.cache/tarballs/$revision/fedex.tar.gz" | awk '{print $1}')" = \
-            c34590c011bf1d8cda175ee2232934d5a2228c271199b404a9219c3056ba4f05
-          python -m unittest discover -s sites/fedex/tests -v
+            1467cfb0739468625f7ccb09933546ce9b69d170cf0c04561d0f926282e72983
+          test "$(sha256sum sites/fedex/instance_seed/fedex.db | awk '{print $1}')" = \
+            a6f3be8fc1004c4127fb7d08408503107d8cf8dba84190e651ff14a0c599ecd4
+          sha256sum "sites/.cache/tarballs/$revision/fedex.tar.gz" \
+            sites/fedex/instance_seed/fedex.db sites/fedex/tasks.jsonl \
+            > /tmp/full-smoke/candidate-sha256.txt
+          python -m unittest discover -s sites/fedex/tests -v 2>&1 | tee /tmp/full-smoke/fedex-tests.txt
           ./scripts/build.sh webharbor:pr82-full-smoke
 
       - name: Run HTTP, health, target reset, and reset-all gates

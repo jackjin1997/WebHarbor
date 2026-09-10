@@ -46,6 +46,25 @@ class FedExRouteTests(unittest.TestCase):
         db.drop_all()
         self.app_context.pop()
 
+    def test_homepage_has_real_tools_and_no_prefilled_task_answers(self) -> None:
+        response = self.client.get("/")
+        self.assertEqual(200, response.status_code)
+        for label in (b"RATE &amp; SHIP", b"TRACK", b"LOCATIONS", b"Why ship with FedEx?",
+                      b"Delivery that works around you", b"Smarter shipping for growing businesses"):
+            self.assertIn(label.lower(), response.data.lower())
+        for leaked_value in (b"TestPass123!", b"alice.j@test.com", b"FDX260000004", b"demo workflow"):
+            self.assertNotIn(leaked_value, response.data)
+        self.assertIn(b'aria-label="Sign Up or Log In"', response.data)
+
+    def test_revised_help_answers_are_in_detail_not_search_cards(self) -> None:
+        results = self.client.get("/support?q=tracking")
+        self.assertNotIn(b"event time and event location", results.data)
+        detail = self.client.get("/support/shipment-exception-status")
+        self.assertIn(b"event time and event location", detail.data)
+        self.assertIn(b"Operational delay", detail.data)
+        weather = self.client.get("/support/weather-delay-guidance")
+        self.assertIn(b"not a promised delivery time", weather.data)
+
     def test_rate_estimate_rejects_non_numeric_weight_without_server_error(self) -> None:
         response = self.client.post(
             "/rate-estimate",

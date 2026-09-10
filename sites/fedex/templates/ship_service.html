@@ -10,7 +10,7 @@
   <form method="post" class="grid three">
     {% for quote in quotes %}
       <label class="card stack" for="service-{{ quote.service.slug }}">
-        <img src="{{ quote.service.icon_path }}" alt="{{ quote.service.name }}">
+        <img src="{{ url_for('static', filename='external_cache/fedex-home/icon_delivery_purple_lg_2143296207.png') }}" alt="" width="48" height="48">
         <div class="badge-row">
           <span class="badge">Zone {{ quote.zone }}</span>
           <span class="badge orange">{{ quote.service.speed_label }}</span>

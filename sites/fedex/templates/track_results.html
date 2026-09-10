@@ -9,7 +9,7 @@
     <a href="{{ url_for('track') }}">Track again</a>
   </section>
   {% if numbers and not records %}
-    <div class="empty-state">No seeded demo tracking numbers matched your request.</div>
+    <div class="empty-state">No tracking numbers matched your request. Check the numbers and try again.</div>
   {% endif %}
   {% if records %}
     <section class="record-list">

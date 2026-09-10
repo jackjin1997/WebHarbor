@@ -431,18 +431,21 @@ def seed_database() -> None:
         db.session.add(row)
         locations.append(row)
 
+    from support_content import SUPPORT_CONTENT
+
     for title, slug, category, summary in SUPPORT_ARTICLES:
+        content = SUPPORT_CONTENT.get(slug, {})
         db.session.add(
             SupportArticle(
                 title=title,
                 slug=slug,
                 category=category,
-                summary=summary,
-                body=(
+                summary=content.get("summary", summary),
+                body=content.get("body", (
                     f"{summary} This page is part of a deterministic local FedEx-style demo. "
                     "It uses synthetic shipping records, seeded route milestones, and fixed support guidance so benchmark agents can practice tracking, billing, and pickup workflows without contacting any live carrier service."
-                ),
-                related_topics_json=dumps_json([category, "demo workflow", "tracking help"]),
+                )),
+                related_topics_json=dumps_json(content.get("topics", [category, "demo workflow", "tracking help"])),
             )
         )
 

@@ -486,7 +486,7 @@ def pickup_state_matches(args: VerifyArgs) -> tuple[bool, str]:
 TASK_SPECS: dict[int, TaskSpec] = {
     0: TaskSpec(("/track/results", "/tracking/FDX260000004"), (("los angeles",), ("weather",))),
     1: TaskSpec(("/track/results", "/tracking/FDX260000001"), (("fdx260000001",), ("delivered",), ("required", "yes"))),
-    2: TaskSpec(("/support?q=tracking", "/support/shipment-exception-status"), (("demo workflow",), ("tracking help",))),
+    2: TaskSpec(("/support?q=tracking", "/support/shipment-exception-status"), (("event time", "timestamp", "time"), ("event location", "location"), ("operational delay",))),
     3: TaskSpec(
         ("/rate-estimate",),
         (("fedex ground home delivery",), ("$37.40", "37.4")),
@@ -530,7 +530,10 @@ TASK_SPECS: dict[int, TaskSpec] = {
     ),
     9: TaskSpec(("/locations", "/locations/dallas-arts-tx"), (("freight cutoff",), ("4:45 pm",))),
     10: TaskSpec(("/locations", "/locations/miami-brickell-fl"), (("international docs",), ("5:45 pm",))),
-    11: TaskSpec(("/search", "/support/weather-delay-guidance"), (("tracking",), ("billing",), ("pickup",))),
+    11: TaskSpec(
+        ("/search?q=delay", "/support/weather-delay-guidance", "/tracking/FDX260000004"),
+        (("2026-06-03", "june 3, 2026", "3 june 2026"), ("07:35", "7:35"), ("pending", "no confirmed", "not confirmed")),
+    ),
     12: TaskSpec(
         ("/login", "/ship", "/ship/service", "/ship/review", "/ship/confirmation"),
         (("fdx260000061",),),
@@ -612,7 +615,12 @@ def semantic_answer_matches(index: int, answer: str) -> bool:
             and not _negates(answer, "required")
         )
     if index == 2:
-        return answer_contains(answer, "demo workflow") and answer_contains(answer, "tracking help")
+        return (
+            any(answer_contains(answer, value) for value in ("event time", "timestamp", "time"))
+            and answer_contains(answer, "location")
+            and answer_contains(answer, "operational delay")
+            and not _negates(answer, "operational delay")
+        )
     if index == 3:
         return (
             answer_contains(answer, "FedEx Ground Home Delivery")
@@ -645,7 +653,14 @@ def semantic_answer_matches(index: int, answer: str) -> bool:
     if index == 10:
         return answer_contains(answer, "international docs") and answer_contains(answer, "5:45 pm")
     if index == 11:
-        return all(answer_contains(answer, area) for area in ("tracking", "billing", "pickup"))
+        text = normalized(answer)
+        date_matches = any(answer_contains(answer, date) for date in ("2026-06-03", "june 3, 2026", "3 june 2026"))
+        time_matches = bool(re.search(r"\b0?7:35\b", text)) and not re.search(r"\b0?7:35\s*p\.?m", text)
+        pending = (
+            answer_contains(answer, "pending") and not _negates(answer, "pending")
+        ) or bool(re.search(r"\b(?:no confirmed|not confirmed)\b", text))
+        contradiction = bool(re.search(r"\b(?:delivery is confirmed|will (?:be )?deliver(?:ed)?)\b", text))
+        return date_matches and time_matches and pending and not contradiction
     if index == 12:
         return _codes(answer, "FDX") == {"FDX260000061"} and not _negates(answer, "fdx260000061")
     if index == 13:
