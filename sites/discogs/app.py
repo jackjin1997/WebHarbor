@@ -13,6 +13,8 @@ import random
 from datetime import datetime, timedelta
 from functools import wraps
 from collections import defaultdict
+from decimal import Decimal, InvalidOperation
+from urllib.parse import unquote, urljoin, urlsplit
 
 from flask import (Flask, render_template, request, redirect, url_for,
                    flash, jsonify, session, abort, g, make_response, send_from_directory)
@@ -21,10 +23,10 @@ from flask_login import (LoginManager, UserMixin, login_user, logout_user,
                          login_required, current_user)
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from flask_bcrypt import Bcrypt
-from sqlalchemy import or_, and_, func, desc, asc
+from sqlalchemy import or_, and_, func, desc, asc, case
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-INSTANCE_DIR = os.path.join(BASE_DIR, "instance")
+INSTANCE_DIR = os.environ.get("DISCOGS_INSTANCE_DIR", os.path.join(BASE_DIR, "instance"))
 os.makedirs(INSTANCE_DIR, exist_ok=True)
 
 app = Flask(__name__, instance_path=INSTANCE_DIR)
@@ -396,10 +398,41 @@ def inject_globals():
 
 
 @app.template_filter("price")
-def fmt_price(v):
+def fmt_price(v, currency="USD"):
     if v is None:
         return "—"
-    return f"${v:,.2f}"
+    return f"{currency} {v:,.2f}"
+
+
+def local_return(target, fallback):
+    """Keep login and form redirects inside this mirror's origin."""
+    if not target or target != target.strip():
+        return fallback
+    decoded = unquote(target)
+    if "\\" in decoded or any(ord(char) < 32 or ord(char) == 127 for char in decoded):
+        return fallback
+    if decoded.startswith("//"):
+        return fallback
+    try:
+        resolved = urlsplit(urljoin(request.host_url, target))
+        origin = urlsplit(request.host_url)
+        if (resolved.scheme, resolved.netloc) != (origin.scheme, origin.netloc):
+            return fallback
+    except ValueError:
+        return fallback
+    return target
+
+
+def return_to_page(fallback):
+    return redirect(local_return(request.referrer, fallback))
+
+
+@app.template_global()
+def search_url(**changes):
+    params = {key: value for key, value in request.args.items()
+              if key in {"q", "type", "genre", "style", "format", "year", "country", "sort"}}
+    params.update(changes)
+    return url_for("search", **{key: value for key, value in params.items() if value is not None})
 
 
 @app.template_filter("relative")
@@ -438,15 +471,14 @@ def paginate(query, page, per_page=25):
 def search_releases(q, genre=None, style=None, format_=None, year=None, country=None,
                     sort="relevance", page=1, per_page=25):
     qs = Release.query
+    relevance = None
     if q:
         terms = [t for t in re.split(r"\s+", q.strip()) if t]
         if terms:
-            anyclause = or_(*[
-                Release.title.ilike(f"%{t}%") for t in terms
-            ] + [
-                Artist.name.ilike(f"%{t}%") for t in terms
-            ])
-            qs = qs.join(Artist, Release.artist_id == Artist.id).filter(anyclause)
+            matches = [or_(Release.title.ilike(f"%{t}%"), Artist.name.ilike(f"%{t}%"))
+                       for t in terms]
+            relevance = sum(case((match, 1), else_=0) for match in matches)
+            qs = qs.join(Artist, Release.artist_id == Artist.id).filter(or_(*matches))
     if genre:
         qs = qs.join(release_genres).join(Genre).filter(Genre.slug == genre)
     if style:
@@ -473,8 +505,10 @@ def search_releases(q, genre=None, style=None, format_=None, year=None, country=
     elif sort == "rating":
         qs = qs.order_by(Release.avg_rating.desc(), Release.rating_count.desc())
     else:
+        if relevance is not None:
+            qs = qs.order_by(relevance.desc())
         qs = qs.order_by(Release.have_count.desc())
-    return paginate(qs.distinct(), page, per_page)
+    return paginate(qs.order_by(Release.id).distinct(), page, per_page)
 
 
 # ──────────────────────────────────────────────
@@ -505,7 +539,7 @@ def search():
     q = request.args.get("q", "").strip()
     type_ = request.args.get("type", "release")
     sort = request.args.get("sort", "relevance")
-    page = int(request.args.get("page", 1))
+    page = request.args.get("page", 1, type=int)
     filters = {
         "genre": request.args.get("genre"),
         "style": request.args.get("style"),
@@ -515,16 +549,23 @@ def search():
     }
     results = None
     artists = labels = []
-    if type_ == "artist" and q:
+    entity_pagination = None
+    if type_ == "artist":
+        query = Artist.query
         terms = [t for t in re.split(r"\s+", q) if t]
         if terms:
             clause = or_(*[Artist.name.ilike(f"%{t}%") for t in terms])
-            artists = Artist.query.filter(clause).order_by(Artist.in_collection.desc()).limit(50).all()
-    elif type_ == "label" and q:
+            query = query.filter(clause)
+        entity_pagination = paginate(query.order_by(Artist.in_collection.desc(), Artist.id), page, 50)
+        artists = entity_pagination.items
+    elif type_ == "label":
+        query = Label.query
         terms = [t for t in re.split(r"\s+", q) if t]
         if terms:
             clause = or_(*[Label.name.ilike(f"%{t}%") for t in terms])
-            labels = Label.query.filter(clause).order_by(Label.name.asc()).limit(50).all()
+            query = query.filter(clause)
+        entity_pagination = paginate(query.order_by(Label.name, Label.id), page, 50)
+        labels = entity_pagination.items
     else:
         results = search_releases(q, sort=sort, page=page, **filters)
 
@@ -534,6 +575,7 @@ def search():
     return render_template("search.html",
                            q=q, type_=type_, sort=sort,
                            results=results, artists=artists, labels=labels,
+                           entity_pagination=entity_pagination,
                            filters=filters,
                            facet_genres=facet_genres,
                            facet_styles=facet_styles,
@@ -581,7 +623,7 @@ def master_detail(mid):
 def artist_detail(aid, slug=None):
     a = Artist.query.get_or_404(aid)
     sort = request.args.get("sort", "year_desc")
-    page = int(request.args.get("page", 1))
+    page = request.args.get("page", 1, type=int)
     q = a.releases
     if sort == "year_asc":
         q = q.order_by(Release.year.asc().nullslast())
@@ -599,7 +641,7 @@ def artist_detail(aid, slug=None):
 @app.route("/label/<int:lid>/<slug>")
 def label_detail(lid, slug=None):
     l = Label.query.get_or_404(lid)
-    page = int(request.args.get("page", 1))
+    page = request.args.get("page", 1, type=int)
     q = Release.query.join(release_labels).filter(release_labels.c.label_id == lid) \
                      .order_by(Release.year.desc().nullslast())
     pag = paginate(q.distinct(), page, 24)
@@ -610,7 +652,7 @@ def label_detail(lid, slug=None):
 @app.route("/genre/<slug>")
 def genre_detail(slug):
     g = Genre.query.filter_by(slug=slug).first_or_404()
-    page = int(request.args.get("page", 1))
+    page = request.args.get("page", 1, type=int)
     sort = request.args.get("sort", "have")
     q = Release.query.join(release_genres).filter(release_genres.c.genre_id == g.id)
     if sort == "year_desc":
@@ -629,7 +671,7 @@ def genre_detail(slug):
 @app.route("/style/<slug>")
 def style_detail(slug):
     s = Style.query.filter_by(slug=slug).first_or_404()
-    page = int(request.args.get("page", 1))
+    page = request.args.get("page", 1, type=int)
     q = Release.query.join(release_styles).filter(release_styles.c.style_id == s.id) \
                      .order_by(Release.have_count.desc())
     pag = paginate(q.distinct(), page, 24)
@@ -639,7 +681,7 @@ def style_detail(slug):
 @app.route("/format/<slug>")
 def format_detail(slug):
     f = Format.query.filter_by(slug=slug).first_or_404()
-    page = int(request.args.get("page", 1))
+    page = request.args.get("page", 1, type=int)
     q = Release.query.join(release_formats).filter(release_formats.c.format_id == f.id) \
                      .order_by(Release.have_count.desc())
     pag = paginate(q.distinct(), page, 24)
@@ -664,7 +706,7 @@ def explore():
 
 @app.route("/lists")
 def lists_index():
-    page = int(request.args.get("page", 1))
+    page = request.args.get("page", 1, type=int)
     q = List.query.filter_by(is_public=True).order_by(List.created_at.desc())
     pag = paginate(q, page, 20)
     return render_template("lists.html", pag=pag)
@@ -719,7 +761,7 @@ def list_add_item(lid):
 
 @app.route("/marketplace")
 def marketplace():
-    page = int(request.args.get("page", 1))
+    page = request.args.get("page", 1, type=int)
     sort = request.args.get("sort", "price_asc")
     media = request.args.get("media", "")  # e.g. "Near Mint (NM or M-)"
     genre = request.args.get("genre", "")
@@ -756,21 +798,32 @@ def sell():
             flash("Pick a valid release.", "error")
             return redirect(url_for("sell"))
         try:
-            price = float(request.form.get("price"))
-        except (TypeError, ValueError):
-            flash("Price must be a number.", "error")
+            price = Decimal(request.form.get("price", ""))
+            if not price.is_finite() or not Decimal("0.01") <= price <= Decimal("99999999.99"):
+                raise ValueError
+            if price != price.quantize(Decimal("0.01")):
+                raise ValueError
+        except (InvalidOperation, ValueError):
+            flash("Enter a price from 0.01 to 99,999,999.99 with at most two decimal places.", "error")
+            return redirect(url_for("sell"))
+        media = request.form.get("media_condition", "Very Good Plus (VG+)")
+        sleeve = request.form.get("sleeve_condition", "Very Good Plus (VG+)")
+        currency = request.form.get("currency", "USD")
+        shipping_from = request.form.get("shipping_from", "").strip()
+        if media not in GRADES or sleeve not in GRADES or currency not in {"USD", "EUR", "GBP", "JPY", "CAD"}:
+            flash("Choose a listed condition and currency.", "error")
+            return redirect(url_for("sell"))
+        if not shipping_from or len(shipping_from) > 80:
+            flash("Enter a shipping location of at most 80 characters.", "error")
             return redirect(url_for("sell"))
         l = Listing(user_id=current_user.id, release_id=release.id,
-                    media_condition=request.form.get("media_condition", "Very Good Plus (VG+)"),
-                    sleeve_condition=request.form.get("sleeve_condition", "Very Good Plus (VG+)"),
+                    media_condition=media, sleeve_condition=sleeve,
                     comments=request.form.get("comments", "")[:600],
-                    price=price,
-                    currency=request.form.get("currency", "USD"),
-                    shipping_from=request.form.get("shipping_from", "United States"),
+                    price=float(price), currency=currency, shipping_from=shipping_from,
                     allow_offers=bool(request.form.get("allow_offers")))
         current_user.is_seller = True
         db.session.add(l)
-        db.session.commit()
+        db.session.flush()
         release.num_for_sale = Listing.query.filter_by(release_id=release.id, status="For Sale").count()
         release.lowest_price = db.session.query(func.min(Listing.price)) \
                                           .filter(Listing.release_id == release.id,
@@ -800,7 +853,7 @@ def user_profile(username):
 def user_collection(username):
     u = User.query.filter_by(username=username).first_or_404()
     folder = request.args.get("folder", "All")
-    page = int(request.args.get("page", 1))
+    page = request.args.get("page", 1, type=int)
     q = u.collection_items.join(Release)
     if folder != "All":
         q = q.filter(CollectionItem.folder == folder)
@@ -813,7 +866,7 @@ def user_collection(username):
 @app.route("/user/<username>/wantlist")
 def user_wantlist(username):
     u = User.query.filter_by(username=username).first_or_404()
-    page = int(request.args.get("page", 1))
+    page = request.args.get("page", 1, type=int)
     q = u.wantlist_items.join(Release).order_by(WantlistItem.added_at.desc())
     pag = paginate(q, page, 25)
     return render_template("wantlist.html", u=u, pag=pag)
@@ -822,7 +875,10 @@ def user_wantlist(username):
 @app.route("/user/<username>/lists")
 def user_lists(username):
     u = User.query.filter_by(username=username).first_or_404()
-    lists = u.lists.order_by(List.created_at.desc()).all()
+    query = u.lists
+    if not current_user.is_authenticated or current_user.id != u.id:
+        query = query.filter_by(is_public=True)
+    lists = query.order_by(List.created_at.desc()).all()
     return render_template("user_lists.html", u=u, lists=lists)
 
 
@@ -845,21 +901,25 @@ def collection_add():
     rid = request.form.get("release_id", type=int)
     r = Release.query.get(rid) if rid else None
     if not r:
-        return redirect(request.referrer or url_for("index"))
+        return return_to_page(url_for("index"))
+    folder = request.form.get("folder", "Uncategorized")
+    media = request.form.get("media_condition", "Near Mint (NM or M-)")
+    sleeve = request.form.get("sleeve_condition", "Near Mint (NM or M-)")
+    if folder not in COLLECTION_FOLDERS or media not in GRADES or sleeve not in GRADES:
+        flash("Choose a listed collection folder and condition.", "error")
+        return return_to_page(url_for("release_detail", rid=r.discogs_id or r.id))
     existing = CollectionItem.query.filter_by(user_id=current_user.id, release_id=rid).first()
     if existing:
         flash("Already in your collection.", "info")
     else:
         c = CollectionItem(user_id=current_user.id, release_id=rid,
-                           folder=request.form.get("folder", "Uncategorized"),
-                           media_condition=request.form.get("media_condition", "Near Mint (NM or M-)"),
-                           sleeve_condition=request.form.get("sleeve_condition", "Near Mint (NM or M-)"),
+                           folder=folder, media_condition=media, sleeve_condition=sleeve,
                            notes=request.form.get("notes", "")[:280])
         db.session.add(c)
         r.have_count = (r.have_count or 0) + 1
         db.session.commit()
         flash("Added to your collection.", "success")
-    return redirect(request.referrer or url_for("release_detail", rid=r.discogs_id or r.id))
+    return return_to_page(url_for("release_detail", rid=r.discogs_id or r.id))
 
 
 @app.route("/collection/remove", methods=["POST"])
@@ -874,7 +934,7 @@ def collection_remove():
         db.session.delete(c)
         db.session.commit()
         flash("Removed from collection.", "success")
-    return redirect(request.referrer or url_for("user_collection", username=current_user.username))
+    return return_to_page(url_for("user_collection", username=current_user.username))
 
 
 @app.route("/wantlist/add", methods=["POST"])
@@ -883,18 +943,22 @@ def wantlist_add():
     rid = request.form.get("release_id", type=int)
     r = Release.query.get(rid) if rid else None
     if not r:
-        return redirect(request.referrer or url_for("index"))
+        return return_to_page(url_for("index"))
+    grade = request.form.get("min_grade", "Very Good Plus (VG+)")
+    if grade not in GRADES:
+        flash("Choose a listed minimum grade.", "error")
+        return return_to_page(url_for("release_detail", rid=r.discogs_id or r.id))
     if WantlistItem.query.filter_by(user_id=current_user.id, release_id=rid).first():
         flash("Already in your wantlist.", "info")
     else:
         w = WantlistItem(user_id=current_user.id, release_id=rid,
-                         min_grade=request.form.get("min_grade", "Very Good Plus (VG+)"),
+                         min_grade=grade,
                          notes=request.form.get("notes", "")[:280])
         db.session.add(w)
         r.want_count = (r.want_count or 0) + 1
         db.session.commit()
         flash("Added to your wantlist.", "success")
-    return redirect(request.referrer or url_for("release_detail", rid=r.discogs_id or r.id))
+    return return_to_page(url_for("release_detail", rid=r.discogs_id or r.id))
 
 
 @app.route("/wantlist/remove", methods=["POST"])
@@ -909,7 +973,7 @@ def wantlist_remove():
         db.session.delete(w)
         db.session.commit()
         flash("Removed from wantlist.", "success")
-    return redirect(request.referrer or url_for("user_wantlist", username=current_user.username))
+    return return_to_page(url_for("user_wantlist", username=current_user.username))
 
 
 @app.route("/rate", methods=["POST"])
@@ -919,7 +983,7 @@ def rate():
     val = request.form.get("rating", type=int)
     if not (rid and val and 1 <= val <= 5):
         flash("Bad rating.", "error")
-        return redirect(request.referrer or url_for("index"))
+        return return_to_page(url_for("index"))
     r = Release.query.get_or_404(rid)
     rt = Rating.query.filter_by(user_id=current_user.id, release_id=rid).first()
     if rt:
@@ -932,7 +996,7 @@ def rate():
     r.avg_rating = float(agg[0] or 0.0)
     r.rating_count = int(agg[1] or 0)
     db.session.commit()
-    return redirect(request.referrer or url_for("release_detail", rid=r.discogs_id or r.id))
+    return return_to_page(url_for("release_detail", rid=r.discogs_id or r.id))
 
 
 @app.route("/review", methods=["POST"])
@@ -943,13 +1007,13 @@ def review_post():
     rating = request.form.get("rating", type=int)
     if not rid or not body:
         flash("Review body required.", "error")
-        return redirect(request.referrer or url_for("index"))
-    rv = Review(user_id=current_user.id, release_id=rid, body=body[:4000],
+        return return_to_page(url_for("index"))
+    r = Release.query.get_or_404(rid)
+    rv = Review(user_id=current_user.id, release_id=r.id, body=body[:4000],
                 rating=rating if rating and 1 <= rating <= 5 else None)
     db.session.add(rv)
     db.session.commit()
     flash("Review posted.", "success")
-    r = Release.query.get(rid)
     return redirect(url_for("release_detail", rid=r.discogs_id or r.id))
 
 
@@ -966,7 +1030,7 @@ def forum_index():
 @app.route("/forum/<slug>")
 def forum_view(slug):
     f = Forum.query.filter_by(slug=slug).first_or_404()
-    page = int(request.args.get("page", 1))
+    page = request.args.get("page", 1, type=int)
     q = f.threads.order_by(Thread.pinned.desc(), Thread.created_at.desc())
     pag = paginate(q, page, 25)
     return render_template("forum.html", f=f, pag=pag)
@@ -1029,7 +1093,7 @@ def login():
         if u and bcrypt.check_password_hash(u.password_hash, pw):
             login_user(u, remember=bool(request.form.get("remember")))
             flash(f"Welcome back, {u.username}.", "success")
-            return redirect(request.args.get("next") or url_for("index"))
+            return redirect(local_return(request.args.get("next"), url_for("index")))
         flash("Invalid credentials.", "error")
     return render_template("login.html")
 
@@ -1042,8 +1106,10 @@ def register():
         username = request.form.get("username", "").strip()
         email = request.form.get("email", "").strip().lower()
         pw = request.form.get("password", "")
-        if not (3 <= len(username) <= 40 and "@" in email and len(pw) >= 6):
-            flash("Username 3-40 chars; valid email; password ≥6.", "error")
+        valid_email = re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", email)
+        if not (re.fullmatch(r"[\w.-]{3,40}", username) and valid_email and len(email) <= 160
+                and len(pw) >= 6 and len(pw.encode("utf-8")) <= 72):
+            flash("Use a 3–40 character username (letters, numbers, dots, dashes or underscores), a valid email, and a password of at least 6 characters and at most 72 UTF-8 bytes.", "error")
             return redirect(url_for("register"))
         if User.query.filter_by(username=username).first():
             flash("Username taken.", "error"); return redirect(url_for("register"))
@@ -1060,7 +1126,7 @@ def register():
     return render_template("register.html")
 
 
-@app.route("/logout", methods=["POST", "GET"])
+@app.route("/logout", methods=["POST"])
 def logout():
     logout_user()
     flash("You have been signed out.", "info")
@@ -1107,16 +1173,17 @@ def forbidden(e):
 
 with app.app_context():
     db.create_all()
-    try:
-        import sys as _sys
-        _sys.path.insert(0, BASE_DIR)
-        from seed_data import seed_database, seed_benchmark_users, seed_community
-        seed_database()
-        seed_benchmark_users()
-        seed_community()
-    except Exception as e:
-        print(f"[discogs] seed warning: {e}")
-        import traceback; traceback.print_exc()
+    if os.environ.get("DISCOGS_SKIP_SEED") != "1":
+        try:
+            import sys as _sys
+            _sys.path.insert(0, BASE_DIR)
+            from seed_data import seed_database, seed_benchmark_users, seed_community
+            seed_database()
+            seed_benchmark_users()
+            seed_community()
+        except Exception as e:
+            print(f"[discogs] seed warning: {e}")
+            import traceback; traceback.print_exc()
 
 
 if __name__ == "__main__":

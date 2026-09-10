@@ -19,7 +19,7 @@
         {% for v, label in [('relevance','Relevance'), ('have','Most Collected'), ('want','Most Wanted'),
                              ('rating','Highest Rated'), ('year_desc','Year ↓'), ('year_asc','Year ↑'),
                              ('title','Title A–Z')] %}
-          <option value="{{ url_for('search', q=q, type=type_, sort=v) }}" {% if sort == v %}selected{% endif %}>{{ label }}</option>
+          <option value="{{ search_url(sort=v) }}" {% if sort == v %}selected{% endif %}>{{ label }}</option>
         {% endfor %}
       </select>
 
@@ -27,7 +27,7 @@
       <ul>
         {% for g in facet_genres %}
           <li class="{% if filters.genre == g.slug %}active{% endif %}">
-            <a href="{{ url_for('search', q=q, type=type_, sort=sort, genre=g.slug) }}">{{ g.name }}</a>
+            <a href="{{ search_url(genre=g.slug) }}">{{ g.name }}</a>
           </li>
         {% endfor %}
       </ul>
@@ -36,7 +36,7 @@
       <ul>
         {% for s in facet_styles %}
           <li class="{% if filters.style == s.slug %}active{% endif %}">
-            <a href="{{ url_for('search', q=q, type=type_, sort=sort, style=s.slug) }}">{{ s.name }}</a>
+            <a href="{{ search_url(style=s.slug) }}">{{ s.name }}</a>
           </li>
         {% endfor %}
       </ul>
@@ -45,7 +45,7 @@
       <ul>
         {% for f in facet_formats %}
           <li class="{% if filters.format_ == f.slug %}active{% endif %}">
-            <a href="{{ url_for('search', q=q, type=type_, sort=sort, format=f.slug) }}">{{ f.name }}</a>
+            <a href="{{ search_url(format=f.slug) }}">{{ f.name }}</a>
           </li>
         {% endfor %}
       </ul>
@@ -88,6 +88,9 @@
       {{ m.pagination(results, 'search', params={'q': q, 'type': type_, 'sort': sort,
                        'genre': filters.genre, 'style': filters.style,
                        'format': filters.format_, 'year': filters.year, 'country': filters.country}) }}
+    {% endif %}
+    {% if entity_pagination %}
+      {{ m.pagination(entity_pagination, 'search', params={'q': q, 'type': type_}) }}
     {% endif %}
   </section>
 </div>

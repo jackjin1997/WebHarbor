@@ -32,9 +32,12 @@
         </span>
         <a href="{{ url_for('user_profile', username=current_user.username) }}">{{ current_user.username }}</a>
         <a href="{{ url_for('settings') }}">Settings</a>
-        <a href="{{ url_for('logout') }}">Log out</a>
+        <form method="post" action="{{ url_for('logout') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button type="submit">Log out</button>
+        </form>
       {% else %}
-        <a href="{{ url_for('login') }}">Log in</a>
+        <a href="{{ url_for('login', next=request.full_path.rstrip('?')) }}">Log in</a>
         <a class="btn btn-sm" href="{{ url_for('register') }}">Register</a>
       {% endif %}
     </nav>
