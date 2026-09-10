@@ -19,7 +19,7 @@ TEST_DB_PATH = Path(TEST_TEMP_DIR.name) / "fedex-test.db"
 os.environ["WEBSYN_SKIP_BOOTSTRAP"] = "1"
 os.environ["FEDEX_DATABASE_URI"] = f"sqlite:///{TEST_DB_PATH}"
 
-from app import PickupRequest, app, db  # noqa: E402
+from app import PickupRequest, User, app, db  # noqa: E402
 from seed_data import seed_benchmark_users, seed_database  # noqa: E402
 
 
@@ -55,6 +55,30 @@ class FedExRouteTests(unittest.TestCase):
         for leaked_value in (b"TestPass123!", b"alice.j@test.com", b"FDX260000004", b"demo workflow"):
             self.assertNotIn(leaked_value, response.data)
         self.assertIn(b'aria-label="Sign Up or Log In"', response.data)
+
+    def test_register_rejects_invalid_email_or_missing_required_values(self) -> None:
+        baseline = User.query.count()
+        valid = {"email": "new-user@example.test", "password": "TestPass123!",
+                 "first_name": "New", "last_name": "User"}
+        for invalid in ({"email": "invalid-email"}, {"email": "a@b"},
+                        {"password": ""}, {"first_name": "   "}, {"last_name": ""}):
+            with self.subTest(invalid=invalid):
+                self.client = app.test_client()
+                response = self.client.post("/register", data={**valid, **invalid})
+                self.assertEqual(200, response.status_code)
+                self.assertIn(b"Enter your name, a valid email address, and a password.", response.data)
+                self.assertEqual(baseline, User.query.count())
+
+    def test_registered_account_can_sign_in_with_normalized_email(self) -> None:
+        response = self.client.post("/register", data={
+            "email": " New-User@Example.Test ", "password": "TestPass123!",
+            "first_name": "New", "last_name": "User",
+        })
+        self.assertEqual("/account", response.headers["Location"])
+        self.assertIsNotNone(User.query.filter_by(email="new-user@example.test").first())
+        self.client.get("/logout")
+        response = self.client.post("/login", data={"email": "new-user@example.test", "password": "TestPass123!"})
+        self.assertEqual("/account", response.headers["Location"])
 
     def test_revised_help_answers_are_in_detail_not_search_cards(self) -> None:
         results = self.client.get("/support?q=tracking")

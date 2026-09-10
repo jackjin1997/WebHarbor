@@ -49,7 +49,8 @@
     <footer class="footer">
       <div class="inner footer-columns">
         <div class="company-links"><h2>Our company</h2><div class="company-grid">{% for label in ['About FedEx', 'Our Portfolio', 'Investor Relations', 'Careers', 'Transportation Contracting Opportunities', 'FedEx Blog', 'Corporate Responsibility', 'Newsroom'] %}{{ notice_link(label) }}{% endfor %}<a href="{{ url_for('support') }}">Contact Us</a></div></div>
-        <div><h2>More from FedEx</h2>{% for label in ['FedEx Compatible', 'FedEx Developer Portal', 'FedEx Logistics'] %}{{ notice_link(label) }}{% endfor %}<h2 class="policy-title">Policy center</h2>{% for label in ['Terms of Use', 'Privacy & Security', 'Ad Choices', 'Your Privacy Choices'] %}{{ notice_link(label) }}{% endfor %}</div>
+        <div><h2>More from FedEx</h2>{% for label in ['FedEx Compatible', 'FedEx Developer Portal', 'FedEx Logistics'] %}{{ notice_link(label) }}{% endfor %}</div>
+        <div><h2>Policy center</h2>{% for label in ['Terms of Use', 'Privacy & Security', 'Ad Choices', 'Your Privacy Choices'] %}{{ notice_link(label) }}{% endfor %}</div>
         <div><h2>Language</h2><p>◉ &nbsp; United States</p><label class="sr-only" for="footer-language">Language</label><select id="footer-language"><option>English</option></select></div>
       </div>
       <div class="inner social-links"><span>Follow FedEx</span>{% for label in ['Newsletter', 'Facebook', 'X', 'Instagram', 'LinkedIn', 'YouTube', 'Pinterest'] %}{{ notice_link(label) }}{% endfor %}</div>

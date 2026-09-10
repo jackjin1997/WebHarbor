@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from pathlib import Path
 from typing import Any
 
@@ -801,14 +802,20 @@ def register():
         return redirect(url_for("account"))
     if request.method == "POST":
         email = request.form.get("email", "").strip().lower()
+        first_name = request.form.get("first_name", "").strip()
+        last_name = request.form.get("last_name", "").strip()
+        password = request.form.get("password", "")
+        if not (first_name and last_name and password and re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email)):
+            flash("Enter your name, a valid email address, and a password.", "danger")
+            return render_template("register.html")
         if User.query.filter_by(email=email).first():
             flash("That email already exists in the local demo.", "warning")
             return redirect(url_for("login"))
         next_index = (db.session.query(db.func.count(User.id)).scalar() or 0) + 1
         user = User(
             email=email,
-            first_name=request.form.get("first_name", "Demo").strip() or "Demo",
-            last_name=request.form.get("last_name", "User").strip() or "User",
+            first_name=first_name,
+            last_name=last_name,
             phone=request.form.get("phone", "").strip(),
             company=request.form.get("company", "").strip(),
             city=request.form.get("city", "").strip(),
@@ -818,7 +825,7 @@ def register():
             preferred_location_slug=request.form.get("preferred_location_slug", "").strip(),
             invoicing_email=email,
         )
-        user.set_password(request.form.get("password", DEMO_PASSWORD))
+        user.set_password(password)
         db.session.add(user)
         db.session.commit()
         login_user(user)
