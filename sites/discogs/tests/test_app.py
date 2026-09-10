@@ -126,6 +126,12 @@ class AppTests(unittest.TestCase):
     def test_login_preserves_local_return(self):
         self.assertEqual(self.login(target="/list/1?view=items").location, "/list/1?view=items")
 
+    def test_overlong_login_password_is_rejected_without_server_error(self):
+        response = self.client.post("/login", data={"username": "alice", "password": "a" * 73})
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("Invalid credentials", response.get_data(as_text=True))
+        self.assertEqual(self.client.get("/settings").status_code, 302)
+
     def test_mutations_ignore_foreign_referrer(self):
         self.login()
         response = self.client.post("/collection/add", data={"release_id": 1},

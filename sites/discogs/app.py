@@ -1090,7 +1090,7 @@ def login():
         ident = request.form.get("username", "").strip()
         pw = request.form.get("password", "")
         u = User.query.filter(or_(User.username == ident, User.email == ident.lower())).first()
-        if u and bcrypt.check_password_hash(u.password_hash, pw):
+        if u and len(pw.encode("utf-8")) <= 72 and bcrypt.check_password_hash(u.password_hash, pw):
             login_user(u, remember=bool(request.form.get("remember")))
             flash(f"Welcome back, {u.username}.", "success")
             return redirect(local_return(request.args.get("next"), url_for("index")))

@@ -7,6 +7,7 @@
   · first released {{ m.year or '' }}</p>
 <div class="card">
   <h2>Versions ({{ versions|length }})</h2>
+  <div class="table-scroll" role="region" aria-label="Release editions" tabindex="0">
   <table style="width: 100%; border-collapse: collapse;">
     <thead><tr style="text-align: left; background: #f5f5f5;">
       <th style="padding: 8px;">Cat#</th><th style="padding: 8px;">Format</th>
@@ -24,5 +25,6 @@
     {% endfor %}
     </tbody>
   </table>
+  </div>
 </div>
 {% endblock %}

@@ -10,11 +10,11 @@
 <body>
 <header class="site-header">
   <div class="top">
-    <a href="{{ url_for('index') }}" class="logo">discogs</a>
+    <a href="{{ url_for('index') }}" class="logo"><img src="{{ url_for('static', filename='icons/discogs.svg') }}" alt="Discogs" width="128" height="50"></a>
     <form class="search" action="{{ url_for('search') }}" method="get" role="search">
       <input type="text" name="q" value="{{ request.args.get('q','') }}"
-             placeholder="Search Releases, Artists, Labels…">
-      <select name="type">
+             aria-label="Search releases, artists and labels" placeholder="Search artists, albums and more…">
+      <select name="type" aria-label="Search category">
         <option value="release" {% if request.args.get('type','release')=='release' %}selected{% endif %}>All</option>
         <option value="release" {% if request.args.get('type')=='release' %}selected{% endif %}>Release</option>
         <option value="artist"  {% if request.args.get('type')=='artist'  %}selected{% endif %}>Artist</option>
@@ -93,7 +93,7 @@
         <li><a href="{{ url_for('lists_index') }}">User Lists</a></li>
       </ul>
     </div>
-    <div style="flex: 1; text-align: right;">
+    <div class="footer-meta">
       <p>© Discogs (WebHarbor offline mirror)<br>
          Catalog data from Discogs &amp; MusicBrainz. Cover images via Wikipedia.</p>
     </div>

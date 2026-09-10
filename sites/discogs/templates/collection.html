@@ -14,6 +14,7 @@
 </div>
 
 <div class="card">
+  <div class="table-scroll" role="region" aria-label="Collection items" tabindex="0">
   <table style="width: 100%; border-collapse: collapse;">
     <thead>
       <tr style="text-align: left; border-bottom: 1px solid #ddd;">
@@ -55,6 +56,7 @@
       {% endfor %}
     </tbody>
   </table>
+  </div>
   {% if not pag.items %}<p class="empty">No items in this folder.</p>{% endif %}
   {{ m.pagination(pag, 'user_collection', params={'username': u.username, 'folder': folder}) }}
 </div>

@@ -93,6 +93,7 @@
 {% if r.tracks.count() %}
 <div class="card" style="margin-top: 24px;">
   <h2>Tracklist</h2>
+  <div class="table-scroll" role="region" aria-label="Tracklist" tabindex="0">
   <table class="tracklist">
     <thead><tr><th class="pos">#</th><th>Title</th><th class="dur">Length</th></tr></thead>
     <tbody>
@@ -108,6 +109,7 @@
     {% endfor %}
     </tbody>
   </table>
+  </div>
 </div>
 {% endif %}
 

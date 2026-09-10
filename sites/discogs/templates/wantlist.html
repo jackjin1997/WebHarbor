@@ -7,6 +7,7 @@
 <p class="muted">{{ pag.total }} items wanted</p>
 
 <div class="card">
+  <div class="table-scroll" role="region" aria-label="Wantlist items" tabindex="0">
   <table style="width: 100%; border-collapse: collapse;">
     <thead>
       <tr style="text-align: left; border-bottom: 1px solid #ddd;">
@@ -46,6 +47,7 @@
       {% endfor %}
     </tbody>
   </table>
+  </div>
   {% if not pag.items %}<p class="empty">Wantlist is empty.</p>{% endif %}
   {{ m.pagination(pag, 'user_wantlist', params={'username': u.username}) }}
 </div>
