@@ -9,7 +9,7 @@
   <div class="review">
     <div class="review-head">
       <a href="{{ url_for('release_detail', rid=rv.release.discogs_id or rv.release.id) }}">{{ rv.release.title }}</a>
-      <span class="muted">{{ rv.release.artist.name }}</span>
+      <span class="muted">{{ rv.release.display_artist }}</span>
       {% if rv.rating %}<span style="color: #ff8c00;">{% for i in range(rv.rating) %}★{% endfor %}</span>{% endif %}
       <span class="muted">{{ rv.created_at|relative }}</span>
     </div>

@@ -9,21 +9,27 @@
   Sort:
   <select onchange="window.location.href=this.value" style="width: auto;">
     {% for v, label in [('price_asc','Price ↑'), ('price_desc','Price ↓'), ('newest','Newest listed')] %}
-      <option value="{{ url_for('marketplace', sort=v, media=media, genre=genre) }}" {% if sort == v %}selected{% endif %}>{{ label }}</option>
+      <option value="{{ url_for('marketplace', sort=v, media=media, genre=genre, currency=currency) }}" {% if sort == v %}selected{% endif %}>{{ label }}</option>
     {% endfor %}
   </select>
   Media:
   <select onchange="window.location.href=this.value" style="width: auto;">
-    <option value="{{ url_for('marketplace', sort=sort, genre=genre) }}" {% if not media %}selected{% endif %}>All conditions</option>
+    <option value="{{ url_for('marketplace', sort=sort, genre=genre, currency=currency) }}" {% if not media %}selected{% endif %}>All conditions</option>
     {% for g in grades %}
-      <option value="{{ url_for('marketplace', sort=sort, media=g, genre=genre) }}" {% if media == g %}selected{% endif %}>{{ g }}</option>
+      <option value="{{ url_for('marketplace', sort=sort, media=g, genre=genre, currency=currency) }}" {% if media == g %}selected{% endif %}>{{ g }}</option>
     {% endfor %}
   </select>
   Genre:
   <select onchange="window.location.href=this.value" style="width: auto;">
-    <option value="{{ url_for('marketplace', sort=sort, media=media) }}" {% if not genre %}selected{% endif %}>All genres</option>
+    <option value="{{ url_for('marketplace', sort=sort, media=media, currency=currency) }}" {% if not genre %}selected{% endif %}>All genres</option>
     {% for g in genres %}
-      <option value="{{ url_for('marketplace', sort=sort, media=media, genre=g.slug) }}" {% if genre == g.slug %}selected{% endif %}>{{ g.name }}</option>
+      <option value="{{ url_for('marketplace', sort=sort, media=media, genre=g.slug, currency=currency) }}" {% if genre == g.slug %}selected{% endif %}>{{ g.name }}</option>
+    {% endfor %}
+  </select>
+  Currency:
+  <select onchange="window.location.href=this.value" style="width: auto;">
+    {% for value in currencies %}
+      <option value="{{ url_for('marketplace', sort=sort, media=media, genre=genre, currency=value) }}" {% if currency == value %}selected{% endif %}>{{ value }}</option>
     {% endfor %}
   </select>
   {% if current_user.is_authenticated %}<a class="btn btn-primary" href="{{ url_for('sell') }}" style="margin-left: auto;">Sell on Discogs</a>{% endif %}
@@ -34,13 +40,13 @@
   <div class="listing-row">
     <div>
       <a href="{{ url_for('release_detail', rid=l.release.discogs_id or l.release.id) }}">
-        <strong>{{ l.release.artist.name }} – {{ l.release.title }}</strong>
+        <strong>{{ l.release.display_artist }} – {{ l.release.title }}</strong>
       </a>
       <div class="grade">{{ l.release.year or '' }} {{ l.release.primary_format }} · sold by <a href="{{ url_for('user_profile', username=l.user.username) }}">{{ l.user.username }}</a></div>
       <div class="grade">Media: {{ l.media_condition }} · Sleeve: {{ l.sleeve_condition }}</div>
     </div>
     <div class="grade">{{ l.shipping_from }}</div>
-    <div class="price">${{ '%.2f'|format(l.price) }} {{ l.currency }}</div>
+    <div class="price">{{ l.price|price(l.currency) }}</div>
     <div class="grade">{{ l.posted_at|relative }}</div>
     <div><a class="btn btn-sm btn-primary" href="#">Buy</a></div>
   </div>
@@ -48,5 +54,5 @@
     <p class="empty">No active listings.</p>
   {% endfor %}
 </div>
-{{ m.pagination(pag, 'marketplace', params={'sort': sort, 'media': media, 'genre': genre}) }}
+{{ m.pagination(pag, 'marketplace', params={'sort': sort, 'media': media, 'genre': genre, 'currency': currency}) }}
 {% endblock %}

@@ -1,93 +1,104 @@
 {% extends "base.html" %}
 {% block title %}Discogs — Music Database{% endblock %}
+{% block main_class %}page home-page{% endblock %}
 
 {% macro release_card(r) %}
   <a class="release-card" href="{{ url_for('release_detail', rid=r.discogs_id or r.id) }}">
     <span class="thumb"><img src="{{ r.cover_url }}" alt="{{ r.title }}" loading="lazy"></span>
     <div class="title">{{ r.title }}</div>
-    <div class="artist">{{ r.artist.name }}</div>
+    <div class="artist">{{ r.display_artist }}</div>
     <div class="meta">{{ r.year or '' }} · {{ r.primary_format or '' }}{% if r.country %} · {{ r.country }}{% endif %}</div>
-    {% if r.lowest_price %}<div class="price">from ${{ '%.2f'|format(r.lowest_price) }}</div>{% endif %}
+    {% if r.lowest_price %}<div class="price">from {{ r.lowest_price|price('USD') }}</div>{% endif %}
   </a>
 {% endmacro %}
 
 {% block content %}
-<div style="margin-bottom: 18px; padding: 26px; background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%); color: #fff; border-radius: 4px;">
-  <h1 style="margin: 0 0 6px; color: #fff;">Welcome to Discogs</h1>
-  <p style="margin: 0 0 14px; opacity: 0.85;">
-    The largest music database and marketplace in the world. Catalog your collection,
-    find rare records, and connect with collectors worldwide.
-  </p>
-  <div class="hero-actions">
-    <a href="{{ url_for('register') }}" class="btn btn-primary">Join free</a>
-    <a href="{{ url_for('explore') }}" class="btn" style="background: transparent; color: #fff; border-color: #fff;">Explore the database</a>
-  </div>
-</div>
+<h1 class="sr-only">Discogs music database and marketplace</h1>
+<section class="editorial-grid" aria-label="Featured Discogs stories">
+  <a class="editorial-feature editorial-main" href="{{ url_for('explore') }}">
+    <span>Discover Jazz, Deep Cuts &amp; More</span>
+  </a>
+  <a class="editorial-feature editorial-value" href="{{ url_for('marketplace', sort='price_desc', currency='USD') }}">
+    <span>Browse High-Value Marketplace Listings</span>
+  </a>
+  <a class="editorial-feature editorial-new" href="{{ url_for('search', sort='newest') }}">
+    <span>Explore New Arrivals</span>
+  </a>
+</section>
 
-<div class="card">
-  <div class="section-header">
-    <h2>New Arrivals</h2>
-    <a href="{{ url_for('search') }}?sort=newest">View all →</a>
+<section class="home-release-section">
+  <div class="home-section-title">
+    <h2>Newest Verified Releases in This Snapshot</h2>
+    <a href="{{ url_for('search') }}?sort=newest">View all</a>
   </div>
-  <div class="release-grid">
+  <div class="home-carousel">
     {% for r in new_arrivals %}{{ release_card(r) }}{% endfor %}
   </div>
-</div>
+</section>
 
-<div class="card">
-  <div class="section-header">
-    <h2>Most Collected</h2>
-    <a href="{{ url_for('search') }}?sort=have">View more →</a>
+<section class="home-release-section">
+  <div class="home-section-title">
+    <h2>Top Rated by Benchmark Users</h2>
+    <a href="{{ url_for('search') }}?sort=rating">View all</a>
   </div>
-  <div class="release-grid">
+  <div class="home-carousel">
+    {% for r in top_rated %}{{ release_card(r) }}{% endfor %}
+  </div>
+</section>
+
+<section class="home-release-section">
+  <div class="home-section-title">
+    <h2>Most Collected by Benchmark Users</h2>
+    <a href="{{ url_for('search') }}?sort=have">View all</a>
+  </div>
+  <div class="home-carousel">
     {% for r in most_collected %}{{ release_card(r) }}{% endfor %}
   </div>
-</div>
+</section>
 
-<div class="row">
-  <div class="col-main">
-    <div class="card">
-      <div class="section-header">
-        <h2>Top Rated</h2>
-        <a href="{{ url_for('search') }}?sort=rating">View more →</a>
-      </div>
-      <div class="release-grid">
-        {% for r in top_rated %}{{ release_card(r) }}{% endfor %}
-      </div>
-    </div>
-    <div class="card">
-      <div class="section-header">
-        <h2>Most Wanted</h2>
-        <a href="{{ url_for('search') }}?sort=want">View more →</a>
-      </div>
-      <div class="release-grid">
-        {% for r in most_wanted %}{{ release_card(r) }}{% endfor %}
-      </div>
+<section class="home-release-section">
+  <div class="home-section-title">
+    <h2>Most Wanted by Benchmark Users</h2>
+    <a href="{{ url_for('search') }}?sort=want">View all</a>
+  </div>
+  <div class="home-carousel">
+    {% for r in most_wanted %}{{ release_card(r) }}{% endfor %}
+  </div>
+</section>
+
+<section class="app-promo">
+  <div class="app-copy">
+    <h2>Millions of Records. Thousands of Shops. All In One App.</h2>
+    <p>Take your collection anywhere on the Discogs App. Download now.</p>
+    <div class="app-badges" aria-label="Discogs app stores">
+      <img src="{{ url_for('static', filename='external_cache/homepage/app-store-badge.svg') }}" alt="Download on the App Store">
+      <img src="{{ url_for('static', filename='external_cache/homepage/google-play-badge.png') }}" alt="Get it on Google Play">
     </div>
   </div>
-  <div class="col-side">
-    <div class="card">
-      <h2>Lists</h2>
-      {% for l in recent_lists %}
-        <div style="padding: 8px 0; border-bottom: 1px solid #eee;">
-          <a href="{{ url_for('list_detail', lid=l.id) }}"><strong>{{ l.title }}</strong></a>
-          <div class="muted">by {{ l.user.username }} · {{ l.created_at|relative }}</div>
-        </div>
-      {% else %}
-        <p class="muted">No public lists yet.</p>
-      {% endfor %}
-      <p style="margin-top: 14px;"><a href="{{ url_for('lists_index') }}">Browse all lists →</a></p>
-    </div>
+  <img class="app-phone" src="{{ url_for('static', filename='external_cache/homepage/phone-hands.png') }}" alt="Phone showing the Discogs app">
+</section>
 
-    <div class="card">
-      <h2>Forum</h2>
-      {% for f in forums %}
-        <div style="padding: 6px 0;">
-          <a href="{{ url_for('forum_view', slug=f.slug) }}">{{ f.name }}</a>
-          <div class="muted tiny">{{ f.description }}</div>
-        </div>
-      {% endfor %}
-    </div>
+<section class="home-community">
+  <div class="card">
+    <h2>Community Lists</h2>
+    {% for l in recent_lists %}
+      <div class="community-item">
+        <a href="{{ url_for('list_detail', lid=l.id) }}"><strong>{{ l.title }}</strong></a>
+        <div class="muted">by {{ l.user.username }} · {{ l.created_at|relative }}</div>
+      </div>
+    {% else %}
+      <p class="muted">No public lists yet.</p>
+    {% endfor %}
+    <p><a href="{{ url_for('lists_index') }}">Browse all lists →</a></p>
   </div>
-</div>
+  <div class="card">
+    <h2>Forums</h2>
+    {% for f in forums %}
+      <div class="community-item">
+        <a href="{{ url_for('forum_view', slug=f.slug) }}">{{ f.name }}</a>
+        <div class="muted tiny">{{ f.description }}</div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
 {% endblock %}

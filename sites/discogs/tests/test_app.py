@@ -1,5 +1,6 @@
 """Behavioral regressions; use an isolated database and synthetic fixtures."""
 import importlib
+from datetime import datetime
 import os
 from pathlib import Path
 import sys
@@ -53,6 +54,8 @@ class AppTests(unittest.TestCase):
             m.Release(id=2, discogs_id=1002, artist_id=2, title="Another Session", have_count=100),
             m.List(id=1, user_id=1, title="Public selection", is_public=True),
             m.List(id=2, user_id=1, title="Private selection", description="Private notes", is_public=False),
+            m.Forum(id=1, name="General Discussion", slug="general"),
+            m.Thread(id=1, forum_id=1, user_id=1, title="Listening notes"),
         ])
         m.db.session.commit()
         self.client = m.app.test_client()
@@ -89,6 +92,17 @@ class AppTests(unittest.TestCase):
         self.assertEqual(self.client.post("/list/2/add", data={"release_id": 1}).status_code, 403)
         self.assertEqual(m.ListItem.query.count(), 0)
 
+    def test_list_add_accepts_visible_discogs_release_id(self):
+        self.login()
+        response = self.client.post(
+            "/list/1/add",
+            data={"release_id": 1002, "comment": "The edition shown in the release URL."},
+        )
+        self.assertEqual(response.status_code, 302)
+        item = m.ListItem.query.one()
+        self.assertEqual((item.list_id, item.release_id, item.comment),
+                         (1, 2, "The edition shown in the release URL."))
+
     def test_review_for_missing_release_has_no_side_effect(self):
         self.login()
         response = self.client.post("/review", data={"release_id": 999999, "body": "Must not persist"})
@@ -111,10 +125,25 @@ class AppTests(unittest.TestCase):
 
     def test_valid_sale_has_bound_release_and_currency(self):
         self.login()
-        self.assertEqual(self.listing(currency="GBP").status_code, 302)
+        response = self.listing(currency="GBP")
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.location, "/marketplace?currency=GBP&sort=newest")
         row = m.Listing.query.one()
         self.assertEqual((row.user_id, row.release_id, row.price, row.currency), (1, 1, 42, "GBP"))
         self.assertTrue(m.db.session.get(m.User, 1).is_seller)
+
+    def test_marketplace_price_sort_is_scoped_to_one_currency(self):
+        m.db.session.add_all([
+            m.Listing(user_id=1, release_id=1, price=10, currency="USD", shipping_from="US"),
+            m.Listing(user_id=2, release_id=2, price=1, currency="GBP", shipping_from="UK"),
+        ])
+        m.db.session.commit()
+        usd = self.client.get("/marketplace?sort=price_asc").get_data(as_text=True)
+        self.assertIn("USD 10.00", usd)
+        self.assertNotIn("GBP 1.00", usd)
+        gbp = self.client.get("/marketplace?sort=price_asc&currency=GBP").get_data(as_text=True)
+        self.assertIn("GBP 1.00", gbp)
+        self.assertNotIn("USD 10.00", gbp)
 
     def test_login_rejects_foreign_or_ambiguous_returns(self):
         for target in ("https://foreign.invalid/", "//foreign.invalid/", "/\\foreign.invalid/",
@@ -125,6 +154,14 @@ class AppTests(unittest.TestCase):
 
     def test_login_preserves_local_return(self):
         self.assertEqual(self.login(target="/list/1?view=items").location, "/list/1?view=items")
+
+    def test_contextual_login_links_preserve_the_current_page(self):
+        release = self.client.get("/release/1001").get_data(as_text=True)
+        thread = self.client.get("/thread/1").get_data(as_text=True)
+        self.assertIn('href="/login?next=/release/1001"', release)
+        self.assertIn('href="/login?next=/thread/1"', thread)
+        self.assertNotIn('href="/login"', release)
+        self.assertNotIn('href="/login"', thread)
 
     def test_overlong_login_password_is_rejected_without_server_error(self):
         response = self.client.post("/login", data={"username": "alice", "password": "a" * 73})
@@ -154,8 +191,24 @@ class AppTests(unittest.TestCase):
         self.assertIn("Bob Marley", self.client.get("/search?type=artist").get_data(as_text=True))
         self.assertIn("Example Records", self.client.get("/search?type=label").get_data(as_text=True))
 
+    def test_homepage_uses_local_media_and_discloses_benchmark_rankings(self):
+        html = self.client.get("/").get_data(as_text=True)
+        self.assertIn("Newest Verified Releases in This Snapshot", html)
+        self.assertIn("Top Rated by Benchmark Users", html)
+        self.assertIn("Most Collected by Benchmark Users", html)
+        self.assertIn("Most Wanted by Benchmark Users", html)
+        self.assertIn("/static/external_cache/homepage/phone-hands.png", html)
+        self.assertNotIn("https://www.discogs.com/images/app/", html)
+
     def test_relevance_prefers_full_token_match_over_popularity(self):
         results = m.search_releases("Bob Marley").items
+        self.assertEqual([row.id for row in results], [1, 2])
+
+    def test_newest_sort_uses_the_source_addition_date(self):
+        m.db.session.get(m.Release, 1).added_at = datetime(2025, 1, 1)
+        m.db.session.get(m.Release, 2).added_at = datetime(2024, 1, 1)
+        m.db.session.commit()
+        results = m.search_releases("", sort="newest").items
         self.assertEqual([row.id for row in results], [1, 2])
 
     def test_facets_preserve_other_filters(self):

@@ -2,8 +2,8 @@
 
 Models the catalogue (Release/Master/Artist/Label/Genre/Style/Format/Track),
 community (User/Rating/Review/Collection/Wantlist/List), marketplace listings,
-and forum threads. Data ships in instance_seed/discogs.db and is seeded from
-scraped_data/releases.json via seed_data.py.
+and forum threads. Verified catalog data and synthetic benchmark community
+state ship together in instance_seed/discogs.db.
 """
 import os
 import re
@@ -73,6 +73,12 @@ release_formats = db.Table(
     db.Column("format_id", db.Integer, db.ForeignKey("formats.id"), primary_key=True),
 )
 
+release_artists = db.Table(
+    "release_artists",
+    db.Column("release_id", db.Integer, db.ForeignKey("releases.id"), primary_key=True),
+    db.Column("artist_id", db.Integer, db.ForeignKey("artists.id"), primary_key=True),
+)
+
 
 class User(db.Model, UserMixin):
     __tablename__ = "users"
@@ -118,6 +124,7 @@ class User(db.Model, UserMixin):
 class Artist(db.Model):
     __tablename__ = "artists"
     id = db.Column(db.Integer, primary_key=True)
+    discogs_id = db.Column(db.Integer, unique=True, index=True)
     name = db.Column(db.String(200), nullable=False, index=True)
     slug = db.Column(db.String(220), unique=True, nullable=False, index=True)
     real_name = db.Column(db.String(200), default="")
@@ -134,6 +141,7 @@ class Artist(db.Model):
 class Label(db.Model):
     __tablename__ = "labels"
     id = db.Column(db.Integer, primary_key=True)
+    discogs_id = db.Column(db.Integer, unique=True, index=True)
     name = db.Column(db.String(200), nullable=False, index=True)
     slug = db.Column(db.String(220), unique=True, nullable=False, index=True)
     profile = db.Column(db.Text, default="")
@@ -166,6 +174,7 @@ class Format(db.Model):
 class Master(db.Model):
     __tablename__ = "masters"
     id = db.Column(db.Integer, primary_key=True)
+    discogs_id = db.Column(db.Integer, unique=True, index=True)
     title = db.Column(db.String(300), nullable=False)
     artist_id = db.Column(db.Integer, db.ForeignKey("artists.id"), nullable=False, index=True)
     year = db.Column(db.Integer)
@@ -178,6 +187,11 @@ class Release(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     discogs_id = db.Column(db.Integer, unique=True, index=True)
     title = db.Column(db.String(300), nullable=False, index=True)
+    artist_credit = db.Column(db.Text, default="")
+    format_description = db.Column(db.Text, default="")
+    source_json = db.Column(db.Text, default="")
+    source_sha256 = db.Column(db.String(64), default="")
+    source_captured_at = db.Column(db.String(40), default="")
     artist_id = db.Column(db.Integer, db.ForeignKey("artists.id"), nullable=False, index=True)
     master_id = db.Column(db.Integer, db.ForeignKey("masters.id"))
     year = db.Column(db.Integer, index=True)
@@ -186,7 +200,7 @@ class Release(db.Model):
     notes = db.Column(db.Text, default="")
     barcode = db.Column(db.String(80), default="")
     catno = db.Column(db.String(80), default="")
-    data_quality = db.Column(db.String(40), default="Correct")
+    data_quality = db.Column(db.String(40), default="")
     image_path = db.Column(db.String(200), default="")
     avg_rating = db.Column(db.Float, default=0.0)
     rating_count = db.Column(db.Integer, default=0)
@@ -197,11 +211,12 @@ class Release(db.Model):
     added_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     genres = db.relationship("Genre", secondary=release_genres, backref="releases")
+    credited_artists = db.relationship("Artist", secondary=release_artists, backref="credited_releases")
     styles = db.relationship("Style", secondary=release_styles, backref="releases")
     formats = db.relationship("Format", secondary=release_formats, backref="releases")
     labels = db.relationship("Label", secondary=release_labels, backref="releases")
     tracks = db.relationship("Track", backref="release", lazy="dynamic",
-                              cascade="all, delete-orphan", order_by="Track.position")
+                              cascade="all, delete-orphan", order_by="Track.id")
     reviews = db.relationship("Review", backref="release", lazy="dynamic",
                               cascade="all, delete-orphan")
     ratings = db.relationship("Rating", backref="release", lazy="dynamic",
@@ -211,7 +226,44 @@ class Release(db.Model):
 
     @property
     def primary_format(self):
+        formats = self.source_data.get("formats") or []
+        if formats:
+            return formats[0]["name"]
         return self.formats[0].name if self.formats else ""
+
+    @property
+    def source_data(self):
+        return json.loads(self.source_json) if self.source_json else {}
+
+    @property
+    def display_artist(self):
+        return self.artist_credit or self.artist.name
+
+    @property
+    def artist_entries(self):
+        artists_by_id = {artist.discogs_id: artist for artist in self.credited_artists
+                         if artist.discogs_id is not None}
+        artists_by_name = {artist.name: artist for artist in self.credited_artists}
+        entries = []
+        for source in self.source_data.get("artists", []):
+            artist = (artists_by_id.get(source.get("id")) if source.get("id") is not None
+                      else artists_by_name.get(source.get("name")))
+            if artist:
+                entries.append((artist, source.get("anv") or source["name"], source.get("join") or ""))
+        return entries or [(self.artist, self.artist.name, "")]
+
+    @property
+    def label_entries(self):
+        labels_by_id = {label.discogs_id: label for label in self.labels
+                        if label.discogs_id is not None}
+        labels_by_name = {label.name: label for label in self.labels}
+        entries = []
+        for source in self.source_data.get("labels", []):
+            label = (labels_by_id.get(source.get("id")) if source.get("id") is not None
+                     else labels_by_name.get(source.get("name")))
+            if label:
+                entries.append((label, source.get("catno") or ""))
+        return entries
 
     @property
     def label_str(self):
@@ -227,9 +279,9 @@ class Release(db.Model):
 
     @property
     def cover_url(self):
-        path = f"images/release/{self.discogs_id or self.id}.jpg"
+        path = self.image_path or ""
         full = os.path.join(BASE_DIR, "static", path)
-        if os.path.exists(full):
+        if path and os.path.isfile(full):
             return url_for("static", filename=path)
         return url_for("static", filename="icons/no-cover.svg")
 
@@ -242,6 +294,8 @@ class Track(db.Model):
     title = db.Column(db.String(300), nullable=False)
     duration = db.Column(db.String(10), default="")
     artist_credit = db.Column(db.String(200), default="")
+    kind = db.Column(db.String(20), default="track")
+    depth = db.Column(db.Integer, default=0)
 
 
 class Rating(db.Model):
@@ -322,6 +376,7 @@ class ListItem(db.Model):
 
 GRADES = ["Mint (M)", "Near Mint (NM or M-)", "Very Good Plus (VG+)",
           "Very Good (VG)", "Good Plus (G+)", "Good (G)", "Fair (F)", "Poor (P)"]
+CURRENCIES = ("USD", "EUR", "GBP", "JPY", "CAD")
 
 
 class Listing(db.Model):
@@ -475,7 +530,9 @@ def search_releases(q, genre=None, style=None, format_=None, year=None, country=
     if q:
         terms = [t for t in re.split(r"\s+", q.strip()) if t]
         if terms:
-            matches = [or_(Release.title.ilike(f"%{t}%"), Artist.name.ilike(f"%{t}%"))
+            matches = [or_(Release.title.ilike(f"%{t}%"), Artist.name.ilike(f"%{t}%"),
+                           Release.artist_credit.ilike(f"%{t}%"),
+                           Release.credited_artists.any(Artist.name.ilike(f"%{t}%")))
                        for t in terms]
             relevance = sum(case((match, 1), else_=0) for match in matches)
             qs = qs.join(Artist, Release.artist_id == Artist.id).filter(or_(*matches))
@@ -492,7 +549,9 @@ def search_releases(q, genre=None, style=None, format_=None, year=None, country=
             pass
     if country:
         qs = qs.filter(Release.country.ilike(country))
-    if sort == "year_desc":
+    if sort == "newest":
+        qs = qs.order_by(Release.added_at.desc().nullslast())
+    elif sort == "year_desc":
         qs = qs.order_by(Release.year.desc().nullslast())
     elif sort == "year_asc":
         qs = qs.order_by(Release.year.asc().nullslast())
@@ -624,7 +683,8 @@ def artist_detail(aid, slug=None):
     a = Artist.query.get_or_404(aid)
     sort = request.args.get("sort", "year_desc")
     page = request.args.get("page", 1, type=int)
-    q = a.releases
+    q = Release.query.filter(or_(Release.artist_id == a.id,
+                                Release.credited_artists.any(Artist.id == a.id)))
     if sort == "year_asc":
         q = q.order_by(Release.year.asc().nullslast())
     elif sort == "title":
@@ -747,9 +807,14 @@ def list_add_item(lid):
         abort(403)
     rid = request.form.get("release_id", type=int)
     comment = request.form.get("comment", "").strip()[:400]
-    if rid and Release.query.get(rid):
+    release = None
+    if rid:
+        # The form asks for the public ID shown in release URLs. Retain the
+        # internal-PK fallback for existing benchmark fixtures.
+        release = Release.query.filter_by(discogs_id=rid).first() or Release.query.get(rid)
+    if release:
         pos = (lst.items.count() or 0) + 1
-        db.session.add(ListItem(list_id=lid, release_id=rid, comment=comment, position=pos))
+        db.session.add(ListItem(list_id=lid, release_id=release.id, comment=comment, position=pos))
         db.session.commit()
         flash("Release added.", "success")
     return redirect(url_for("list_detail", lid=lid))
@@ -765,7 +830,10 @@ def marketplace():
     sort = request.args.get("sort", "price_asc")
     media = request.args.get("media", "")  # e.g. "Near Mint (NM or M-)"
     genre = request.args.get("genre", "")
-    q = Listing.query.filter_by(status="For Sale").join(Release)
+    currency = request.args.get("currency", "USD")
+    if currency not in CURRENCIES:
+        currency = "USD"
+    q = Listing.query.filter_by(status="For Sale", currency=currency).join(Release)
     if media:
         q = q.filter(Listing.media_condition == media)
     if genre:
@@ -781,7 +849,8 @@ def marketplace():
     pag = paginate(q.distinct(), page, 30)
     genres = Genre.query.order_by(Genre.name).all()
     return render_template("marketplace.html", pag=pag, sort=sort,
-                           media=media, genre=genre, grades=GRADES, genres=genres)
+                           media=media, genre=genre, currency=currency,
+                           currencies=CURRENCIES, grades=GRADES, genres=genres)
 
 
 @app.route("/sell", methods=["GET", "POST"])
@@ -810,7 +879,7 @@ def sell():
         sleeve = request.form.get("sleeve_condition", "Very Good Plus (VG+)")
         currency = request.form.get("currency", "USD")
         shipping_from = request.form.get("shipping_from", "").strip()
-        if media not in GRADES or sleeve not in GRADES or currency not in {"USD", "EUR", "GBP", "JPY", "CAD"}:
+        if media not in GRADES or sleeve not in GRADES or currency not in CURRENCIES:
             flash("Choose a listed condition and currency.", "error")
             return redirect(url_for("sell"))
         if not shipping_from or len(shipping_from) > 80:
@@ -827,10 +896,11 @@ def sell():
         release.num_for_sale = Listing.query.filter_by(release_id=release.id, status="For Sale").count()
         release.lowest_price = db.session.query(func.min(Listing.price)) \
                                           .filter(Listing.release_id == release.id,
-                                                  Listing.status == "For Sale").scalar()
+                                                  Listing.status == "For Sale",
+                                                  Listing.currency == "USD").scalar()
         db.session.commit()
         flash("Listing posted to the marketplace.", "success")
-        return redirect(url_for("marketplace"))
+        return redirect(url_for("marketplace", currency=currency, sort="newest"))
     return render_template("sell.html")
 
 

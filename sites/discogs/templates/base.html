@@ -43,17 +43,15 @@
     </nav>
   </div>
   <nav class="subnav">
-    <a href="{{ url_for('explore') }}">Explore</a>
-    <a href="{{ url_for('search') }}?type=release">Releases</a>
-    <a href="{{ url_for('search') }}?type=artist">Artists</a>
-    <a href="{{ url_for('search') }}?type=label">Labels</a>
-    <a href="{{ url_for('marketplace') }}">Marketplace</a>
-    <a href="{{ url_for('lists_index') }}">Lists</a>
-    <a href="{{ url_for('forum_index') }}">Forum</a>
+    <a href="{{ url_for('explore') }}">Explore Discography</a>
+    <a href="{{ url_for('marketplace') }}">Shop Music</a>
+    <a href="{{ url_for('sell') }}">Sell Music</a>
+    <a href="{{ url_for('forum_index') }}">Community</a>
+    <a class="nav-end" href="{{ url_for('lists_index') }}">Digs</a>
   </nav>
 </header>
 
-<main class="page">
+<main class="{% block main_class %}page{% endblock %}">
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
       <ul class="flashes">
@@ -69,34 +67,41 @@
 
 <footer class="site-footer">
   <div class="inner">
-    <div>
-      <h4>Discogs</h4>
+    <div class="footer-column">
+      <h4>About</h4>
       <ul>
-        <li><a href="{{ url_for('explore') }}">Explore Music</a></li>
+        <li><a href="{{ url_for('register') }}">Get Started</a></li>
+        <li><a href="{{ url_for('explore') }}">Discography</a></li>
         <li><a href="{{ url_for('marketplace') }}">Marketplace</a></li>
-        <li><a href="{{ url_for('forum_index') }}">Community</a></li>
+        <li><a href="{{ url_for('search') }}?type=release">Database</a></li>
       </ul>
     </div>
-    <div>
-      <h4>Sell on Discogs</h4>
+    <div class="footer-column">
+      <h4>Community</h4>
       <ul>
-        <li><a href="{{ url_for('sell') }}">List for sale</a></li>
-        <li><a href="#">Seller hub</a></li>
-        <li><a href="#">Fees</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4>Database</h4>
-      <ul>
-        <li><a href="{{ url_for('explore') }}">Genres</a></li>
-        <li><a href="{{ url_for('search') }}?type=label">Labels</a></li>
+        <li><a href="{{ url_for('forum_index') }}">Forum</a></li>
         <li><a href="{{ url_for('lists_index') }}">User Lists</a></li>
+        <li><a href="{{ url_for('search') }}?type=artist">Artists</a></li>
+        <li><a href="{{ url_for('search') }}?type=label">Labels</a></li>
       </ul>
     </div>
-    <div class="footer-meta">
-      <p>© Discogs (WebHarbor offline mirror)<br>
-         Catalog data from Discogs &amp; MusicBrainz. Cover images via Wikipedia.</p>
+    <div class="footer-column">
+      <h4>Help &amp; Resources</h4>
+      <ul>
+        <li><a href="{{ url_for('sell') }}">Sell Music</a></li>
+        <li><a href="{{ url_for('forum_index') }}">Community Help</a></li>
+        <li><a href="{{ url_for('explore') }}">Browse Genres</a></li>
+      </ul>
     </div>
+    <div class="footer-newsletter">
+      <h4>Find music, explore records &amp; keep digging.</h4>
+      <div class="footer-social" aria-label="Discogs community channels">◉ &nbsp; ◎ &nbsp; ▶ &nbsp; ♪ &nbsp; in</div>
+      <p>Newsletter signup is unavailable in this offline benchmark.</p>
+    </div>
+  </div>
+  <div class="footer-legal">
+    <span>© Discogs — WebHarbor offline mirror</span>
+    <span>Release metadata and cover images from Discogs. Benchmark accounts and activity are synthetic.</span>
   </div>
 </footer>
 </body>

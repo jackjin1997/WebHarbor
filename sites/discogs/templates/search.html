@@ -16,7 +16,7 @@
     <div class="card facet">
       <h3>Sort</h3>
       <select onchange="window.location.href=this.value">
-        {% for v, label in [('relevance','Relevance'), ('have','Most Collected'), ('want','Most Wanted'),
+        {% for v, label in [('relevance','Relevance'), ('newest','Newest'), ('have','Most Collected'), ('want','Most Wanted'),
                              ('rating','Highest Rated'), ('year_desc','Year ↓'), ('year_asc','Year ↑'),
                              ('title','Title A–Z')] %}
           <option value="{{ search_url(sort=v) }}" {% if sort == v %}selected{% endif %}>{{ label }}</option>

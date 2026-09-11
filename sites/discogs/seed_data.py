@@ -1,17 +1,13 @@
-"""Idempotent seed loader for the Discogs mirror.
+"""Idempotent benchmark community seeding for the Discogs mirror.
 
-Pulls real catalog metadata from scraped_data/releases.json (Discogs API)
-and scraped_data/mb_releases.json (MusicBrainz), plus Wikipedia
-descriptions/cover URLs from scraped_data/wikipedia.json. Generates a
-benchmark community on top — users, ratings, reviews, collections,
-wantlists, lists, marketplace listings, forums.
+The catalog comes from the verified instance_seed/discogs.db asset.
+refresh_catalog.py imports complete, captured Discogs release responses;
+unknown catalog facts are never generated at boot. Users, ratings, reviews,
+collections and marketplace listings are synthetic benchmark state.
 
-Every seed_*() function is gated by an existence check so it is a no-op
-on a populated DB. That is the contract that keeps /reset/discogs
-byte-identical.
+Every seed function returns before writing when its data is already present,
+preserving the byte-identical reset contract.
 """
-import json
-import os
 import random
 import re
 import unicodedata
@@ -26,9 +22,6 @@ from app import (
     COLLECTION_FOLDERS, GRADES,
 )
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-SCRAPED = os.path.join(BASE_DIR, "scraped_data")
-
 # Pin a reference date so re-seeding from scraped_data/ is deterministic
 # (NOW would otherwise make the produced DB non-reproducible
 # and break byte-identical reset across rebuilds).
@@ -39,18 +32,6 @@ def slugify(s):
     s = unicodedata.normalize("NFKD", s or "").encode("ascii", "ignore").decode()
     s = re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
     return s or "x"
-
-
-def _load_json(name):
-    p = os.path.join(SCRAPED, name)
-    if not os.path.exists(p):
-        return None
-    try:
-        with open(p) as f:
-            return json.load(f)
-    except Exception as e:
-        print(f"[seed] failed to read {name}: {e}")
-        return None
 
 
 # ──────────────────────────────────────────────
@@ -75,72 +56,6 @@ CANONICAL_FORMATS = [
 # ──────────────────────────────────────────────
 # 2. Releases (catalogue)
 # ──────────────────────────────────────────────
-
-def _get_or_create_artist(name, cache):
-    name = (name or "Unknown").strip() or "Unknown"
-    if name in cache:
-        return cache[name]
-    base_slug = slugify(name)
-    slug = base_slug
-    i = 1
-    while Artist.query.filter_by(slug=slug).first() is not None:
-        i += 1
-        slug = f"{base_slug}-{i}"
-    a = Artist(name=name[:200], slug=slug[:220])
-    db.session.add(a)
-    db.session.flush()
-    cache[name] = a
-    return a
-
-
-def _get_or_create_label(name, cache):
-    name = (name or "").strip()
-    if not name or name in cache:
-        return cache.get(name)
-    base_slug = slugify(name)
-    slug = base_slug
-    i = 1
-    while Label.query.filter_by(slug=slug).first() is not None:
-        i += 1
-        slug = f"{base_slug}-{i}"
-    l = Label(name=name[:200], slug=slug[:220])
-    db.session.add(l)
-    db.session.flush()
-    cache[name] = l
-    return l
-
-
-def _get_or_create_named(model, name, cache):
-    name = (name or "").strip()
-    if not name:
-        return None
-    if name in cache:
-        return cache[name]
-    base_slug = slugify(name)
-    slug = base_slug
-    i = 1
-    while model.query.filter_by(slug=slug).first() is not None:
-        i += 1
-        slug = f"{base_slug}-{i}"
-    obj = model(name=name[:80], slug=slug[:80])
-    db.session.add(obj)
-    db.session.flush()
-    cache[name] = obj
-    return obj
-
-
-def _build_tracklist_for(release_id, n=8, base_title=""):
-    """Plausible-looking placeholder tracklist when we have none."""
-    rng = random.Random(release_id * 13 + 7)
-    tracks = []
-    for i in range(1, n + 1):
-        side = "A" if i <= n / 2 else "B"
-        pos = f"{side}{i if i <= n/2 else i - int(n/2)}"
-        title = f"Track {i}"
-        dur_sec = rng.randint(150, 360)
-        tracks.append((pos, title, f"{dur_sec//60}:{dur_sec%60:02d}"))
-    return tracks
-
 
 def seed_taxonomy():
     if Genre.query.count() > 0:
@@ -174,220 +89,13 @@ def seed_forums():
     db.session.commit()
 
 
-def _release_image_exists(rid):
-    return os.path.exists(os.path.join(BASE_DIR, "static", "images", "release", f"{rid}.jpg"))
-
-
 def seed_database():
     if Release.query.count() > 0:
         return
-    print("[seed] catalogue (releases / artists / labels / tracks)")
-
-    seed_taxonomy()
-    seed_forums()
-
-    artist_cache = {}
-    label_cache = {}
-    genre_cache = {g.name: g for g in Genre.query.all()}
-    style_cache = {}
-    format_cache = {f.name: f for f in Format.query.all()}
-    master_cache = {}
-
-    wp_cache = _load_json("wikipedia.json") or {}
-    discogs_data = _load_json("releases.json") or []
-    mb_data = _load_json("mb_releases.json") or []
-
-    next_synth_id = 90_000_001  # synthetic discogs_id for non-Discogs sources
-
-    seen_keys = set()
-
-    # ── Discogs source ──────────────────────────
-    for d in discogs_data:
-        title = (d.get("title") or "").strip()
-        artist_name = (d.get("artist") or "").strip() or "Various"
-        if not title:
-            continue
-        key = f"discogs-{d['id']}"
-        if key in seen_keys:
-            continue
-        seen_keys.add(key)
-
-        artist = _get_or_create_artist(artist_name, artist_cache)
-        year = None
-        if d.get("year"):
-            try: year = int(d["year"])
-            except (TypeError, ValueError): pass
-
-        master_key = (artist.id, title.lower())
-        if master_key not in master_cache:
-            m = Master(title=title[:300], artist_id=artist.id, year=year)
-            db.session.add(m); db.session.flush()
-            master_cache[master_key] = m
-        master = master_cache[master_key]
-
-        # Wikipedia extract
-        wp = wp_cache.get(key, {})
-        notes = wp.get("extract") or ""
-
-        r = Release(
-            discogs_id=int(d["id"]),
-            title=title[:300],
-            artist_id=artist.id,
-            master_id=master.id,
-            year=year,
-            country=(d.get("country") or "")[:80],
-            notes=notes,
-            barcode=(d.get("barcode")[0] if d.get("barcode") else "")[:80],
-            catno=(d.get("catno") or "")[:80],
-            image_path=f"images/release/{d['id']}.jpg" if _release_image_exists(d['id']) else "",
-            have_count=(d.get("community") or {}).get("have", 0) or random.randint(20, 500),
-            want_count=(d.get("community") or {}).get("want", 0) or random.randint(5, 200),
-            added_at=NOW - timedelta(days=random.randint(1, 800)),
-        )
-        db.session.add(r); db.session.flush()
-
-        # Genres
-        for gn in (d.get("genre") or []):
-            g = genre_cache.get(gn) or _get_or_create_named(Genre, gn, genre_cache)
-            if g and g not in r.genres:
-                r.genres.append(g)
-        # Styles
-        for sn in (d.get("style") or []):
-            s = _get_or_create_named(Style, sn, style_cache)
-            if s and s not in r.styles:
-                r.styles.append(s)
-        # Formats
-        for fn in (d.get("format") or [])[:4]:
-            f = format_cache.get(fn) or _get_or_create_named(Format, fn, format_cache)
-            if f and f not in r.formats:
-                r.formats.append(f)
-        # Labels (first 3)
-        for ln in (d.get("label") or [])[:3]:
-            l = _get_or_create_label(ln, label_cache)
-            if l and l not in r.labels:
-                r.labels.append(l)
-
-        # Tracks (placeholder if none)
-        for pos, title_t, dur in _build_tracklist_for(r.discogs_id):
-            db.session.add(Track(release_id=r.id, position=pos, title=title_t, duration=dur))
-
-    db.session.commit()
-
-    # ── MusicBrainz source ──────────────────────
-    for d in mb_data:
-        title = (d.get("title") or "").strip()
-        if not title:
-            continue
-        artists = d.get("artists") or []
-        artist_name = (artists[0].get("name") if artists else "Various Artists").strip() or "Various"
-        key = f"mb-{d['id']}"
-        if key in seen_keys:
-            continue
-        seen_keys.add(key)
-
-        artist = _get_or_create_artist(artist_name, artist_cache)
-
-        year = None
-        d_str = d.get("first_release_date") or ""
-        if d_str:
-            try: year = int(d_str[:4])
-            except (ValueError, TypeError): pass
-
-        master_key = (artist.id, title.lower())
-        if master_key not in master_cache:
-            m = Master(title=title[:300], artist_id=artist.id, year=year)
-            db.session.add(m); db.session.flush()
-            master_cache[master_key] = m
-        master = master_cache[master_key]
-
-        wp = wp_cache.get(key, {})
-        notes = wp.get("extract") or ""
-
-        synth_id = next_synth_id
-        next_synth_id += 1
-
-        # Pick a plausible format spread.
-        fmt_choices = random.choice([
-            ["Vinyl", "LP", "Album"],
-            ["CD", "Album"],
-            ["Vinyl", "LP", "Album", "Reissue"],
-            ["Cassette", "Album"],
-            ["CD", "Album", "Compilation"],
-            ["File", "FLAC", "Album"],
-        ])
-
-        r = Release(
-            discogs_id=synth_id,
-            title=title[:300],
-            artist_id=artist.id,
-            master_id=master.id,
-            year=year,
-            released=d_str,
-            country=random.choice(["US", "UK", "Germany", "Japan", "France", "Netherlands",
-                                    "Italy", "Brazil", "Canada", "Australia", "Sweden", ""]),
-            notes=notes,
-            image_path="",  # MB releases don't have an image_path; cover_url checks at request time
-            have_count=random.randint(10, 800),
-            want_count=random.randint(2, 350),
-            added_at=NOW - timedelta(days=random.randint(1, 1200)),
-        )
-        db.session.add(r); db.session.flush()
-
-        # Use the source tag as a genre fallback.
-        tag = (d.get("tag_query") or "").strip()
-        gname_map = {
-            "hip hop": "Hip Hop", "techno": "Electronic", "house": "Electronic",
-            "ambient": "Electronic", "drum and bass": "Electronic", "dubstep": "Electronic",
-            "trance": "Electronic", "downtempo": "Electronic", "trip hop": "Electronic",
-            "soul": "Funk / Soul", "funk": "Funk / Soul", "disco": "Funk / Soul",
-            "country": "Folk, World, & Country", "folk": "Folk, World, & Country",
-            "blues": "Blues", "classical": "Classical", "jazz": "Jazz",
-            "reggae": "Reggae", "dub": "Reggae", "ska": "Reggae",
-            "pop": "Pop", "k-pop": "Pop", "j-pop": "Pop", "city pop": "Pop",
-            "metal": "Rock", "death metal": "Rock", "black metal": "Rock",
-            "thrash metal": "Rock", "punk": "Rock", "hardcore": "Rock",
-            "post-hardcore": "Rock", "alternative rock": "Rock",
-            "garage rock": "Rock", "psychedelic rock": "Rock",
-            "progressive rock": "Rock", "krautrock": "Rock", "post-rock": "Rock",
-            "math rock": "Rock", "indie pop": "Pop", "synth-pop": "Pop",
-            "post-punk": "Rock", "shoegaze": "Rock", "experimental": "Electronic",
-            "noise": "Electronic", "drone": "Electronic", "industrial": "Electronic",
-            "minimal": "Electronic", "lo-fi": "Pop", "salsa": "Latin",
-            "bossa nova": "Latin", "latin": "Latin", "afrobeat": "Funk / Soul",
-            "world": "Folk, World, & Country", "electronic": "Electronic",
-            "boom bap": "Hip Hop", "trap": "Hip Hop", "gangsta rap": "Hip Hop",
-            "conscious hip hop": "Hip Hop", "soundtrack": "Stage & Screen",
-        }
-        gname = gname_map.get(tag, "Electronic" if not tag else "Rock")
-        if gname not in genre_cache:
-            genre_cache[gname] = _get_or_create_named(Genre, gname, genre_cache)
-        g = genre_cache[gname]
-        if g and g not in r.genres:
-            r.genres.append(g)
-        # The tag itself becomes a style.
-        if tag and tag.title() != gname:
-            s = _get_or_create_named(Style, tag.title(), style_cache)
-            if s and s not in r.styles:
-                r.styles.append(s)
-
-        for fn in fmt_choices:
-            f = format_cache.get(fn) or _get_or_create_named(Format, fn, format_cache)
-            if f and f not in r.formats:
-                r.formats.append(f)
-
-        # Tracks
-        for pos, title_t, dur in _build_tracklist_for(r.id, n=random.choice([8, 10, 12])):
-            db.session.add(Track(release_id=r.id, position=pos, title=title_t, duration=dur))
-
-    db.session.commit()
-
-    # Aggregate artist.in_collection (used to sort artist search).
-    for a in Artist.query.all():
-        a.in_collection = a.releases.count()
-    db.session.commit()
-
-    print(f"[seed] inserted {Release.query.count()} releases / {Artist.query.count()} artists "
-          f"/ {Label.query.count()} labels / {Master.query.count()} masters")
+    raise RuntimeError(
+        "Missing verified Discogs seed. Restore instance_seed/discogs.db; "
+        "build a new catalog with refresh_catalog.py and captured release responses."
+    )
 
 
 # ──────────────────────────────────────────────
@@ -650,8 +358,8 @@ def seed_community():
 
     # Refresh have/want counts.
     for r in releases:
-        r.have_count = CollectionItem.query.filter_by(release_id=r.id).count() or r.have_count
-        r.want_count = WantlistItem.query.filter_by(release_id=r.id).count() or r.want_count
+        r.have_count = CollectionItem.query.filter_by(release_id=r.id).count()
+        r.want_count = WantlistItem.query.filter_by(release_id=r.id).count()
     db.session.commit()
 
     # 4d. Lists: each user makes 0-3.

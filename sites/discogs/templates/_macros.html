@@ -2,9 +2,9 @@
   <a class="release-card" href="{{ url_for('release_detail', rid=r.discogs_id or r.id) }}">
     <span class="thumb"><img src="{{ r.cover_url }}" alt="{{ r.title }}" loading="lazy"></span>
     <div class="title">{{ r.title }}</div>
-    <div class="artist">{{ r.artist.name }}</div>
+    <div class="artist">{{ r.display_artist }}</div>
     <div class="meta">{{ r.year or '' }} · {{ r.primary_format or '' }}{% if r.country %} · {{ r.country }}{% endif %}</div>
-    {% if r.lowest_price %}<div class="price">from ${{ '%.2f'|format(r.lowest_price) }}</div>{% endif %}
+    {% if r.lowest_price %}<div class="price">from {{ r.lowest_price|price('USD') }}</div>{% endif %}
   </a>
 {% endmacro %}
 

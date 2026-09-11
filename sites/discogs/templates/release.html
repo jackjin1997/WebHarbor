@@ -1,17 +1,16 @@
 {% extends "base.html" %}
 {% import "_macros.html" as m %}
-{% block title %}{{ r.artist.name }} – {{ r.title }} | Discogs{% endblock %}
+{% block title %}{{ r.display_artist }} – {{ r.title }} | Discogs{% endblock %}
 
 {% block content %}
 <div class="rel-hero">
   <div class="cover">
     <img src="{{ r.cover_url }}" alt="{{ r.title }}">
-    {% if r.image_path %}<p class="tiny muted" style="margin-top: 6px;">Image courtesy Wikipedia</p>{% endif %}
   </div>
   <div class="meta">
     <h1>{{ r.title }}</h1>
     <div class="artist-line">
-      <a href="{{ url_for('artist_detail', aid=r.artist.id, slug=r.artist.slug) }}">{{ r.artist.name }}</a>
+      {% for artist, display, join in r.artist_entries %}<a href="{{ url_for('artist_detail', aid=artist.id, slug=artist.slug) }}">{{ display }}</a>{% if join %} {{ join }} {% endif %}{% endfor %}
     </div>
 
     <div class="badges">
@@ -22,10 +21,14 @@
 
     <dl class="kv">
       {% if r.labels %}<dt>Label</dt><dd>
-        {% for l in r.labels %}<a href="{{ url_for('label_detail', lid=l.id, slug=l.slug) }}">{{ l.name }}</a>{% if not loop.last %} · {% endif %}{% endfor %}
-        {% if r.catno %} – {{ r.catno }}{% endif %}
+        {% if r.label_entries %}
+          {% for l, catno in r.label_entries %}<div><a href="{{ url_for('label_detail', lid=l.id, slug=l.slug) }}">{{ l.name }}</a>{% if catno %} – {{ catno }}{% endif %}</div>{% endfor %}
+        {% else %}
+          {% for l in r.labels %}<a href="{{ url_for('label_detail', lid=l.id, slug=l.slug) }}">{{ l.name }}</a>{% if not loop.last %} · {% endif %}{% endfor %}
+          {% if r.catno %} – {{ r.catno }}{% endif %}
+        {% endif %}
       </dd>{% endif %}
-      {% if r.formats %}<dt>Format</dt><dd>{% for f in r.formats %}{{ f.name }}{% if not loop.last %}, {% endif %}{% endfor %}</dd>{% endif %}
+      {% if r.formats %}<dt>Format</dt><dd>{{ r.format_description or r.primary_format }}</dd>{% endif %}
       {% if r.country %}<dt>Country</dt><dd>{{ r.country }}</dd>{% endif %}
       {% if r.released %}<dt>Released</dt><dd>{{ r.released }}</dd>
       {% elif r.year %}<dt>Year</dt><dd>{{ r.year }}</dd>{% endif %}
@@ -77,14 +80,14 @@
           </select>
         </form>
       {% else %}
-        <a class="btn btn-primary" href="{{ url_for('login') }}">Sign in to collect</a>
+        <a class="btn btn-primary" href="{{ url_for('login', next=request.full_path.rstrip('?')) }}">Sign in to collect</a>
       {% endif %}
     </div>
 
     {% if r.lowest_price %}
       <div class="rating-bar">
-        <div class="big">${{ '%.2f'|format(r.lowest_price) }}</div>
-        <div class="lbl">{{ r.num_for_sale }} for sale starting from</div>
+        <div class="big">{{ r.lowest_price|price('USD') }}</div>
+        <div class="lbl">{{ r.num_for_sale }} listings; lowest USD price</div>
       </div>
     {% endif %}
   </div>
@@ -98,9 +101,9 @@
     <thead><tr><th class="pos">#</th><th>Title</th><th class="dur">Length</th></tr></thead>
     <tbody>
     {% for t in r.tracks %}
-      <tr>
+      <tr class="track-{{ t.kind }}">
         <td class="pos">{{ t.position }}</td>
-        <td>
+        <td style="padding-left: {{ 12 + 16 * (t.depth or 0) }}px;">
           {{ t.title }}
           {% if t.artist_credit %}<div class="tiny muted">{{ t.artist_credit }}</div>{% endif %}
         </td>
@@ -110,6 +113,28 @@
     </tbody>
   </table>
   </div>
+</div>
+{% endif %}
+
+{% if r.source_data.get('extraartists') %}
+<div class="card">
+  <h2>Credits</h2>
+  {% for credit in r.source_data['extraartists'] %}
+  <div>{{ credit.get('role', '') }} – {{ credit.get('anv') or credit['name'] }}{% if credit.get('tracks') %} ({{ credit['tracks'] }}){% endif %}</div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if r.notes %}
+<div class="card"><h2>Notes</h2><div style="white-space: pre-line;">{{ r.notes }}</div></div>
+{% endif %}
+
+{% if r.source_data.get('identifiers') %}
+<div class="card">
+  <h2>Barcode and Other Identifiers</h2>
+  <ul>{% for identifier in r.source_data['identifiers'] %}
+    <li>{{ identifier['type'] }}{% if identifier.get('description') %} ({{ identifier['description'] }}){% endif %}: {{ identifier['value'] }}</li>
+  {% endfor %}</ul>
 </div>
 {% endif %}
 
@@ -134,8 +159,8 @@
       {% if l.comments %}<div class="tiny muted">{{ l.comments }}</div>{% endif %}
     </div>
     <div class="grade">{{ l.shipping_from }}</div>
-    <div class="price">${{ '%.2f'|format(l.price) }}</div>
-    <div class="grade">{{ l.currency }}</div>
+    <div class="price">{{ l.price|price(l.currency) }}</div>
+    <div class="grade"></div>
     <div><a class="btn btn-sm btn-primary" href="#">Buy</a></div>
   </div>
   {% endfor %}
@@ -191,7 +216,7 @@
 
 {% if related %}
 <div class="card">
-  <h2>More by {{ r.artist.name }}</h2>
+  <h2>More by {{ r.display_artist }}</h2>
   <div class="release-grid">{% for v in related %}{{ m.release_card(v) }}{% endfor %}</div>
 </div>
 {% endif %}

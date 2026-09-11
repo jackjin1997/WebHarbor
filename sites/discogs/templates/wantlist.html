@@ -29,7 +29,7 @@
         </td>
         <td style="padding: 6px;">
           <a href="{{ url_for('release_detail', rid=w.release.discogs_id or w.release.id) }}"><strong>{{ w.release.title }}</strong></a>
-          <div class="muted tiny">{{ w.release.artist.name }} · {{ w.release.year or '' }}</div>
+          <div class="muted tiny">{{ w.release.display_artist }} · {{ w.release.year or '' }}</div>
         </td>
         <td style="padding: 6px;" class="tiny">{{ w.min_grade }}</td>
         <td style="padding: 6px;" class="tiny">{{ w.release.lowest_price|price }}</td>

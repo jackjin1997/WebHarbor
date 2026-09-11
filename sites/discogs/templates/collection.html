@@ -37,7 +37,7 @@
         </td>
         <td style="padding: 6px;">
           <a href="{{ url_for('release_detail', rid=c.release.discogs_id or c.release.id) }}"><strong>{{ c.release.title }}</strong></a>
-          <div class="muted tiny">{{ c.release.artist.name }} · {{ c.release.year or '' }}</div>
+          <div class="muted tiny">{{ c.release.display_artist }} · {{ c.release.year or '' }}</div>
         </td>
         <td style="padding: 6px;" class="tiny">{{ c.release.label_str }}</td>
         <td style="padding: 6px;" class="tiny">{{ c.release.primary_format }}</td>
