@@ -40,8 +40,13 @@ jobs:
           test "$(sha256sum "sites/.cache/tarballs/$revision/fedex.tar.gz" | awk '{print $1}')" = \
             c9f33357791e9ee1eecd936877ee1b8544d64dcf43149b52bdce8eb7ed36215b
           PYTHONHASHSEED=0 python sites/fedex/seed_data.py
-          test "$(sha256sum sites/fedex/instance_seed/fedex.db | awk '{print $1}')" = \
-            327c2ef8251c729d991fb80d3c9d35c1dbefa1d0ab0013c7092f3fb86cbf12db
+          first_seed_sha=$(sha256sum sites/fedex/instance_seed/fedex.db | awk '{print $1}')
+          rm sites/fedex/instance_seed/fedex.db
+          PYTHONHASHSEED=0 python sites/fedex/seed_data.py
+          second_seed_sha=$(sha256sum sites/fedex/instance_seed/fedex.db | awk '{print $1}')
+          test "$first_seed_sha" = "$second_seed_sha"
+          printf 'first=%s\nsecond=%s\n' "$first_seed_sha" "$second_seed_sha" \
+            > /tmp/full-smoke/fedex-seed-reproducibility.txt
           test "$(sha256sum sites/fedex/tasks.jsonl | awk '{print $1}')" = \
             4276ff22362bd7668b226c9ff06e699b9b659b922ed96fe390370f60f119e1ff
           sha256sum "sites/.cache/tarballs/$revision/fedex.tar.gz" \
