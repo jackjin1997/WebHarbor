@@ -1,0 +1,169 @@
+name: BoardGameGeek full environment smoke
+
+on:
+  push:
+    branches:
+      - ci/boardgamegeek-full-smoke
+
+permissions:
+  contents: read
+
+jobs:
+  full-environment-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify candidate identity and runner capacity
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/full-smoke
+          workflow_sha=$(git rev-parse HEAD)
+          candidate_sha=$(git rev-parse HEAD^)
+          test "$candidate_sha" = ebb4c55427114d4461762da12174603b5d2e6436
+          test "$(git diff --name-only "$candidate_sha" "$workflow_sha")" = ".github/workflows/boardgamegeek-full-smoke.yml"
+          printf 'workflow=%s\ncandidate=%s\n' "$workflow_sha" "$candidate_sha" \
+            > /tmp/full-smoke/code-sha.txt
+          git checkout --detach "$candidate_sha"
+          test "$(git rev-parse HEAD)" = ebb4c55427114d4461762da12174603b5d2e6436
+          df -h | tee /tmp/full-smoke/disk-before.txt
+          docker system df | tee /tmp/full-smoke/docker-disk-before.txt
+          available_kib=$(df -Pk . | awk 'NR==2 {print $4}')
+          test "$available_kib" -ge 52428800
+          cp .assets-revision /tmp/full-smoke/assets-revision.txt
+
+      - name: Fetch pinned assets and BoardGameGeek candidate
+        run: |
+          set -euo pipefail
+          python -m pip install 'huggingface_hub[cli]' -r sites/boardgamegeek/requirements.txt
+          repo=$(awk '/^repo:/ {print $2}' .assets-revision)
+          base_revision=$(awk '/^revision:/ {print $2}' .assets-revision)
+          candidate_revision=6737719a7eeb8d9b5fba77072d455e0d9afd2a93
+          base_cache="sites/.cache/tarballs/$base_revision"
+          candidate_cache="sites/.cache/tarballs/$candidate_revision"
+          mkdir -p "$base_cache" "$candidate_cache"
+
+          hf download "$repo" --repo-type dataset --revision "$base_revision" \
+            --include '*.tar.gz' --local-dir "$base_cache"
+          test "$(find "$base_cache" -maxdepth 1 -name '*.tar.gz' | wc -l | tr -d ' ')" = 24
+
+          for tarball in "$base_cache"/*.tar.gz; do
+            site=$(basename "$tarball" .tar.gz)
+            python3 scripts/validate_asset_archive.py "$tarball" "$site"
+            python3 scripts/extract_asset_archive.py "$tarball" sites "$site"
+            migrator="sites/$site/migrate_seed.py"
+            database="sites/$site/instance_seed/$site.db"
+            if [[ -f "sites/$site/.build-generated-seed" ]]; then
+              rm -rf "sites/$site/instance_seed"
+            elif [[ -f "$migrator" && -f "$database" ]]; then
+              PYTHONHASHSEED=0 python3 "$migrator" "$database"
+            fi
+          done
+
+          hf download "$repo" --repo-type dataset --revision "$candidate_revision" \
+            --include 'boardgamegeek.tar.gz' --local-dir "$candidate_cache"
+          boardgamegeek_archive="$candidate_cache/boardgamegeek.tar.gz"
+          python3 scripts/validate_asset_archive.py "$boardgamegeek_archive" boardgamegeek
+          python3 scripts/extract_asset_archive.py "$boardgamegeek_archive" sites boardgamegeek
+
+          test "$(sha256sum "$boardgamegeek_archive" | awk '{print $1}')" = \
+            970c6618e39a37920b228abd976d4756db126239ab4b4fa48b37b03b81cad6d1
+          test "$(sha256sum sites/boardgamegeek/instance_seed/boardgamegeek.db | awk '{print $1}')" = \
+            5a00124fa1e523678c1010ea74a2c1d8ed5febd18f71cf54632bec83a07612b1
+          ./scripts/check_assets.sh
+          sha256sum "$boardgamegeek_archive" \
+            sites/boardgamegeek/instance_seed/boardgamegeek.db \
+            sites/boardgamegeek/tasks.jsonl \
+            > /tmp/full-smoke/candidate-sha256.txt
+          python -m unittest discover -s sites/boardgamegeek/verify -v \
+            2>&1 | tee /tmp/full-smoke/boardgamegeek-tests.txt
+          ./scripts/build.sh webharbor:pr88-full-smoke
+
+      - name: Run HTTP, health, target reset, and reset-all gates
+        run: |
+          set -euo pipefail
+          docker run -d --name wh-pr88-full-smoke \
+            -p 8201:8101 -p 41000-41024:40000-40024 \
+            webharbor:pr88-full-smoke
+
+          ready=0
+          for attempt in $(seq 1 90); do
+            if curl -fsS http://localhost:8201/health > /tmp/full-smoke/health-before.json; then
+              ready=1
+              break
+            fi
+            sleep 2
+          done
+          test "$ready" = 1
+          jq -e '.ok == true and (.sites | length == 25) and ([.sites[].alive] | all)' \
+            /tmp/full-smoke/health-before.json
+
+          : > /tmp/full-smoke/http-before.txt
+          for port in $(seq 41000 41024); do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' "http://localhost:${port}/")
+            printf '%s\n' "${port}:${code}" | tee -a /tmp/full-smoke/http-before.txt
+            test "$code" = 200
+          done
+
+          seed_sha=$(docker exec wh-pr88-full-smoke sha256sum \
+            /opt/WebSyn/boardgamegeek/instance_seed/boardgamegeek.db | awk '{print $1}')
+          docker exec wh-pr88-full-smoke sh -c \
+            'printf reset-probe >> /opt/WebSyn/boardgamegeek/instance/boardgamegeek.db'
+          dirty_sha=$(docker exec wh-pr88-full-smoke sha256sum \
+            /opt/WebSyn/boardgamegeek/instance/boardgamegeek.db | awk '{print $1}')
+          test "$dirty_sha" != "$seed_sha"
+          curl -fsS -X POST http://localhost:8201/reset/boardgamegeek \
+            > /tmp/full-smoke/reset-boardgamegeek.json
+          reset_sha=$(docker exec wh-pr88-full-smoke sha256sum \
+            /opt/WebSyn/boardgamegeek/instance/boardgamegeek.db | awk '{print $1}')
+          test "$reset_sha" = "$seed_sha"
+          printf 'seed=%s\ndirty=%s\nreset=%s\n' \
+            "$seed_sha" "$dirty_sha" "$reset_sha" \
+            > /tmp/full-smoke/boardgamegeek-reset-sha256.txt
+
+          start=$(date +%s)
+          curl -fsS -X POST http://localhost:8201/reset-all \
+            > /tmp/full-smoke/reset-all.json
+          elapsed=$(($(date +%s) - start))
+          printf '%s\n' "$elapsed" > /tmp/full-smoke/reset-all-seconds.txt
+          test "$elapsed" -le 20
+          jq -e '.ok == true and (.sites | length == 25) and ([.sites[].ready] | all)' \
+            /tmp/full-smoke/reset-all.json
+
+          post_reset_all_sha=$(docker exec wh-pr88-full-smoke sha256sum \
+            /opt/WebSyn/boardgamegeek/instance/boardgamegeek.db | awk '{print $1}')
+          test "$post_reset_all_sha" = "$seed_sha"
+          printf '%s\n' "$post_reset_all_sha" \
+            > /tmp/full-smoke/boardgamegeek-post-reset-all-sha256.txt
+
+          curl -fsS http://localhost:8201/health > /tmp/full-smoke/health-after.json
+          jq -e '.ok == true and (.sites | length == 25) and ([.sites[].alive] | all)' \
+            /tmp/full-smoke/health-after.json
+          : > /tmp/full-smoke/http-after.txt
+          for port in $(seq 41000 41024); do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' "http://localhost:${port}/")
+            printf '%s\n' "${port}:${code}" | tee -a /tmp/full-smoke/http-after.txt
+            test "$code" = 200
+          done
+
+      - name: Collect diagnostics
+        if: always()
+        run: |
+          mkdir -p /tmp/full-smoke
+          docker logs wh-pr88-full-smoke > /tmp/full-smoke/container.log 2>&1 || true
+          df -h > /tmp/full-smoke/disk-after.txt
+          docker system df > /tmp/full-smoke/docker-disk-after.txt
+
+      - name: Upload smoke evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boardgamegeek-25-site-full-smoke
+          path: /tmp/full-smoke
