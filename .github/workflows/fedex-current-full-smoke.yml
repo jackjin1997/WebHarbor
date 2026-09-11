@@ -1,0 +1,127 @@
+name: FedEx current full environment smoke
+
+on:
+  push:
+    branches:
+      - ci/fedex-79f-smoke
+
+permissions:
+  contents: read
+
+jobs:
+  full-environment-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Record runner capacity
+        run: |
+          df -h
+          docker system df
+          available_kib=$(df -Pk . | awk 'NR==2 {print $4}')
+          test "$available_kib" -ge 52428800
+          mkdir -p /tmp/full-smoke
+          git rev-parse HEAD > /tmp/full-smoke/ci-code-sha.txt
+          cp .assets-revision /tmp/full-smoke/assets-revision.txt
+
+      - name: Fetch frozen assets and test FedEx regressions
+        run: |
+          python -m pip install 'huggingface_hub[cli]' pytest -r sites/fedex/requirements.txt
+          ./scripts/fetch_assets.sh
+          ./scripts/check_assets.sh
+          revision=$(awk '/^revision:/ {print $2}' .assets-revision)
+          test "$revision" = 68dcbf2cbd0cbc2fbf97dcb71da13ace67c11bf6
+          test "$(find "sites/.cache/tarballs/$revision" -maxdepth 1 -name '*.tar.gz' | wc -l | tr -d ' ')" = 25
+          test "$(sha256sum "sites/.cache/tarballs/$revision/fedex.tar.gz" | awk '{print $1}')" = \
+            c9f33357791e9ee1eecd936877ee1b8544d64dcf43149b52bdce8eb7ed36215b
+          PYTHONHASHSEED=0 python sites/fedex/seed_data.py
+          test "$(sha256sum sites/fedex/instance_seed/fedex.db | awk '{print $1}')" = \
+            327c2ef8251c729d991fb80d3c9d35c1dbefa1d0ab0013c7092f3fb86cbf12db
+          test "$(sha256sum sites/fedex/tasks.jsonl | awk '{print $1}')" = \
+            4276ff22362bd7668b226c9ff06e699b9b659b922ed96fe390370f60f119e1ff
+          sha256sum "sites/.cache/tarballs/$revision/fedex.tar.gz" \
+            sites/fedex/instance_seed/fedex.db sites/fedex/tasks.jsonl \
+            > /tmp/full-smoke/candidate-sha256.txt
+          python -m pytest sites/fedex/tests -q 2>&1 | tee /tmp/full-smoke/fedex-tests.txt
+          ./scripts/build.sh webharbor:pr82-current-smoke
+
+      - name: Run HTTP, health, target reset, and reset-all gates
+        run: |
+          set -euo pipefail
+          docker run -d --name wh-pr82-current-smoke \
+            -p 8201:8101 -p 41000-41024:40000-40024 \
+            webharbor:pr82-current-smoke
+
+          ready=0
+          for attempt in $(seq 1 90); do
+            if curl -fsS http://localhost:8201/health > /tmp/full-smoke/health-before.json; then
+              ready=1
+              break
+            fi
+            sleep 2
+          done
+          test "$ready" = 1
+          jq -e '.ok == true and (.sites | length == 25) and ([.sites[].alive] | all)' \
+            /tmp/full-smoke/health-before.json
+
+          : > /tmp/full-smoke/http-before.txt
+          for port in $(seq 41000 41024); do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' "http://localhost:${port}/")
+            printf '%s\n' "${port}:${code}" | tee -a /tmp/full-smoke/http-before.txt
+            test "$code" = 200
+          done
+
+          seed_md5=$(docker exec wh-pr82-current-smoke md5sum \
+            /opt/WebSyn/fedex/instance_seed/fedex.db | awk '{print $1}')
+          docker exec wh-pr82-current-smoke sh -c \
+            'printf reset-probe >> /opt/WebSyn/fedex/instance/fedex.db'
+          dirty_md5=$(docker exec wh-pr82-current-smoke md5sum \
+            /opt/WebSyn/fedex/instance/fedex.db | awk '{print $1}')
+          test "$dirty_md5" != "$seed_md5"
+          curl -fsS -X POST http://localhost:8201/reset/fedex \
+            > /tmp/full-smoke/reset-fedex.json
+          reset_md5=$(docker exec wh-pr82-current-smoke md5sum \
+            /opt/WebSyn/fedex/instance/fedex.db | awk '{print $1}')
+          test "$reset_md5" = "$seed_md5"
+          printf 'seed=%s\ndirty=%s\nreset=%s\n' \
+            "$seed_md5" "$dirty_md5" "$reset_md5" \
+            > /tmp/full-smoke/fedex-reset-md5.txt
+
+          start=$(date +%s)
+          curl -fsS -X POST http://localhost:8201/reset-all \
+            > /tmp/full-smoke/reset-all.json
+          elapsed=$(($(date +%s) - start))
+          printf '%s\n' "$elapsed" > /tmp/full-smoke/reset-all-seconds.txt
+          test "$elapsed" -le 20
+          jq -e '.ok == true and (.sites | length == 25) and ([.sites[].ready] | all)' \
+            /tmp/full-smoke/reset-all.json
+
+          curl -fsS http://localhost:8201/health > /tmp/full-smoke/health-after.json
+          jq -e '.ok == true and (.sites | length == 25) and ([.sites[].alive] | all)' \
+            /tmp/full-smoke/health-after.json
+          : > /tmp/full-smoke/http-after.txt
+          for port in $(seq 41000 41024); do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' "http://localhost:${port}/")
+            printf '%s\n' "${port}:${code}" | tee -a /tmp/full-smoke/http-after.txt
+            test "$code" = 200
+          done
+
+      - name: Collect diagnostics
+        if: always()
+        run: |
+          mkdir -p /tmp/full-smoke
+          docker logs wh-pr82-current-smoke > /tmp/full-smoke/container.log 2>&1 || true
+          df -h > /tmp/full-smoke/disk.txt
+          docker system df > /tmp/full-smoke/docker-disk.txt
+
+      - name: Upload smoke evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fedex-current-25-site-full-smoke
+          path: /tmp/full-smoke
