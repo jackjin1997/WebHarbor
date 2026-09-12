@@ -55,6 +55,7 @@ class AppTests(unittest.TestCase):
             m.List(id=1, user_id=1, title="Public selection", is_public=True),
             m.List(id=2, user_id=1, title="Private selection", description="Private notes", is_public=False),
             m.Forum(id=1, name="General Discussion", slug="general"),
+            m.Forum(id=2, name="Help & Feedback", slug="help"),
             m.Thread(id=1, forum_id=1, user_id=1, title="Listening notes"),
         ])
         m.db.session.commit()
@@ -191,14 +192,202 @@ class AppTests(unittest.TestCase):
         self.assertIn("Bob Marley", self.client.get("/search?type=artist").get_data(as_text=True))
         self.assertIn("Example Records", self.client.get("/search?type=label").get_data(as_text=True))
 
-    def test_homepage_uses_local_media_and_discloses_benchmark_rankings(self):
+    def test_homepage_mirrors_live_sections_with_local_media(self):
+        m.db.session.add_all([
+            m.Listing(user_id=1, release_id=1, price=10, currency="USD", shipping_from="US"),
+            m.Listing(user_id=2, release_id=2, price=900, currency="USD", shipping_from="US"),
+            m.Listing(user_id=2, release_id=2, price=5, currency="GBP", shipping_from="UK"),
+        ])
+        m.db.session.get(m.Release, 1).num_for_sale = 1
+        m.db.session.get(m.Release, 1).lowest_price = 10
+        m.db.session.get(m.Release, 2).num_for_sale = 1
+        m.db.session.get(m.Release, 2).lowest_price = 900
+        m.db.session.commit()
         html = self.client.get("/").get_data(as_text=True)
-        self.assertIn("Newest Verified Releases in This Snapshot", html)
-        self.assertIn("Top Rated by Benchmark Users", html)
-        self.assertIn("Most Collected by Benchmark Users", html)
-        self.assertIn("Most Wanted by Benchmark Users", html)
+        for title in ("This Week’s Best-Selling Vinyl Records &amp; CDs",
+                      "This Week’s Most Valuable Vinyl Records &amp; CDs",
+                      "This Week’s Most Collected Vinyl Records &amp; CDs"):
+            self.assertIn(title, html)
+        self.assertIn("1 copy from $900.00", html)
+        self.assertIn('class="rc-btn rc-prev"', html)
+        self.assertIn('class="rc-btn rc-next"', html)
         self.assertIn("/static/external_cache/homepage/phone-hands.png", html)
         self.assertNotIn("https://www.discogs.com/images/app/", html)
+        # Most Valuable ranks by the highest USD asking price, not the GBP listing.
+        valuable = m.most_valuable_releases()
+        self.assertEqual([row.id for row in valuable], [2, 1])
+
+    def _local_links(self, html, container_class):
+        from html.parser import HTMLParser
+
+        class Links(HTMLParser):
+            def __init__(self):
+                super().__init__()
+                self.depth = None
+                self.hrefs = []
+
+            def handle_starttag(self, tag, attrs):
+                values = dict(attrs)
+                classes = (values.get("class") or "").split()
+                if self.depth is None and container_class in classes:
+                    self.depth = 0
+                if self.depth is not None:
+                    if tag == "a" and values.get("href"):
+                        self.hrefs.append(values["href"])
+                    if tag not in ("img", "input", "br", "meta", "link", "path"):
+                        self.depth += 1
+
+            def handle_endtag(self, tag):
+                if self.depth is not None and tag not in ("img", "input", "br", "meta", "link", "path"):
+                    self.depth -= 1
+                    if self.depth <= 0:
+                        self.depth = None
+
+        parser = Links()
+        parser.feed(html)
+        return parser.hrefs
+
+    def test_header_and_footer_targets_are_local_and_resolve(self):
+        html = self.client.get("/").get_data(as_text=True)
+        hrefs = self._local_links(html, "site-header") + self._local_links(html, "site-footer")
+        self.assertGreater(len(hrefs), 40)
+        for href in hrefs:
+            with self.subTest(href=href):
+                self.assertFalse(href.startswith(("http://", "https://", "//")), href)
+                if href.startswith("#"):
+                    continue
+                path = href.split("#")[0]
+                status = self.client.get(path).status_code
+                self.assertIn(status, (200, 302), (href, status))
+        for label in ("Explore Discography", "Shop Music", "Sell Music", "Community", "Digs",
+                      "Advanced Search", "Shop My Wants", "List Explorer", "Monthly Leaderboard",
+                      "Help &amp; Resources", "Keyboard Shortcuts", "Cookie Settings", "Impressum",
+                      "Sign Up / Log In"):
+            self.assertIn(label, html)
+
+    def test_menus_and_logout_do_not_depend_on_javascript(self):
+        # Menus are native <details>, so every destination is in the DOM and reachable
+        # by clicking the summary even if site.js never runs.
+        self.login()
+        html = self.client.get("/").get_data(as_text=True)
+        self.assertIn("<details class=\"hdr-dd", html)
+        self.assertIn("<summary class=\"hdr-dd-btn", html)
+        self.assertNotIn("hdr-dd-btn\" aria-haspopup=\"true\" aria-expanded", html)
+        self.assertIn('action="/logout"', html)
+        self.assertIn("Log Out", html)
+        self.assertIn("/user/alice/collection", html)
+        self.assertEqual(self.client.post("/logout").status_code, 302)
+        self.assertIn("Sign Up / Log In", self.client.get("/").get_data(as_text=True))
+
+    def test_marketplace_format_filter_matches_live_parameter(self):
+        vinyl = m.Format(id=1, name="Vinyl", slug="vinyl")
+        cd = m.Format(id=2, name="CD", slug="cd")
+        m.db.session.add_all([vinyl, cd])
+        first, second = m.db.session.get(m.Release, 1), m.db.session.get(m.Release, 2)
+        first.formats.append(vinyl)
+        second.formats.append(cd)
+        m.db.session.add_all([
+            m.Listing(user_id=1, release_id=1, price=10, currency="USD", shipping_from="US"),
+            m.Listing(user_id=2, release_id=2, price=20, currency="USD", shipping_from="US"),
+        ])
+        m.db.session.commit()
+        html = self.client.get("/marketplace?format=Vinyl").get_data(as_text=True)
+        self.assertIn("USD 10.00", html)
+        self.assertNotIn("USD 20.00", html)
+        html = self.client.get("/marketplace?format=cd").get_data(as_text=True)
+        self.assertIn("USD 20.00", html)
+        self.assertNotIn("USD 10.00", html)
+
+    def test_shop_my_wants_requires_login_and_scopes_to_wantlist(self):
+        m.db.session.add_all([
+            m.WantlistItem(user_id=1, release_id=2),
+            m.Listing(user_id=2, release_id=1, price=10, currency="USD", shipping_from="US"),
+            m.Listing(user_id=2, release_id=2, price=20, currency="USD", shipping_from="US"),
+        ])
+        m.db.session.commit()
+        self.assertEqual(self.client.get("/shop/mywants").status_code, 302)
+        self.login()
+        html = self.client.get("/shop/mywants").get_data(as_text=True)
+        self.assertIn("Shop My Wants", html)
+        self.assertIn("USD 20.00", html)
+        self.assertNotIn("USD 10.00", html)
+
+    def test_marketplace_sidebar_facets_and_price_range(self):
+        m.db.session.add_all([
+            m.Listing(user_id=1, release_id=1, price=7.5, currency="USD", shipping_from="Germany"),
+            m.Listing(user_id=2, release_id=2, price=25, currency="USD", shipping_from="UK"),
+        ])
+        m.db.session.commit()
+        html = self.client.get("/marketplace?media=Very+Good+Plus+%28VG%2B%29").get_data(as_text=True)
+        for label in ("You Selected:", "Media Condition: Very Good Plus (VG+)", "Ships From", "Price Range",
+                      "Shop Very Good Plus (VG+) Vinyl Records, CDs, and More in USD", "View Release Page",
+                      "Add to Cart", "1 – 2 of 2"):
+            self.assertIn(label, html)
+        narrowed = self.client.get("/marketplace?price_min=5&price_max=10").get_data(as_text=True)
+        self.assertIn("USD 7.50", narrowed)
+        self.assertNotIn("USD 25.00", narrowed)
+        shipped = self.client.get("/marketplace?ships_from=UK").get_data(as_text=True)
+        self.assertIn("USD 25.00", shipped)
+        self.assertNotIn("USD 7.50", shipped)
+        searched = self.client.get("/marketplace?q=Another").get_data(as_text=True)
+        self.assertIn("USD 25.00", searched)
+        self.assertNotIn("USD 7.50", searched)
+
+    def test_lists_page_searches_titles_and_keeps_owner_column(self):
+        html = self.client.get("/lists?q=Public").get_data(as_text=True)
+        self.assertIn("Public selection", html)
+        self.assertNotIn("Private selection", html)
+        self.assertIn("Recent Lists", html)
+        self.assertIn("Search Lists", html)
+        self.assertIn(">alice<", html)
+
+    def test_forum_recent_search_and_thread_layout(self):
+        recent = self.client.get("/forum/recent").get_data(as_text=True)
+        self.assertIn("Listening notes", recent)
+        self.assertIn("Recent Thread Activity", recent)
+        self.assertIn("Listening notes", self.client.get("/forum/search?query=Listening").get_data(as_text=True))
+        self.assertIn("No threads to show", self.client.get("/forum/search?query=zzz-nothing").get_data(as_text=True))
+        self.assertEqual(self.client.get("/forum/posted").status_code, 302)
+        index = self.client.get("/forum").get_data(as_text=True)
+        self.assertIn("Your place to talk about music", index)
+        self.assertIn("1 threads", index)
+        thread = self.client.get("/thread/1").get_data(as_text=True)
+        self.assertIn("General Discussion", thread)
+        self.assertIn("You must be logged in to post.", thread)
+        self.login()
+        self.assertIn("Post reply", self.client.get("/thread/1").get_data(as_text=True))
+
+    def test_auth_pages_mirror_live_copy_and_keep_field_names(self):
+        login = self.client.get("/login").get_data(as_text=True)
+        for text in ("Log in to Discogs to continue", "Forgot password?", 'name="username"', 'name="password"', "Sign up"):
+            self.assertIn(text, login)
+        register = self.client.get("/register").get_data(as_text=True)
+        for text in ("Sign up to Discogs to continue", 'name="username"', 'name="email"', 'name="password"', 'name="location"'):
+            self.assertIn(text, register)
+
+    def test_release_page_shows_live_sections_and_keeps_action_forms(self):
+        html = self.client.get("/release/1001").get_data(as_text=True)
+        for text in ("[r1001]", "Statistics", "Have:", "Want:", "Add to Collection", "Add to Wantlist", "Sell a copy"):
+            self.assertIn(text, html)
+        self.login()
+        html = self.client.get("/release/1001").get_data(as_text=True)
+        self.assertIn('action="/collection/add"', html)
+        self.assertIn('name="folder"', html)
+        self.assertIn('action="/wantlist/add"', html)
+        self.assertIn('action="/rate"', html)
+        self.assertIn('action="/review"', html)
+
+    def test_advanced_search_filters_by_label_and_catalog_number(self):
+        release = m.db.session.get(m.Release, 1)
+        release.labels.append(m.db.session.get(m.Label, 1))
+        release.catno = "RS 9242"
+        m.db.session.commit()
+        page = self.client.get("/search/advanced").get_data(as_text=True)
+        self.assertIn('action="/search"', page)
+        self.assertEqual([row.id for row in m.search_releases("", label="Example").items], [1])
+        self.assertEqual([row.id for row in m.search_releases("", catno="9242").items], [1])
+        self.assertEqual([row.id for row in m.search_releases("", catno="0000").items], [])
+        self.assertEqual(self.client.get("/search?label=Example&type=all").status_code, 200)
 
     def test_relevance_prefers_full_token_match_over_popularity(self):
         results = m.search_releases("Bob Marley").items
@@ -212,7 +401,16 @@ class AppTests(unittest.TestCase):
         self.assertEqual([row.id for row in results], [1, 2])
 
     def test_facets_preserve_other_filters(self):
+        # Facets now list only values present in the result set (live behaviour), so give
+        # the matching release the genre/style/year the query asks for.
+        release = m.db.session.get(m.Release, 1)
+        release.year = 1978
+        release.genres.append(m.db.session.get(m.Genre, 1))
+        release.styles.append(m.db.session.get(m.Style, 1))
+        m.db.session.commit()
         html = self.client.get("/search?q=Bob&genre=reggae&year=1978").get_data(as_text=True)
+        self.assertIn("Search results for Bob", html)
+        self.assertIn("Release (1)", html)
         from html.parser import HTMLParser
         from urllib.parse import parse_qs, urlsplit
 

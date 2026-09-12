@@ -442,6 +442,92 @@ def load_user(uid):
     return User.query.get(int(uid))
 
 
+def nav_groups():
+    """Header menu groups mirroring the live Discogs secondary navigation.
+
+    Every destination is local. Live items without a data-backed equivalent
+    map to local informational pages instead of being dropped.
+    """
+    def item(label, href):
+        return {"label": label, "href": href}
+    return [
+        {"label": "Explore Discography", "align": "left", "items": [
+            item("Explore All", url_for("search")),
+            item("Advanced Search", url_for("search_advanced")),
+            item("Most Collected", url_for("search", sort="have", type="release")),
+            item("Submit a Release", "/release/add"),
+            item("Submission Guidelines", "/guidelines/submissions"),
+        ]},
+        {"label": "Shop Music", "align": "left", "items": [
+            item("Shop My Wants", url_for("shop_my_wants")),
+            item("New & Upcoming", url_for("search", sort="newest")),
+            item("Vinyl", url_for("marketplace", format="Vinyl")),
+            item("CD", url_for("marketplace", format="CD")),
+            item("Cassette", url_for("marketplace", format="Cassette")),
+            item("All Formats", url_for("marketplace")),
+        ]},
+        {"label": "Sell Music", "align": "left", "items": [
+            item("List Item For Sale", url_for("sell")),
+            item("Start Selling", "/selling/resources#start"),
+            item("How To Grade", "/selling/resources#grade"),
+            item("How To Price", "/selling/resources#price"),
+            item("How To Pack & Ship", "/selling/resources#pack"),
+            item("More Seller Resources", "/selling/resources"),
+            item("Seller News & Updates", "/selling/resources#updates"),
+        ]},
+        {"label": "Community", "align": "left", "items": [
+            item("Forum", url_for("forum_index")),
+            item("Groups", url_for("groups")),
+            item("List Explorer", url_for("lists_index")),
+            item("Discography Contributors", url_for("contributors")),
+            item("Monthly Leaderboard", url_for("leaderboard")),
+            item("Community Guidelines", "/guidelines/community"),
+        ]},
+        {"label": "Digs", "align": "right", "items": [
+            item("Essentials", "/digs#essentials"),
+            item("Features", "/digs#features"),
+            item("Most Valuable", "/digs#most-valuable"),
+            item("Collecting", "/digs#collecting"),
+            item("Audio Gear", "/digs#audio-gear"),
+        ]},
+    ]
+
+
+def footer_columns():
+    """Footer columns mirroring the live Discogs footer labels with local targets."""
+    def item(label, href, dialog=None):
+        return {"label": label, "href": href, "dialog": dialog}
+    return [
+        {"title": "About", "items": [
+            item("Get Started", "/about/get-started"),
+            item("What is Discogs?", "/about/about"),
+            item("Discography", "/about/features/discography"),
+            item("Marketplace", "/about/features/music-marketplace"),
+            item("Collection", "/about/features/collection"),
+            item("Wantlist", "/about/features/wantlist"),
+            item("Statistics", "/about/features/sales-history"),
+            item("Careers", "/about/careers"),
+        ]},
+        {"title": "Community", "items": [
+            item("Community Guidelines", "/guidelines/community"),
+            item("Community Advisory", "/about/get-involved/community-advisory"),
+            item("Contributor List", url_for("contributors")),
+            item("Add Release", "/release/add"),
+            item("Developer API", "/developers"),
+            item("Help Translate", url_for("forum_view", slug="help")),
+        ]},
+        {"title": "Help & Resources", "items": [
+            item("Help Center", "/help"),
+            item("Seller Resource Center", "/selling/resources"),
+            item("Submission Guidelines", "/guidelines/submissions"),
+            item("Trust Center", "/about/trust"),
+            item("Forum", url_for("forum_index")),
+            item("System Status", "/status"),
+            item("Keyboard Shortcuts", "#", dialog="shortcuts"),
+        ]},
+    ]
+
+
 @app.context_processor
 def inject_globals():
     return {
@@ -449,6 +535,8 @@ def inject_globals():
         "now": datetime.utcnow(),
         "grades": GRADES,
         "folders": COLLECTION_FOLDERS,
+        "nav_groups": nav_groups(),
+        "footer_columns": footer_columns(),
     }
 
 
@@ -485,7 +573,8 @@ def return_to_page(fallback):
 @app.template_global()
 def search_url(**changes):
     params = {key: value for key, value in request.args.items()
-              if key in {"q", "type", "genre", "style", "format", "year", "country", "sort"}}
+              if key in {"q", "type", "genre", "style", "format", "year", "country", "sort",
+                         "label", "catno", "barcode"}}
     params.update(changes)
     return url_for("search", **{key: value for key, value in params.items() if value is not None})
 
@@ -523,9 +612,16 @@ def paginate(query, page, per_page=25):
     return SimpleNamespace(items=items, page=page, pages=pages, total=total, per_page=per_page)
 
 
-def search_releases(q, genre=None, style=None, format_=None, year=None, country=None,
-                    sort="relevance", page=1, per_page=25):
+def release_query(q, genre=None, style=None, format_=None, year=None, country=None,
+                  label=None, catno=None, barcode=None):
+    """Unsorted release query for a search; shared by results and facet counts."""
     qs = Release.query
+    if label:
+        qs = qs.filter(Release.labels.any(Label.name.ilike(f"%{label.strip()}%")))
+    if catno:
+        qs = qs.filter(Release.catno.ilike(f"%{catno.strip()}%"))
+    if barcode:
+        qs = qs.filter(Release.barcode.ilike(f"%{barcode.strip()}%"))
     relevance = None
     if q:
         terms = [t for t in re.split(r"\s+", q.strip()) if t]
@@ -549,6 +645,40 @@ def search_releases(q, genre=None, style=None, format_=None, year=None, country=
             pass
     if country:
         qs = qs.filter(Release.country.ilike(country))
+    return qs, relevance
+
+
+def search_facets(base, limit=15):
+    """Facet values with counts inside the current result set (live search sidebar)."""
+    ids = db.session.query(base.order_by(None).with_entities(Release.id).distinct().subquery().c.id)
+
+    def grouped(model, assoc, column):
+        rows = db.session.query(model.name, model.slug, func.count(assoc.c.release_id)) \
+            .join(assoc, model.id == getattr(assoc.c, column)) \
+            .filter(assoc.c.release_id.in_(ids)) \
+            .group_by(model.id).order_by(func.count(assoc.c.release_id).desc(), model.name) \
+            .limit(limit).all()
+        return [{"name": name, "slug": slug, "count": count} for name, slug, count in rows]
+
+    countries = db.session.query(Release.country, func.count(Release.id)) \
+        .filter(Release.id.in_(ids), Release.country != "") \
+        .group_by(Release.country).order_by(func.count(Release.id).desc(), Release.country).limit(limit).all()
+    years = db.session.query(Release.year, func.count(Release.id)) \
+        .filter(Release.id.in_(ids), Release.year.isnot(None)) \
+        .group_by(Release.year).order_by(func.count(Release.id).desc(), Release.year.desc()).limit(limit).all()
+    return {
+        "genre": grouped(Genre, release_genres, "genre_id"),
+        "style": grouped(Style, release_styles, "style_id"),
+        "format": grouped(Format, release_formats, "format_id"),
+        "country": [{"name": c, "slug": c, "count": n} for c, n in countries],
+        "year": [{"name": str(y), "slug": str(y), "count": n} for y, n in years],
+    }
+
+
+def search_releases(q, genre=None, style=None, format_=None, year=None, country=None,
+                    sort="relevance", page=1, per_page=25, label=None, catno=None, barcode=None):
+    qs, relevance = release_query(q, genre=genre, style=style, format_=format_, year=year,
+                                  country=country, label=label, catno=catno, barcode=barcode)
     if sort == "newest":
         qs = qs.order_by(Release.added_at.desc().nullslast())
     elif sort == "year_desc":
@@ -574,29 +704,47 @@ def search_releases(q, genre=None, style=None, format_=None, year=None, country=
 # Routes — public
 # ──────────────────────────────────────────────
 
+CAROUSEL_SIZE = 14  # the live homepage carousels carry 14 cards each
+
+
+def most_valuable_releases(limit=CAROUSEL_SIZE):
+    """Releases ranked by the highest current USD asking price in the benchmark marketplace."""
+    top_price = db.session.query(Listing.release_id.label("release_id"),
+                                 func.max(Listing.price).label("top")) \
+        .filter(Listing.status == "For Sale", Listing.currency == "USD") \
+        .group_by(Listing.release_id).subquery()
+    return Release.query.join(top_price, top_price.c.release_id == Release.id) \
+        .order_by(top_price.c.top.desc(), Release.id).limit(limit).all()
+
+
+def best_selling_releases(limit=CAROUSEL_SIZE):
+    """Releases with the most active benchmark listings, then the most wants.
+
+    The snapshot has no sales ledger, so the ranking is synthetic marketplace demand.
+    """
+    return Release.query.filter(Release.num_for_sale > 0) \
+        .order_by(Release.num_for_sale.desc(), Release.want_count.desc(), Release.id) \
+        .limit(limit).all()
+
+
+def most_collected_releases(limit=CAROUSEL_SIZE):
+    return Release.query.order_by(Release.have_count.desc(), Release.id).limit(limit).all()
+
+
 @app.route("/")
 def index():
-    new_arrivals = Release.query.order_by(Release.added_at.desc()).limit(8).all()
-    top_rated = Release.query.filter(Release.rating_count >= 3) \
-                              .order_by(Release.avg_rating.desc(), Release.rating_count.desc()) \
-                              .limit(8).all()
-    most_collected = Release.query.order_by(Release.have_count.desc()).limit(8).all()
-    most_wanted = Release.query.order_by(Release.want_count.desc()).limit(8).all()
-    recent_lists = List.query.filter_by(is_public=True).order_by(List.created_at.desc()).limit(6).all()
-    forums = Forum.query.order_by(Forum.id).limit(8).all()
     return render_template("index.html",
-                           new_arrivals=new_arrivals,
-                           top_rated=top_rated,
-                           most_collected=most_collected,
-                           most_wanted=most_wanted,
-                           recent_lists=recent_lists,
-                           forums=forums)
+                           best_selling=best_selling_releases(),
+                           most_valuable=most_valuable_releases(),
+                           most_collected=most_collected_releases())
 
 
 @app.route("/search")
 def search():
     q = request.args.get("q", "").strip()
     type_ = request.args.get("type", "release")
+    if type_ not in ("artist", "label"):
+        type_ = "release"  # the header's "All" category searches releases here
     sort = request.args.get("sort", "relevance")
     page = request.args.get("page", 1, type=int)
     filters = {
@@ -605,6 +753,9 @@ def search():
         "format_": request.args.get("format"),
         "year": request.args.get("year"),
         "country": request.args.get("country"),
+        "label": request.args.get("label"),
+        "catno": request.args.get("catno"),
+        "barcode": request.args.get("barcode"),
     }
     results = None
     artists = labels = []
@@ -628,17 +779,22 @@ def search():
     else:
         results = search_releases(q, sort=sort, page=page, **filters)
 
-    facet_genres = Genre.query.order_by(Genre.name).all()
-    facet_styles = Style.query.order_by(Style.name).limit(40).all()
-    facet_formats = Format.query.order_by(Format.name).all()
+    # Live search tabs show a count per entity type; facets count inside the results.
+    terms = [t for t in re.split(r"\s+", q) if t]
+    base, _ = release_query(q, **filters)
+    counts = {
+        "release": base.order_by(None).with_entities(Release.id).distinct().count(),
+        "artist": (Artist.query.filter(or_(*[Artist.name.ilike(f"%{t}%") for t in terms]))
+                   if terms else Artist.query).count(),
+        "label": (Label.query.filter(or_(*[Label.name.ilike(f"%{t}%") for t in terms]))
+                  if terms else Label.query).count(),
+    }
+    facets = search_facets(base) if type_ == "release" else {}
     return render_template("search.html",
                            q=q, type_=type_, sort=sort,
                            results=results, artists=artists, labels=labels,
                            entity_pagination=entity_pagination,
-                           filters=filters,
-                           facet_genres=facet_genres,
-                           facet_styles=facet_styles,
-                           facet_formats=facet_formats)
+                           filters=filters, counts=counts, facets=facets)
 
 
 @app.route("/release/<int:rid>")
@@ -664,9 +820,17 @@ def release_detail(rid, slug=None):
             user_id=current_user.id, release_id=r.id).first() is not None
         ur = Rating.query.filter_by(user_id=current_user.id, release_id=r.id).first()
         user_state["my_rating"] = ur.value if ur else 0
+    usd_prices = [l.price for l in listings if l.currency == "USD"]
+    sale_stats = {
+        "count": len(listings),
+        "low": min(usd_prices) if usd_prices else None,
+        "high": max(usd_prices) if usd_prices else None,
+    }
+    versions_total = Release.query.filter(Release.master_id == r.master_id).count() if r.master_id else 1
     return render_template("release.html",
                            r=r, reviews=reviews, rating_hist=rating_hist,
                            listings=listings, other_versions=other_versions,
+                           versions_total=versions_total, sale_stats=sale_stats,
                            related=related, user_state=user_state)
 
 
@@ -767,9 +931,17 @@ def explore():
 @app.route("/lists")
 def lists_index():
     page = request.args.get("page", 1, type=int)
-    q = List.query.filter_by(is_public=True).order_by(List.created_at.desc())
-    pag = paginate(q, page, 20)
-    return render_template("lists.html", pag=pag)
+    search = request.args.get("q", "").strip()
+    q = List.query.filter_by(is_public=True)
+    if search:
+        q = q.filter(List.title.ilike(f"%{search}%"))
+    pag = paginate(q.order_by(List.created_at.desc()), page, 20)
+    # "Lists We Like": the fullest public lists, each with the cover of its first release.
+    item_counts = db.session.query(ListItem.list_id, func.count(ListItem.id).label("n")) \
+        .group_by(ListItem.list_id).subquery()
+    featured = List.query.join(item_counts, item_counts.c.list_id == List.id) \
+        .filter(List.is_public.is_(True)).order_by(item_counts.c.n.desc(), List.id).limit(5).all()
+    return render_template("lists.html", pag=pag, search=search, featured=featured)
 
 
 @app.route("/list/<int:lid>")
@@ -830,6 +1002,12 @@ def marketplace():
     sort = request.args.get("sort", "price_asc")
     media = request.args.get("media", "")  # e.g. "Near Mint (NM or M-)"
     genre = request.args.get("genre", "")
+    format_ = request.args.get("format", "")  # live: /sell/list?format=Vinyl
+    ships_from = request.args.get("ships_from", "")
+    year = request.args.get("year", type=int)
+    price_min = request.args.get("price_min", type=float)
+    price_max = request.args.get("price_max", type=float)
+    text = request.args.get("q", "").strip()
     currency = request.args.get("currency", "USD")
     if currency not in CURRENCIES:
         currency = "USD"
@@ -840,6 +1018,24 @@ def marketplace():
         q = q.join(release_genres, Release.id == release_genres.c.release_id) \
              .join(Genre, Genre.id == release_genres.c.genre_id) \
              .filter(Genre.slug == genre)
+    if format_:
+        q = q.join(release_formats, Release.id == release_formats.c.release_id) \
+             .join(Format, Format.id == release_formats.c.format_id) \
+             .filter(or_(Format.slug == format_, Format.name == format_))
+    if ships_from:
+        q = q.filter(Listing.shipping_from == ships_from)
+    if year:
+        q = q.filter(Release.year == year)
+    if price_min is not None:
+        q = q.filter(Listing.price >= price_min)
+    if price_max is not None:
+        q = q.filter(Listing.price < price_max)
+    if text:
+        terms = [t for t in re.split(r"\s+", text) if t]
+        for term in terms:
+            q = q.filter(or_(Release.title.ilike(f"%{term}%"), Release.artist_credit.ilike(f"%{term}%"),
+                             Release.credited_artists.any(Artist.name.ilike(f"%{term}%"))))
+    facets = marketplace_facets(q)
     if sort == "price_desc":
         q = q.order_by(Listing.price.desc())
     elif sort == "newest":
@@ -848,9 +1044,79 @@ def marketplace():
         q = q.order_by(Listing.price.asc())
     pag = paginate(q.distinct(), page, 30)
     genres = Genre.query.order_by(Genre.name).all()
+    formats = Format.query.order_by(Format.name).all()
+    selected = {"currency": currency, "media": media, "genre": genre, "format": format_,
+                "ships_from": ships_from, "year": year, "price_min": price_min, "price_max": price_max, "q": text}
     return render_template("marketplace.html", pag=pag, sort=sort,
-                           media=media, genre=genre, currency=currency,
-                           currencies=CURRENCIES, grades=GRADES, genres=genres)
+                           media=media, genre=genre, format_=format_, currency=currency,
+                           currencies=CURRENCIES, grades=GRADES, genres=genres, formats=formats,
+                           facets=facets, selected=selected)
+
+
+PRICE_BUCKETS = [("Less than $5", None, 5.0), ("$5 - $10", 5.0, 10.0), ("$10 - $15", 10.0, 15.0),
+                 ("$15 - $20", 15.0, 20.0), ("$20 - $40", 20.0, 40.0), ("More than $40", 40.0, None)]
+
+
+def marketplace_facets(base, limit=8):
+    """Facet counts inside the current marketplace result set (live sidebar)."""
+    ids = db.session.query(base.order_by(None).with_entities(Listing.id).distinct().subquery().c.id)
+    listing_release = db.session.query(Listing.release_id).filter(Listing.id.in_(ids))
+
+    def rows(query):
+        return [{"name": name, "count": count} for name, count in query.all()]
+
+    ships = rows(db.session.query(Listing.shipping_from, func.count(Listing.id))
+                 .filter(Listing.id.in_(ids)).group_by(Listing.shipping_from)
+                 .order_by(func.count(Listing.id).desc(), Listing.shipping_from).limit(limit))
+    media = rows(db.session.query(Listing.media_condition, func.count(Listing.id))
+                 .filter(Listing.id.in_(ids)).group_by(Listing.media_condition)
+                 .order_by(func.count(Listing.id).desc()))
+    formats = [{"name": name, "slug": slug, "count": count} for name, slug, count in
+               db.session.query(Format.name, Format.slug, func.count(release_formats.c.release_id))
+               .join(release_formats, Format.id == release_formats.c.format_id)
+               .filter(release_formats.c.release_id.in_(listing_release))
+               .group_by(Format.id).order_by(func.count(release_formats.c.release_id).desc()).limit(limit).all()]
+    genres = [{"name": name, "slug": slug, "count": count} for name, slug, count in
+              db.session.query(Genre.name, Genre.slug, func.count(release_genres.c.release_id))
+              .join(release_genres, Genre.id == release_genres.c.genre_id)
+              .filter(release_genres.c.release_id.in_(listing_release))
+              .group_by(Genre.id).order_by(func.count(release_genres.c.release_id).desc()).limit(limit).all()]
+    years = rows(db.session.query(Release.year, func.count(Listing.id))
+                 .join(Listing, Listing.release_id == Release.id)
+                 .filter(Listing.id.in_(ids), Release.year.isnot(None))
+                 .group_by(Release.year).order_by(func.count(Listing.id).desc(), Release.year.desc()).limit(limit))
+    prices = []
+    for label, low, high in PRICE_BUCKETS:
+        bucket = base.order_by(None)
+        if low is not None:
+            bucket = bucket.filter(Listing.price >= low)
+        if high is not None:
+            bucket = bucket.filter(Listing.price < high)
+        prices.append({"name": label, "count": bucket.with_entities(Listing.id).distinct().count(),
+                       "min": low, "max": high})
+    return {"ships_from": ships, "media": media, "format": formats, "genre": genres, "year": years,
+            "price": prices}
+
+
+@app.route("/shop/mywants")
+@login_required
+def shop_my_wants():
+    """Live: /shop/mywants — marketplace listings for releases on the user's wantlist."""
+    page = request.args.get("page", 1, type=int)
+    currency = request.args.get("currency", "USD")
+    if currency not in CURRENCIES:
+        currency = "USD"
+    q = Listing.query.filter_by(status="For Sale", currency=currency).join(Release) \
+        .join(WantlistItem, WantlistItem.release_id == Release.id) \
+        .filter(WantlistItem.user_id == current_user.id) \
+        .order_by(Listing.price.asc())
+    pag = paginate(q.distinct(), page, 30)
+    return render_template("marketplace.html", pag=pag, sort="price_asc", media="", genre="",
+                           format_="", currency=currency, currencies=CURRENCIES, grades=GRADES,
+                           genres=Genre.query.order_by(Genre.name).all(),
+                           formats=Format.query.order_by(Format.name).all(),
+                           heading="Shop My Wants",
+                           intro="Copies of releases on your wantlist that benchmark sellers currently offer.")
 
 
 @app.route("/sell", methods=["GET", "POST"])
@@ -1094,7 +1360,71 @@ def review_post():
 @app.route("/forum")
 def forum_index():
     forums = Forum.query.order_by(Forum.id).all()
-    return render_template("forum_index.html", forums=forums)
+    stats = {}
+    for f in forums:
+        thread_ids = db.session.query(Thread.id).filter(Thread.forum_id == f.id)
+        stats[f.id] = {
+            "threads": f.threads.count(),
+            "posts": Post.query.filter(Post.thread_id.in_(thread_ids)).count(),
+            "users": db.session.query(func.count(func.distinct(Post.user_id)))
+                .filter(Post.thread_id.in_(thread_ids)).scalar() or 0,
+        }
+    return render_template("forum_index.html", forums=forums, stats=stats, tab="topics")
+
+
+def render_thread_list(title, query, tab, intro=None):
+    page = request.args.get("page", 1, type=int)
+    pag = paginate(query, page, 25)
+    return render_template("forum_threads.html", heading=title, pag=pag, tab=tab, intro=intro,
+                           query_text=request.args.get("query", ""))
+
+
+@app.route("/forum/recent")
+def forum_recent():
+    latest = db.session.query(Post.thread_id, func.max(Post.created_at).label("last")) \
+        .group_by(Post.thread_id).subquery()
+    query = Thread.query.outerjoin(latest, latest.c.thread_id == Thread.id) \
+        .order_by(func.coalesce(latest.c.last, Thread.created_at).desc())
+    return render_thread_list("Recent Thread Activity", query, "recent")
+
+
+@app.route("/forum/search")
+def forum_search():
+    text = request.args.get("query", "").strip()
+    query = Thread.query.order_by(Thread.created_at.desc())
+    if text:
+        matching = db.session.query(Post.thread_id).filter(Post.body.ilike(f"%{text}%"))
+        query = query.filter(or_(Thread.title.ilike(f"%{text}%"), Thread.id.in_(matching)))
+    return render_thread_list(f"Forum Search: {text}" if text else "Forum Search", query, "search")
+
+
+@app.route("/forum/posted")
+@login_required
+def forum_posted():
+    posted = db.session.query(Post.thread_id).filter(Post.user_id == current_user.id)
+    query = Thread.query.filter(Thread.id.in_(posted)).order_by(Thread.created_at.desc())
+    return render_thread_list("Threads You Posted In", query, "posted")
+
+
+@app.route("/forum/started")
+@login_required
+def forum_started():
+    query = Thread.query.filter(Thread.user_id == current_user.id).order_by(Thread.created_at.desc())
+    return render_thread_list("Threads You Started", query, "started")
+
+
+@app.route("/forum/saved")
+@login_required
+def forum_saved():
+    return render_thread_list("Saved Threads", Thread.query.filter(False), "saved",
+                              intro="Saving threads is not available in this offline mirror.")
+
+
+@app.route("/forum/watched")
+@login_required
+def forum_watched():
+    return render_thread_list("Watched Threads", Thread.query.filter(False), "watched",
+                              intro="Thread notifications are not available in this offline mirror.")
 
 
 @app.route("/forum/<slug>")
@@ -1110,7 +1440,10 @@ def forum_view(slug):
 def thread_view(tid):
     t = Thread.query.get_or_404(tid)
     posts = t.posts.order_by(Post.created_at.asc()).all()
-    return render_template("thread.html", t=t, posts=posts)
+    poster_ids = {p.user_id for p in posts}
+    post_counts = dict(db.session.query(Post.user_id, func.count(Post.id))
+                       .filter(Post.user_id.in_(poster_ids)).group_by(Post.user_id).all()) if poster_ids else {}
+    return render_template("thread.html", t=t, posts=posts, post_counts=post_counts)
 
 
 @app.route("/thread/<int:tid>/reply", methods=["POST"])
@@ -1214,6 +1547,230 @@ def settings():
         flash("Profile updated.", "success")
         return redirect(url_for("settings"))
     return render_template("settings.html")
+
+
+# ──────────────────────────────────────────────
+# Navigation destinations mirrored from the live site
+# ──────────────────────────────────────────────
+
+@app.route("/search/advanced")
+def search_advanced():
+    return render_template("search_advanced.html",
+                           genres=Genre.query.order_by(Genre.name).all(),
+                           styles=Style.query.order_by(Style.name).all(),
+                           formats=Format.query.order_by(Format.name).all())
+
+
+@app.route("/digs")
+def digs():
+    essentials = Release.query.filter(Release.rating_count >= 1) \
+        .order_by(Release.avg_rating.desc(), Release.rating_count.desc(), Release.id).limit(8).all()
+    return render_template("digs.html", essentials=essentials,
+                           most_valuable=most_valuable_releases(8),
+                           collecting=most_collected_releases(8))
+
+
+@app.route("/group")
+def groups():
+    return render_template("group.html", forums=Forum.query.order_by(Forum.id).all())
+
+
+def community_rows():
+    rows = []
+    for user in User.query.order_by(User.id).all():
+        counts = {
+            "reviews": Review.query.filter_by(user_id=user.id).count(),
+            "lists": List.query.filter_by(user_id=user.id, is_public=True).count(),
+            "listings": Listing.query.filter_by(user_id=user.id, status="For Sale").count(),
+            "collection": CollectionItem.query.filter_by(user_id=user.id).count(),
+            "wantlist": WantlistItem.query.filter_by(user_id=user.id).count(),
+        }
+        counts["total"] = sum(counts.values())
+        counts["user"] = user
+        rows.append(counts)
+    rows.sort(key=lambda row: (-row["total"], row["user"].username))
+    return rows
+
+
+@app.route("/stats/contributors")
+def contributors():
+    return render_template("community_stats.html", heading="Discography Contributors",
+                           intro="Benchmark accounts ranked by their activity in this snapshot.",
+                           rows=community_rows())
+
+
+@app.route("/leaderboard")
+def leaderboard():
+    return render_template("community_stats.html", heading="Monthly Leaderboard",
+                           intro="Ranking of benchmark accounts by contributions recorded in this snapshot.",
+                           rows=community_rows()[:25])
+
+
+@app.route("/selling/resources")
+def selling_resources():
+    return render_template("selling_resources.html")
+
+
+INFO_PAGES = {
+    "/about/get-started": {
+        "title": "Get Started",
+        "lead": "Discogs is a user-built database of music releases and a marketplace for buying and selling them.",
+        "body": ["Create a free account to catalogue your collection, keep a wantlist, build lists, rate and review releases, post in the forum and list items for sale.",
+                 "Every feature works locally in this offline mirror; nothing is sent to discogs.com."],
+        "links": [("Create an account", "/register"), ("Explore the database", "/search"), ("Browse the Marketplace", "/marketplace")],
+    },
+    "/about/about": {
+        "title": "What is Discogs?",
+        "lead": "Discogs is the largest crowd-sourced music database and marketplace.",
+        "body": ["This mirror contains verified release metadata and cover images captured from Discogs, plus synthetic benchmark users, collections, wantlists, lists, reviews, listings and forum posts."],
+        "links": [("Explore Discography", "/explore"), ("Community forum", "/forum")],
+    },
+    "/about/features/discography": {
+        "title": "Discography",
+        "lead": "Every release page records the label, catalog number, format, country, year, genres, styles, tracklist, credits and identifiers.",
+        "body": ["Use search or the Explore pages to browse by genre, style or format, and open a release to read its full details."],
+        "links": [("Explore Discography", "/explore"), ("Advanced Search", "/search/advanced")],
+    },
+    "/about/features/music-marketplace": {
+        "title": "Marketplace",
+        "lead": "Buy and sell physical music with sellers around the world.",
+        "body": ["Marketplace listings in this mirror come from benchmark seller accounts. Filter by format, media condition, genre and currency, and sort by price or listing date."],
+        "links": [("Browse the Marketplace", "/marketplace"), ("List Item For Sale", "/sell")],
+    },
+    "/about/features/collection": {
+        "title": "Collection",
+        "lead": "Keep track of the records you own.",
+        "body": ["Add a release to your collection from its release page, choose a folder and grade, and review everything from your profile."],
+        "links": [("Log in", "/login")],
+    },
+    "/about/features/wantlist": {
+        "title": "Wantlist",
+        "lead": "Track the releases you are looking for.",
+        "body": ["Add a release to your wantlist with a minimum grade, then use Shop My Wants to find copies offered by sellers."],
+        "links": [("Shop My Wants", "/shop/mywants")],
+    },
+    "/about/features/sales-history": {
+        "title": "Statistics",
+        "lead": "Marketplace sales history and price statistics.",
+        "body": ["Sales history is not part of this snapshot. Current asking prices are shown on each release page and in the Marketplace."],
+        "links": [("Browse the Marketplace", "/marketplace")],
+    },
+    "/about/careers": {
+        "title": "Careers",
+        "lead": "Discogs job openings.",
+        "body": ["No job listings are included in this offline mirror."],
+        "links": [],
+    },
+    "/about/get-involved/community-advisory": {
+        "title": "Community Advisory",
+        "lead": "The Community Advisory Turntable gathers contributor feedback on database and marketplace changes.",
+        "body": ["In this mirror, community discussion happens in the forum."],
+        "links": [("Community forum", "/forum")],
+    },
+    "/about/trust": {
+        "title": "Trust Center",
+        "lead": "How Discogs protects buyers, sellers and contributors.",
+        "body": ["This offline mirror stores no payment details and performs no real transactions."],
+        "links": [("Community Guidelines", "/guidelines/community")],
+    },
+    "/about/app": {
+        "title": "Discogs App",
+        "lead": "Take your collection anywhere on the Discogs App.",
+        "body": ["App store links are disabled in this offline mirror. Use the website to manage your collection, wantlist and lists."],
+        "links": [("Log in", "/login")],
+    },
+    "/developers": {
+        "title": "Developer API",
+        "lead": "Discogs offers a REST API for release, artist, label and marketplace data.",
+        "body": ["The API is not exposed by this offline mirror."],
+        "links": [],
+    },
+    "/help": {
+        "title": "Help Center",
+        "lead": "Answers to common questions about the database, marketplace and your account.",
+        "body": ["Questions about this mirror can be posted in the Help & Feedback forum."],
+        "links": [("Help & Feedback forum", "/forum/help"), ("Seller Resource Center", "/selling/resources"),
+                  ("Submission Guidelines", "/guidelines/submissions")],
+    },
+    "/status": {
+        "title": "System Status",
+        "lead": "All services on this offline mirror are operating normally.",
+        "body": [],
+        "links": [],
+    },
+    "/release/add": {
+        "title": "Submit a Release",
+        "lead": "Contributors add new releases to the database through the submission form.",
+        "body": ["Submissions are disabled in this offline mirror because the catalog is a verified snapshot. Existing releases can still be rated, reviewed, collected and listed for sale."],
+        "links": [("Submission Guidelines", "/guidelines/submissions"), ("Explore Discography", "/explore")],
+    },
+    "/guidelines/submissions": {
+        "title": "Submission Guidelines",
+        "lead": "Overview of the rules for adding and editing releases.",
+        "body": ["Enter data exactly as it appears on the release, keep artist and label names consistent with existing entries, list every format detail, and cite catalog numbers and barcodes from the physical item.",
+                 "This mirror is read-only for submissions; the guidelines are provided for reference."],
+        "links": [("Submit a Release", "/release/add")],
+    },
+    "/guidelines/community": {
+        "title": "Community Guidelines",
+        "lead": "Be respectful, stay on topic and keep the database accurate.",
+        "body": ["Forum posts, reviews and list comments should be civil and relevant to music. Marketplace disputes belong in the Marketplace forum."],
+        "links": [("Community forum", "/forum")],
+    },
+    "/legal/cookie-settings": {
+        "title": "Cookie Settings",
+        "lead": "This offline mirror sets only the session cookie needed to keep you signed in.",
+        "body": ["No analytics or advertising cookies are used."],
+        "links": [("Cookie Policy", "/legal/cookie-policy")],
+    },
+    "/legal/cookie-policy": {
+        "title": "Cookie and Internet Advertising Policy",
+        "lead": "How cookies are used on this site.",
+        "body": ["Only a session cookie is used, and it never leaves this mirror."],
+        "links": [],
+    },
+    "/legal/terms-of-service": {
+        "title": "Terms of Service",
+        "lead": "Terms for using the database, marketplace and community features.",
+        "body": ["This mirror is a benchmark environment; listings are synthetic and no purchases are executed."],
+        "links": [],
+    },
+    "/legal/privacy-policy": {
+        "title": "Privacy Policy",
+        "lead": "What personal data is processed and why.",
+        "body": ["Account details entered here stay inside this offline environment and are reset with the benchmark database."],
+        "links": [],
+    },
+    "/legal/california-privacy-notice": {
+        "title": "California Privacy Notice",
+        "lead": "Additional privacy information for California residents.",
+        "body": ["No personal data is sold or shared by this offline mirror."],
+        "links": [],
+    },
+    "/legal/accessibility-statement": {
+        "title": "Accessibility Statement",
+        "lead": "Discogs aims to make its site usable with assistive technologies.",
+        "body": ["Navigation menus, forms and carousels in this mirror are keyboard accessible and labelled for screen readers."],
+        "links": [],
+    },
+    "/legal/impressum": {
+        "title": "Impressum",
+        "lead": "Legal notice.",
+        "body": ["This is an offline research mirror of Discogs used for agent benchmarking; it is not operated by Discogs."],
+        "links": [],
+    },
+}
+
+
+def info_page():
+    page = INFO_PAGES.get(request.path)
+    if page is None:
+        abort(404)
+    return render_template("info.html", page=page)
+
+
+for _index, _path in enumerate(INFO_PAGES):
+    app.add_url_rule(_path, endpoint=f"info_page_{_index}", view_func=info_page)
 
 
 # ──────────────────────────────────────────────
