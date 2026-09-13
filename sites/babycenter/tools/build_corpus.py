@@ -55,33 +55,32 @@ WEEKS = [
          body=[("pregnancy", "hCG levels double every 36 to 72 hours")],
          todo=[("gestational-age", "Such methods include adding 14 days to a known duration since fertilization")]),
     dict(week=10, stage="Fetus", title="Week 10: the embryo becomes a fetus",
-         baby=[("prenatal-development", "the developing embryo is called a fetus"),
-               ("prenatal-development", "The function is transferred to the liver by the 10th week")],
+         baby=[("prenatal-development", "the developing embryo is called a fetus")],
          body=[("pregnancy", "It ends at week 12 (11 weeks + 6 days of GA)")],
          todo=[("prenatal-testing", "Non-invasive prenatal genetic screening is typically performed")]),
     dict(week=12, stage="Fetus", title="Week 12: insulin secretion starts",
          baby=[("prenatal-development", "Insulin secretion in the fetus starts")],
-         body=[("prenatal-testing", "Birth defects have an occurrence between 1 and 6%")],
+         body=[("prenatal-testing", "Around weeks 11–13, nuchal translucency scan")],
          todo=[("prenatal-testing", "The triple test measures serum levels of AFP")]),
     dict(week=13, stage="Fetus", title="Week 13: the second trimester begins",
          baby=[("prenatal-development", "Allometric growth is observed during the first trimester")],
          body=[("pregnancy", "The second trimester is defined as starting")],
          todo=[("prenatal-testing", "amniocentesis, which can be done from about 14 weeks gestation")]),
     dict(week=15, stage="Fetus", title="Week 15: the quad test window opens",
-         baby=[("pregnancy", "Counting by fertilization age, the length is about 38 weeks")],
+         baby=[("prenatal-testing", "during the beginning of the second trimester (15–20 weeks)")],
          body=[("prenatal-care", "Obstetric ultrasounds are most commonly performed")],
          todo=[("prenatal-testing", "81% sensitivity and 5% false-positive rate")]),
     dict(week=18, stage="Fetus", title="Week 18: the anomaly scan window",
-         baby=[("prenatal-development", "between the sensory cortex and thalamus develop as early as 24 weeks")],
-         body=[("prenatal-testing", "This offers an 85–88% sensitivity")],
+         baby=[("prenatal-testing", "this ultrasound is performed as a matter of routine prenatal care")],
+         body=[("prenatal-testing", "The First Trimester Combined Test and the Triple/Quad test together")],
          todo=[("prenatal-testing", "The anomaly scan is performed between 18 and 22 weeks")]),
     dict(week=20, stage="Fetus", title="Week 20: the halfway mark",
-         baby=[("gestational-age", "It is rare for a baby weighing less than 500 g")],
+         baby=[("prenatal-care", "Obstetric ultrasounds are most commonly performed during the second trimester")],
          body=[("pregnancy", "Women who have never carried a pregnancy more than 20 weeks")],
-         todo=[("prenatal-testing", "in Poland, the deadline for DPN is 22 weeks")]),
+         todo=[("prenatal-testing", "A second-trimester Quad blood test may be taken")]),
     dict(week=22, stage="Fetus", title="Week 22: the perinatal period begins",
          baby=[("prenatal-development", "it is considered from 22 completed weeks")],
-         body=[("gestational-age", "vaginal bleeding occurs during 15–25% of first trimester pregnancies")],
+         body=[("gestational-age", "The WHO defines the perinatal period")],
          todo=[("prenatal-care", "Assessment of parental needs and family dynamics")]),
     dict(week=23, stage="Fetus", title="Week 23: the edge of viability",
          baby=[("gestational-age", "20 to 35 percent of babies born at 23 weeks")],
@@ -96,7 +95,7 @@ WEEKS = [
          body=[("gestational-age", "After 26 weeks the rate of survival increases at a much slower rate")],
          todo=[("prenatal-care", "fortnightly visits from the 28th week to the 36th week")]),
     dict(week=28, stage="Fetus", title="Week 28: the third trimester begins",
-         baby=[("prenatal-development", "The total blood volume is about 125 ml/kg")],
+         baby=[("pregnancy", "At 28 weeks, more than 90% of babies can survive")],
          body=[("gestational-age", "extremely preterm (fewer than 28 weeks)")],
          todo=[("prenatal-development", "the starting point of this period is considered 28 completed weeks")]),
     dict(week=30, stage="Fetus", title="Week 30: REM sleep appears",
@@ -104,7 +103,7 @@ WEEKS = [
          body=[("gestational-age", "childbirth has a standard deviation of 14 days")],
          todo=[("prenatal-testing", "Vaginal screening for GBS is performed")]),
     dict(week=34, stage="Fetus", title="Week 34: group B strep screening",
-         baby=[("prenatal-development", "The proportion of REM sleep is progressively reduced")],
+         baby=[("prenatal-testing", "Vaginal screening for GBS is performed between 34 and 37 weeks")],
          body=[("pregnancy", "Babies born before 37 weeks are preterm")],
          todo=[("prenatal-care", "weekly visits after 36th week to the delivery")]),
     dict(week=37, stage="Early term", title="Week 37: early term begins",
@@ -221,12 +220,19 @@ def sentence_at(text: str, anchor: str) -> str:
 def section_text(doc: dict, heading: str, limit: int = 1400) -> str:
     """Return the body of a named section, verbatim, trimmed to whole sentences."""
     text = doc["text"]
-    pat = re.compile(r"^=+ *" + re.escape(heading) + r" *=+$", re.M)
+    pat = re.compile(r"^(=+) *" + re.escape(heading) + r" *\1$", re.M)
     m = pat.search(text)
     if not m:
         raise LookupError(f"{doc['title']} :: section {heading!r}")
-    nxt = re.compile(r"^=+ [^=\n]+ =+$", re.M).search(text, m.end())
-    body = text[m.end(): nxt.start() if nxt else len(text)].strip()
+    level = len(m.group(1))
+    nxt = None
+    for candidate in re.finditer(r"^(=+) [^=\n]+ \1$", text[m.end():], re.M):
+        if len(candidate.group(1)) <= level:
+            nxt = candidate
+            break
+    end = m.end() + nxt.start() if nxt else len(text)
+    body = text[m.end():end].strip()
+    body = re.sub(r"^=+ *([^=\n]+?) *=+$", r"\1", body, flags=re.M)
     body = re.sub(r"\n+", "\n", body)
     if len(body) > limit:
         cut = body.rfind(". ", 0, limit)
@@ -252,7 +258,20 @@ def sub_block(section_body: str, labels: list[str], limit: int = 700) -> str:
                     if sum(len(x) for x in out) > limit:
                         break
                 if out:
-                    return " ".join(out)[:limit].strip()
+                    text = " ".join(out).strip()
+                    if len(text) <= limit and text.endswith((".", "!", "?", ")")):
+                        return text
+                    effective_limit = min(limit, len(text))
+                    sentence_ends = [
+                        text.rfind(mark, 0, effective_limit)
+                        for mark in (". ", "! ", "? ")
+                    ]
+                    cut = max(sentence_ends)
+                    if cut < 120:
+                        raise ValueError(
+                            f"cannot trim {label!r} to a whole sentence within {limit} chars"
+                        )
+                    return text[: cut + 1].strip()
     return ""
 
 
@@ -332,10 +351,17 @@ def main() -> int:
         except LookupError as e:
             problems.append(f"article {a['slug']}: {e}")
             continue
-        summary = body.split("\n")[0]
+        summary = next(
+            (line for line in body.split("\n") if len(line.strip()) >= 40),
+            body.split("\n")[0],
+        )
         if len(summary) > 260:
             cut = summary.rfind(". ", 0, 260)
             summary = summary[: cut + 1] if cut > 80 else summary[:260]
+        if len(summary.strip()) < 40 or len(body.strip()) < 120:
+            problems.append(
+                f"article {a['slug']}: section {a['section']!r} is not substantive"
+            )
         articles_out.append({
             "slug": a["slug"], "title": a["title"], "category": a["category"],
             "trimester": a["trimester"],

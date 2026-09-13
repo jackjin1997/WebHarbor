@@ -2,9 +2,9 @@
 {% block title %}Your baby at {{ month.month }} months{% endblock %}
 {% block content %}
 <section class="detail-hero">
-  <img src="{{ url_for('illustration', kind='baby', slug='month-' ~ month.month) }}" alt="Month {{ month.month }}">
+  <img src="{{ url_for('static', filename='images/baby-six-months.jpg') }}" alt="Baby development at month {{ month.month }}">
   <div><div class="eyebrow">Month {{ month.month }}</div><h1>{{ month.headline }}</h1><p>{{ month.physical or month.motor or month.communication }}</p>
-  <form method="post" action="{{ url_for('save_item', item_type='month', slug=month.month) }}"><button type="submit">Save month</button></form></div>
+  <form method="post" action="{{ url_for('save_item', item_type='month', slug=month.month) }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">Save month</button></form></div>
 </section>
 <section class="content-columns">
   <article><h2>Physical development</h2>

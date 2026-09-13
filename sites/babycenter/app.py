@@ -1,12 +1,12 @@
 """BabyCenter mirror — pregnancy and baby development workflows."""
 from __future__ import annotations
 
-import hashlib
 import json
 import os
 import re
 from datetime import date, timedelta
 from functools import wraps
+from urllib.parse import urlsplit
 
 from flask import (
     Flask,
@@ -19,6 +19,7 @@ from flask import (
     url_for,
 )
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf.csrf import CSRFProtect
 from werkzeug.security import check_password_hash, generate_password_hash
 
 
@@ -32,11 +33,33 @@ CORPUS_PATH = os.path.join(BASE_DIR, "source_data", "corpus.json")
 
 app = Flask(__name__, instance_path=os.path.join(BASE_DIR, "instance"))
 app.config["SECRET_KEY"] = "webharbor-babycenter-dev-key"
-app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{os.path.join(BASE_DIR, 'instance', 'babycenter.db')}"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+    "BABYCENTER_DATABASE_URI",
+    f"sqlite:///{os.path.join(BASE_DIR, 'instance', 'babycenter.db')}",
+)
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["MAX_CONTENT_LENGTH"] = 64 * 1024
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 db = SQLAlchemy(app)
+csrf = CSRFProtect(app)
 
 STOP_WORDS = {"the", "a", "an", "and", "or", "of", "for", "to", "in", "on", "with", "baby", "pregnancy"}
+
+ARTICLE_IMAGES = {
+    "viability-and-preterm-birth": "ultrasound.jpg",
+    "how-births-are-classified": "expecting-baby.jpg",
+    "what-prenatal-care-covers": "hero-pregnancy.jpg",
+    "prenatal-screening-explained": "ultrasound.jpg",
+    "first-second-third-trimester-screen": "ultrasound.jpg",
+    "amniocentesis": "ultrasound.jpg",
+    "chorionic-villus-sampling": "ultrasound.jpg",
+    "the-three-trimesters": "expecting-baby.jpg",
+    "fetal-growth-rate": "expecting-baby.jpg",
+    "fetal-cognitive-development": "ultrasound.jpg",
+    "breastfeeding-benefits": "breastfeeding.jpg",
+    "infant-sleep-approaches": "baby-sleep.jpg",
+}
 
 
 class User(db.Model):
@@ -112,7 +135,11 @@ def current_user() -> User | None:
 
 @app.context_processor
 def inject_common():
-    return {"current_user": current_user(), "reference_date": REFERENCE_DATE}
+    return {
+        "current_user": current_user(),
+        "reference_date": REFERENCE_DATE,
+        "article_image": lambda slug: ARTICLE_IMAGES.get(slug, "mother-newborn.jpg"),
+    }
 
 
 def login_required(view):
@@ -146,6 +173,30 @@ def scored_search(query: str, rows, fields: list[str]):
             scored.append((score, row))
     scored.sort(key=lambda item: (-item[0], getattr(item[1], "week", getattr(item[1], "month", 0))))
     return [row for _, row in scored]
+
+
+def safe_next_path(value: str | None) -> str | None:
+    if not value:
+        return None
+    parsed = urlsplit(value)
+    if parsed.scheme or parsed.netloc or not parsed.path.startswith("/"):
+        return None
+    if parsed.path.startswith("//"):
+        return None
+    return value
+
+
+def safe_referrer_path(value: str | None) -> str | None:
+    if not value:
+        return None
+    parsed = urlsplit(value)
+    if parsed.scheme not in {"", "http", "https"}:
+        return None
+    if parsed.netloc and parsed.netloc != request.host:
+        return None
+    if not parsed.path.startswith("/") or parsed.path.startswith("//"):
+        return None
+    return parsed.path + (f"?{parsed.query}" if parsed.query else "")
 
 
 def sourced_weeks() -> list[int]:
@@ -191,7 +242,19 @@ def index():
             baby_month = BabyMonth.query.filter_by(month=month).first()
     articles = Article.query.order_by(Article.id.desc()).limit(4).all()
     posts = CommunityPost.query.order_by(CommunityPost.last_active.desc()).limit(4).all()
-    return render_template("index.html", week=week, baby_month=baby_month, articles=articles, posts=posts)
+    preferred_weeks = (4, 8, 12, 18, 24, 30, 37, 42)
+    week_nav = [
+        PregnancyWeek.query.filter_by(week=week_number).first()
+        for week_number in preferred_weeks
+    ]
+    return render_template(
+        "index.html",
+        week=week,
+        baby_month=baby_month,
+        articles=articles,
+        posts=posts,
+        week_nav=[row for row in week_nav if row],
+    )
 
 
 @app.route("/pregnancy/week-by-week")
@@ -228,13 +291,15 @@ def due_date_calculator():
     result = None
     if request.method == "POST":
         last_period = request.form.get("last_period", "")
-        cycle = int(request.form.get("cycle", "28") or 28)
         try:
+            cycle = int(request.form.get("cycle", "28") or 28)
+            if not 20 <= cycle <= 45:
+                raise ValueError("cycle length")
             lmp = date.fromisoformat(last_period)
             due = lmp + timedelta(days=280 + (cycle - 28))
             result = {"due": due, "week": pregnancy_week_for_due_date(due)}
         except ValueError:
-            flash("Enter a valid last period date.", "error")
+            flash("Enter a valid date and a cycle length between 20 and 45 days.", "error")
     return render_template("due_date.html", result=result)
 
 
@@ -277,8 +342,8 @@ def community_detail(slug):
 def search():
     query = request.args.get("q", "").strip()
     article_results = scored_search(query, Article.query.all(), ["title", "category", "summary", "body"])[:8] if query else []
-    week_results = scored_search(query, PregnancyWeek.query.all(), ["headline", "baby_size", "baby_summary", "body_summary", "checklist"])[:8] if query else []
-    month_results = scored_search(query, BabyMonth.query.all(), ["headline", "milestones", "feeding", "sleep"])[:8] if query else []
+    week_results = scored_search(query, PregnancyWeek.query.all(), ["headline", "stage", "baby_summary", "body_summary", "checklist"])[:8] if query else []
+    month_results = scored_search(query, BabyMonth.query.all(), ["headline", "physical", "motor", "communication"])[:8] if query else []
     post_results = scored_search(query, CommunityPost.query.all(), ["title", "club", "body"])[:8] if query else []
     return render_template("search.html", query=query, article_results=article_results, week_results=week_results, month_results=month_results, post_results=post_results)
 
@@ -292,12 +357,60 @@ def login():
         if user and check_password_hash(user.password_hash, password):
             session["user_id"] = user.id
             flash(f"Welcome back, {user.display_name}.", "success")
-            return redirect(request.args.get("next") or url_for("account"))
+            return redirect(safe_next_path(request.args.get("next")) or url_for("account"))
         flash("Email or password did not match.", "error")
     return render_template("login.html")
 
 
-@app.route("/logout")
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        display_name = request.form.get("display_name", "").strip()
+        email = request.form.get("email", "").lower().strip()
+        password = request.form.get("password", "")
+        due_date_value = request.form.get("due_date", "")
+        errors = []
+        if not 2 <= len(display_name) <= 120:
+            errors.append("Enter a display name between 2 and 120 characters.")
+        if not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", email):
+            errors.append("Enter a valid email address.")
+        if len(password) < 8:
+            errors.append("Use a password with at least 8 characters.")
+        try:
+            due_date = date.fromisoformat(due_date_value)
+        except ValueError:
+            due_date = None
+            errors.append("Enter a valid due date.")
+        if User.query.filter_by(email=email).first():
+            errors.append("An account already uses that email address.")
+        if errors:
+            for message in errors:
+                flash(message, "error")
+            return render_template("register.html"), 400
+
+        username_base = re.sub(r"[^a-z0-9]+", "_", email.split("@", 1)[0]).strip("_") or "member"
+        username = username_base
+        suffix = 2
+        while User.query.filter_by(username=username).first():
+            username = f"{username_base}_{suffix}"
+            suffix += 1
+        user = User(
+            username=username,
+            email=email,
+            display_name=display_name,
+            password_hash=generate_password_hash(password),
+            due_date=due_date,
+            parenting_stage="Pregnancy",
+        )
+        db.session.add(user)
+        db.session.commit()
+        session["user_id"] = user.id
+        flash("Your BabyCenter profile is ready.", "success")
+        return redirect(url_for("account"))
+    return render_template("register.html")
+
+
+@app.route("/logout", methods=["POST"])
 def logout():
     session.clear()
     flash("Signed out.", "info")
@@ -312,6 +425,17 @@ def account():
     month_num = baby_month_for_birthdate(user.baby_birthdate)
     month = BabyMonth.query.filter_by(month=month_num).first() if month_num is not None else None
     saved = SavedItem.query.filter_by(user_id=user.id).all()
+    for item in saved:
+        if item.item_type == "article":
+            target = Article.query.filter_by(slug=item.item_slug).first()
+            item.display_title = target.title if target else item.item_slug
+        elif item.item_type == "post":
+            target = CommunityPost.query.filter_by(slug=item.item_slug).first()
+            item.display_title = target.title if target else item.item_slug
+        elif item.item_type == "week":
+            item.display_title = f"Pregnancy week {item.item_slug}"
+        else:
+            item.display_title = f"Baby month {item.item_slug}"
     return render_template("account.html", user=user, week=week, month=month, saved=saved)
 
 
@@ -319,15 +443,36 @@ def account():
 @login_required
 def update_tracker():
     user = current_user()
-    user.parenting_stage = request.form.get("parenting_stage", user.parenting_stage)
     try:
-        user.due_date = date.fromisoformat(request.form.get("due_date", str(user.due_date)))
+        parenting_stage = request.form.get("parenting_stage", user.parenting_stage)
+        if parenting_stage not in {"Pregnancy", "Planning for birth", "New baby", "Baby"}:
+            raise ValueError("parenting stage")
+        due_date = date.fromisoformat(request.form.get("due_date", str(user.due_date)))
         birthdate = request.form.get("baby_birthdate", "")
-        user.baby_birthdate = date.fromisoformat(birthdate) if birthdate else None
+        parsed_birthdate = date.fromisoformat(birthdate) if birthdate else None
+        if parsed_birthdate and parsed_birthdate > REFERENCE_DATE:
+            raise ValueError("future birthdate")
+        user.parenting_stage = parenting_stage
+        user.due_date = due_date
+        user.baby_birthdate = parsed_birthdate
         db.session.commit()
         flash("Tracker updated.", "success")
     except ValueError:
+        db.session.rollback()
         flash("Use valid dates in YYYY-MM-DD format.", "error")
+    return redirect(url_for("account"))
+
+
+@app.route("/account/profile", methods=["POST"])
+@login_required
+def update_profile():
+    display_name = request.form.get("display_name", "").strip()
+    if not 2 <= len(display_name) <= 120:
+        flash("Enter a display name between 2 and 120 characters.", "error")
+        return redirect(url_for("account"))
+    current_user().display_name = display_name
+    db.session.commit()
+    flash("Profile updated.", "success")
     return redirect(url_for("account"))
 
 
@@ -357,26 +502,17 @@ def save_item(item_type, slug):
         db.session.add(SavedItem(user_id=current_user().id, item_type=item_type, item_slug=slug, note=request.form.get("note", "")))
         db.session.commit()
         flash("Saved to your BabyCenter account.", "success")
-    return redirect(request.referrer or url_for("account"))
+    return redirect(safe_referrer_path(request.referrer) or url_for("account"))
 
 
-@app.route("/illustration/<kind>/<slug>.svg")
-def illustration(kind, slug):
-    # Python salts str hashes per process, so hash() here made the same URL
-    # render a different colour on every restart. Screenshot-based grading and
-    # visual baselines need this stable.
-    hue = int(hashlib.sha256((kind + slug).encode("utf-8")).hexdigest()[:6], 16) % 360
-    label = slug.replace("-", " ").title()
-    icon = "♡" if kind == "baby" else "✓"
-    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="{label}">
-<rect width="720" height="480" fill="hsl({hue}, 64%, 95%)"/>
-<circle cx="150" cy="110" r="170" fill="hsl({hue}, 68%, 62%)" opacity=".24"/>
-<circle cx="580" cy="390" r="210" fill="hsl({(hue + 62) % 360}, 68%, 52%)" opacity=".18"/>
-<rect x="185" y="120" width="350" height="240" rx="42" fill="white" opacity=".9"/>
-<text x="360" y="238" text-anchor="middle" font-family="Arial, sans-serif" font-size="86" font-weight="800" fill="hsl({hue}, 54%, 38%)">{icon}</text>
-<text x="360" y="304" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#243047">{label}</text>
-</svg>"""
-    return app.response_class(svg, mimetype="image/svg+xml")
+@app.route("/saved/<int:item_id>/remove", methods=["POST"])
+@login_required
+def remove_saved_item(item_id):
+    item = SavedItem.query.filter_by(id=item_id, user_id=current_user().id).first_or_404()
+    db.session.delete(item)
+    db.session.commit()
+    flash("Removed from saved items.", "success")
+    return redirect(url_for("account"))
 
 
 @app.route("/_health")

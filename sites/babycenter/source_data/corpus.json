@@ -179,7 +179,7 @@
      "licence": "CC-BY-SA-4.0"
     }
    ],
-   "baby_summary": "From the 10th week of gestation (8th week of development), the developing embryo is called a fetus. The function is transferred to the liver by the 10th week of gestation and to the spleen and bone marrow beyond that.",
+   "baby_summary": "From the 10th week of gestation (8th week of development), the developing embryo is called a fetus.",
    "body_summary": "It ends at week 12 (11 weeks + 6 days of GA) or end of week 14 (13 weeks + 6 days of GA).",
    "checklist": "Non-invasive prenatal genetic screening is typically performed at the end of the 1st trimester (11–14 weeks) or during the beginning of the second trimester (15–20 weeks)."
   },
@@ -202,7 +202,7 @@
     }
    ],
    "baby_summary": "Insulin secretion in the fetus starts around the 12th week of gestation.",
-   "body_summary": "Birth defects have an occurrence between 1 and 6%.",
+   "body_summary": "Around weeks 11–13, nuchal translucency scan (NT) may be offered which can be combined with blood tests for PAPP-A and beta-hCG, two serum markers that correlate with chromosomal abnormalities, in what is called the First Trimester Combined Test.",
    "checklist": "The triple test measures serum levels of AFP, estriol, and beta-hCG, with a 70% sensitivity and 5% false-positive rate."
   },
   {
@@ -239,9 +239,9 @@
    "headline": "Week 15: the quad test window opens",
    "citations": [
     {
-     "source_title": "Pregnancy",
-     "revision_id": 1373591987,
-     "permanent_url": "https://en.wikipedia.org/w/index.php?oldid=1373591987",
+     "source_title": "Prenatal testing",
+     "revision_id": 1373166707,
+     "permanent_url": "https://en.wikipedia.org/w/index.php?oldid=1373166707",
      "licence": "CC-BY-SA-4.0"
     },
     {
@@ -249,15 +249,9 @@
      "revision_id": 1372828573,
      "permanent_url": "https://en.wikipedia.org/w/index.php?oldid=1372828573",
      "licence": "CC-BY-SA-4.0"
-    },
-    {
-     "source_title": "Prenatal testing",
-     "revision_id": 1373166707,
-     "permanent_url": "https://en.wikipedia.org/w/index.php?oldid=1373166707",
-     "licence": "CC-BY-SA-4.0"
     }
    ],
-   "baby_summary": "Counting by fertilization age, the length is about 38 weeks.",
+   "baby_summary": "Non-invasive prenatal genetic screening is typically performed at the end of the 1st trimester (11–14 weeks) or during the beginning of the second trimester (15–20 weeks).",
    "body_summary": "Obstetric ultrasounds are most commonly performed during the second trimester at approximately week 20.",
    "checklist": "It is complemented in some regions of the United States, as the Quad test (adding inhibin A to the panel, resulting in an 81% sensitivity and 5% false-positive rate for detecting Down syndrome when taken at 15–18 weeks of gestational age)."
   },
@@ -267,20 +261,14 @@
    "headline": "Week 18: the anomaly scan window",
    "citations": [
     {
-     "source_title": "Prenatal development",
-     "revision_id": 1372169583,
-     "permanent_url": "https://en.wikipedia.org/w/index.php?oldid=1372169583",
-     "licence": "CC-BY-SA-4.0"
-    },
-    {
      "source_title": "Prenatal testing",
      "revision_id": 1373166707,
      "permanent_url": "https://en.wikipedia.org/w/index.php?oldid=1373166707",
      "licence": "CC-BY-SA-4.0"
     }
    ],
-   "baby_summary": "Neural connections between the sensory cortex and thalamus develop as early as 24 weeks' gestational age, but the first evidence of their function does not occur until around 30 weeks, when minimal consciousness, dreaming, and the ability to feel pain emerges.",
-   "body_summary": "This offers an 85–88% sensitivity and 5% false-positive rate for Down syndrome.",
+   "baby_summary": "The International Society of Ultrasound in Obstetrics and Gynecology (ISUOG) recommends that this ultrasound is performed as a matter of routine prenatal care, to measure the fetus so that growth abnormalities can be recognized quickly later in pregnancy, and to assess for congenital malformations and multiple pregnancies (i.e.",
+   "body_summary": "The First Trimester Combined Test and the Triple/Quad test together have a sensitivity of 88–95% with a 5% false-positive rate for Down syndrome, though they can also be analyzed in such a way as to offer a 90% sensitivity with a 2% false-positive rate.",
    "checklist": "The anomaly scan is performed between 18 and 22 weeks of gestational age."
   },
   {
@@ -289,9 +277,9 @@
    "headline": "Week 20: the halfway mark",
    "citations": [
     {
-     "source_title": "Gestational age",
-     "revision_id": 1367529758,
-     "permanent_url": "https://en.wikipedia.org/w/index.php?oldid=1367529758",
+     "source_title": "Prenatal care",
+     "revision_id": 1372828573,
+     "permanent_url": "https://en.wikipedia.org/w/index.php?oldid=1372828573",
      "licence": "CC-BY-SA-4.0"
     },
     {
@@ -307,9 +295,9 @@
      "licence": "CC-BY-SA-4.0"
     }
    ],
-   "baby_summary": "It is rare for a baby weighing less than 500 g (17.6 ounces) to survive.",
+   "baby_summary": "Obstetric ultrasounds are most commonly performed during the second trimester at approximately week 20.",
    "body_summary": "Women who have never carried a pregnancy more than 20 weeks are referred to as nulliparous.",
-   "checklist": "For instance, in Poland, the deadline for DPN is 22 weeks."
+   "checklist": "A second-trimester Quad blood test may be taken (the Triple test is widely considered obsolete but in some states, such as Missouri, where Medicaid only covers the Triple test, that's what the patient typically gets)."
   },
   {
    "week": 22,
@@ -336,7 +324,7 @@
     }
    ],
    "baby_summary": "In developed countries and at facilities where expert neonatal care is available, it is considered from 22 completed weeks (usually about 154 days) of gestation (the time when birth weight is normally 500 g) to 7 completed days after birth.",
-   "body_summary": "Also, vaginal bleeding occurs during 15–25% of first trimester pregnancies, and may be mistaken as menstruation, potentially giving an estimated gestational age that is too low.",
+   "body_summary": "The WHO defines the perinatal period as \"The perinatal period commences at 22 completed weeks (154 days) of gestation and ends seven completed days after birth.\" Perinatal mortality is the death of fetuses or neonates during the perinatal period.",
    "checklist": "Assessment of parental needs and family dynamics The WHO recommends that pregnant women receive at least eight antenatal visits to spot and treat problems and give immunizations."
   },
   {
@@ -411,9 +399,9 @@
    "headline": "Week 28: the third trimester begins",
    "citations": [
     {
-     "source_title": "Prenatal development",
-     "revision_id": 1372169583,
-     "permanent_url": "https://en.wikipedia.org/w/index.php?oldid=1372169583",
+     "source_title": "Pregnancy",
+     "revision_id": 1373591987,
+     "permanent_url": "https://en.wikipedia.org/w/index.php?oldid=1373591987",
      "licence": "CC-BY-SA-4.0"
     },
     {
@@ -421,9 +409,15 @@
      "revision_id": 1367529758,
      "permanent_url": "https://en.wikipedia.org/w/index.php?oldid=1367529758",
      "licence": "CC-BY-SA-4.0"
+    },
+    {
+     "source_title": "Prenatal development",
+     "revision_id": 1372169583,
+     "permanent_url": "https://en.wikipedia.org/w/index.php?oldid=1372169583",
+     "licence": "CC-BY-SA-4.0"
     }
    ],
-   "baby_summary": "The total blood volume is about 125 ml/kg of fetal body weight near term.",
+   "baby_summary": "At 28 weeks, more than 90% of babies can survive outside of the uterus if provided with high-quality medical care, though babies born at this time will likely experience serious health complications such as heart and respiratory problems and long-term intellectual and developmental disabilities.",
    "body_summary": "According to the WHO, a preterm birth is defined as \"babies born alive before 37 weeks of pregnancy are completed.\" According to this classification, there are three sub-categories of preterm birth, based on gestational age: extremely preterm (fewer than 28 weeks), very preterm (28 to 32 weeks), moderate to late preterm (32 to 37 weeks).",
    "checklist": "In many of the developing countries the starting point of this period is considered 28 completed weeks of gestation (or weight more than 1000 g)."
   },
@@ -461,9 +455,9 @@
    "headline": "Week 34: group B strep screening",
    "citations": [
     {
-     "source_title": "Prenatal development",
-     "revision_id": 1372169583,
-     "permanent_url": "https://en.wikipedia.org/w/index.php?oldid=1372169583",
+     "source_title": "Prenatal testing",
+     "revision_id": 1373166707,
+     "permanent_url": "https://en.wikipedia.org/w/index.php?oldid=1373166707",
      "licence": "CC-BY-SA-4.0"
     },
     {
@@ -479,7 +473,7 @@
      "licence": "CC-BY-SA-4.0"
     }
    ],
-   "baby_summary": "The proportion of REM sleep is progressively reduced to 58% by 36–38 weeks.",
+   "baby_summary": "Vaginal screening for GBS is performed between 34 and 37 weeks of gestational age, so that mothers that are positive for the bacterium can receive treatment before delivery.",
    "body_summary": "Babies born before 37 weeks are preterm and at higher risk of health problems such as cerebral palsy.",
    "checklist": "weekly visits after 36th week to the delivery, from the 38th week to the 42nd week Assessment of parental needs and family dynamics The WHO recommends that pregnant women receive at least eight antenatal visits to spot and treat problems and give immunizations."
   },
@@ -684,8 +678,8 @@
      "section": "8–12 months"
     }
    ],
-   "physical": "Respiration rates vary with activity Environmental conditions, weather, activity, and clothing still affect variations in body temperature. Head and chest circumference remain equal. Anterior fontanelle begins to close. Continues to use abdominal muscles for breathing. More teeth appear, often in the order of two lower incisors then two upper incisors followed by four more incisors and two lower molars but some babies may still be waiting for their first. Arm and hands are more developed than feet and legs (cephalocaudal development); hands appear large in proportion to other body parts. Legs may continue to appear bowed. \"Baby fat\" continues to appear on thighs, upper arms and neck. Feet ap",
-   "motor": "Reaches with one hand to grasp an offered object or toy. Adjustment from grip emerges around 8 months. Manipulates objects, transferring them from one hand to the other. Explores new objects by poking with one finger. They adjust their grip based on touch at 8 months, not yet visual cues. Infants will begin to use visual cues while reaching and grasping after 9 months of age. Uses deliberate pincer grasp to pick up small objects, toys, and finger foods. Stacks objects; also places objects inside one another. Releases objects or toys by dropping or throwing; cannot intentionally put an object down because infants, at eight months, are not using visual sensory information while grasping an obj",
+   "physical": "Respiration rates vary with activity Environmental conditions, weather, activity, and clothing still affect variations in body temperature. Head and chest circumference remain equal. Anterior fontanelle begins to close. Continues to use abdominal muscles for breathing. More teeth appear, often in the order of two lower incisors then two upper incisors followed by four more incisors and two lower molars but some babies may still be waiting for their first. Arm and hands are more developed than feet and legs (cephalocaudal development); hands appear large in proportion to other body parts. Legs may continue to appear bowed. \"Baby fat\" continues to appear on thighs, upper arms and neck.",
+   "motor": "Reaches with one hand to grasp an offered object or toy. Adjustment from grip emerges around 8 months. Manipulates objects, transferring them from one hand to the other. Explores new objects by poking with one finger. They adjust their grip based on touch at 8 months, not yet visual cues. Infants will begin to use visual cues while reaching and grasping after 9 months of age. Uses deliberate pincer grasp to pick up small objects, toys, and finger foods. Stacks objects; also places objects inside one another.",
    "communication": null,
    "missing_fields": [
     "communication"
@@ -704,7 +698,7 @@
     }
    ],
    "physical": "Weight is now approximately three times the child's birth weight. Respiration rate varies with emotional state and activity. Rate of growth slows. Head size increases slowly; grows approximately 1.3 cm (0.51 in) every six months; anterior fontanelle is nearly closed at eighteen months as bones of the skull thicken. Anterior fontanelle closing or fully closed, usually at the middle of this year. Chest circumference is larger than head circumference. Legs may still appear bowed. Toddler will begin to lose the \"baby fat\" once he/she begins walking. Body shape changes; takes on more adult-like appearance; still appears top-heavy; abdomen protrudes, back is swayed.",
-   "motor": "Crawls skilfully and quickly. Stands alone with feet spread apart, legs stiffened, and arms extended for support. Gets to feet unaided. Most children walk unassisted near the end of this period; falls often; not always able to maneuver around obstacles, such as furniture or toys. Children first recognize when to apply muscular force when walking in order to conserve energy; soon after, children learn to fine-tune muscle tissues to stabilize themselves. Uses furniture to lower self to floor; collapses backwards into a sitting position or falls forward on hands and then sits. Enjoys pushing or pulling toys while walking. Repeatedly picks up objects and throws them; direction becomes more delib",
+   "motor": "Crawls skilfully and quickly. Stands alone with feet spread apart, legs stiffened, and arms extended for support. Gets to feet unaided. Most children walk unassisted near the end of this period; falls often; not always able to maneuver around obstacles, such as furniture or toys. Children first recognize when to apply muscular force when walking in order to conserve energy; soon after, children learn to fine-tune muscle tissues to stabilize themselves. Uses furniture to lower self to floor; collapses backwards into a sitting position or falls forward on hands and then sits. Enjoys pushing or pulling toys while walking.",
    "communication": "Produces considerable \"jargon\": puts words and sounds together into speech-like (inflected) patterns. Holophrastic speech: uses one word to convey an entire thought; meaning depends on the inflection (\"me\" may be used to request more cookies or a desire to feed self).",
    "missing_fields": []
   },
@@ -720,9 +714,9 @@
      "section": "Two-year-old"
     }
    ],
-   "physical": "Posture is more erect; abdomen still large and protruding, back swayed, because abdominal muscles are not yet fully developed. Respirations are slow and regular Body temperature continues to fluctuate with activity, emotional state, and environment. Brain reaches about 80 percent of its adult size. 16 baby teeth almost finished growing out",
-   "motor": "Can walk around obstacles and walk more erectly. Squats for long periods while playing. Climbs stairs unassisted (but not with alternating feet). Balances on one foot (for a few moments), jumps up and down, but may fall. Often achieves toilet training during this year (depending on child's physical and neurological development) although accidents should still be expected; the child will indicate readiness for toilet training. Throws large ball underhand without losing balance. Holds small cup or tumbler in one hand. Unbuttons large buttons; unzips large zippers. Opens doors by turning doorknobs. Grasps large crayon with fist; scribbles. Climbs up on chair, turns, and sits down. Stacks four t",
-   "communication": "Eye–hand movements better coordinated; can put objects together, take them apart; fit large pegs into pegboard. Begins to use objects for purposes other than intended (may push a block around as a boat). Does simple classification tasks based on single dimension (separates toy dinosaurs from toy cars). Seems fascinated by, or engrossed in, figuring out situations: where the tennis ball rolled, where the dog went, what caused a particular noise. Attends to self-selected activities for longer periods of time. Discovering cause and effect: squeezing the cat makes them scratch. Knows where familiar persons should be; notes their absence; finds a hidden object by looking in last hiding place firs",
+   "physical": "Posture is more erect; abdomen still large and protruding, back swayed, because abdominal muscles are not yet fully developed. Respirations are slow and regular Body temperature continues to fluctuate with activity, emotional state, and environment. Brain reaches about 80 percent of its adult size.",
+   "motor": "Can walk around obstacles and walk more erectly. Squats for long periods while playing. Climbs stairs unassisted (but not with alternating feet). Balances on one foot (for a few moments), jumps up and down, but may fall. Often achieves toilet training during this year (depending on child's physical and neurological development) although accidents should still be expected; the child will indicate readiness for toilet training. Throws large ball underhand without losing balance. Holds small cup or tumbler in one hand. Unbuttons large buttons; unzips large zippers. Opens doors by turning doorknobs. Grasps large crayon with fist; scribbles. Climbs up on chair, turns, and sits down.",
+   "communication": "Eye–hand movements better coordinated; can put objects together, take them apart; fit large pegs into pegboard. Begins to use objects for purposes other than intended (may push a block around as a boat). Does simple classification tasks based on single dimension (separates toy dinosaurs from toy cars). Seems fascinated by, or engrossed in, figuring out situations: where the tennis ball rolled, where the dog went, what caused a particular noise. Attends to self-selected activities for longer periods of time. Discovering cause and effect: squeezing the cat makes them scratch.",
    "missing_fields": []
   }
  ],
@@ -787,8 +781,8 @@
    "category": "Prenatal Testing",
    "trimester": "First trimester",
    "read_minutes": 2,
-   "summary": "",
-   "body": "",
+   "summary": "First-trimester maternal serum screening can check levels of free β-hCG, PAPP-A, intact or beta hCG, or h-hCG in the woman's serum, and combine these with the measurement of nuchal translucency (NT).",
+   "body": "Maternal serum screening\nFirst-trimester maternal serum screening can check levels of free β-hCG, PAPP-A, intact or beta hCG, or h-hCG in the woman's serum, and combine these with the measurement of nuchal translucency (NT). Some institutions also look for the presence of a fetal nasalbone on the ultrasound.\nSecond-trimester maternal serum screening (AFP screening, triple screen, quad screen, or penta screen) can check levels of alpha fetoprotein, β-hCG, inhibin-A, estriol, and h-hCG (hyperglycosolated hCG) in the woman's serum.\nThe triple test measures serum levels of AFP, estriol, and beta-hCG, with a 70% sensitivity and 5% false-positive rate. It is complemented in some regions of the United States, as the Quad test (adding inhibin A to the panel, resulting in an 81% sensitivity and 5% false-positive rate for detecting Down syndrome when taken at 15–18 weeks of gestational age).\nThe biomarkers PAPP-A and β-hCG seem to be altered for pregnancies resulting from ICSI, causing a higher false-positive rate. Correction factors have been developed and\nshould be used when screening for Down syndrome in singleton pregnancies after ICSI, but in twin pregnancies such correction factors have not been fully elucidated.",
    "citations": [
     {
      "source_title": "Prenatal testing",
@@ -914,7 +908,7 @@
    "trimester": "Postpartum",
    "read_minutes": 2,
    "summary": "Breastfeeding support is universal among major health and children's organizations.",
-   "body": "Breastfeeding support is universal among major health and children's organizations. WHO states, \"Breast milk is the ideal food for the healthy growth and development of infants; breastfeeding is also an integral part of the reproductive process with important implications for the health of mothers.\"\nBreastfeeding is associated with a lowered risk of several diseases in both mothers and babies.  Comparing infants that were exclusively breastfed for at least 3 months with never-breastfed infants, the American Academy of Pediatrics  reported that in the first year of life breastfed babies averaged about  $400 in savings of health care costs.",
+   "body": "Breastfeeding support is universal among major health and children's organizations. WHO states, \"Breast milk is the ideal food for the healthy growth and development of infants; breastfeeding is also an integral part of the reproductive process with important implications for the health of mothers.\"\nBreastfeeding is associated with a lowered risk of several diseases in both mothers and babies.  Comparing infants that were exclusively breastfed for at least 3 months with never-breastfed infants, the American Academy of Pediatrics  reported that in the first year of life breastfed babies averaged about  $400 in savings of health care costs.\nBaby\nInfants who are not breastfed are at mildly increased risk of developing lower respiratory infection, ear infections, bacteremia, bacterial meningitis, botulism, urinary tract infection and necrotizing enterocolitis. Breastfeeding may protect against sudden infant death syndrome, insulin-dependent diabetes mellitus, Crohn's disease, ulcerative colitis, childhood lymphoma, allergic diseases, digestive diseases, obesity, and childhood leukemia. It is hard however to distinguish the importance of breastfeeding per se and other correlated socioeconomic factors (breastfeeding is more frequent in richer families with higher educations).",
    "citations": [
     {
      "source_title": "Breastfeeding",

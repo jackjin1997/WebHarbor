@@ -12,7 +12,7 @@
 </form>
 <section class="card-grid section">
   {% for article in articles %}
-    <article class="article-card"><span class="eyebrow">{{ article.category }}</span><h3><a href="{{ url_for('article_detail', slug=article.slug) }}">{{ article.title }}</a></h3><p>{{ article.summary }}</p><small>{{ article.trimester }} · {{ article.read_minutes }} min read</small></article>
+    <article class="article-card"><a class="card-image" href="{{ url_for('article_detail', slug=article.slug) }}"><img src="{{ url_for('static', filename='images/' ~ article_image(article.slug)) }}" alt=""></a><div><span class="eyebrow">{{ article.category }}</span><h3><a href="{{ url_for('article_detail', slug=article.slug) }}">{{ article.title }}</a></h3><p>{{ article.summary }}</p><small>{{ article.trimester }} · {{ article.read_minutes }} min read</small></div></article>
   {% endfor %}
 </section>
 {% endblock %}
