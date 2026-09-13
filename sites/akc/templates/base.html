@@ -29,13 +29,16 @@
       <span class="brand__seal">AKC</span>
       <span class="brand__name">American<br>Kennel Club<sup>®</sup></span>
     </a>
-    <nav class="mainnav">
-      <a href="{{ url_for('breeds') }}" {% if nav == 'breeds' %}aria-current="page"{% endif %}>Dog Breeds</a>
-      <a href="{{ url_for('breed_selector') }}" {% if nav == 'selector' %}aria-current="page"{% endif %}>Breed Selector</a>
-      <a href="{{ url_for('compare') }}" {% if nav == 'compare' %}aria-current="page"{% endif %}>Compare Breeds</a>
-      <a href="{{ url_for('sports') }}" {% if nav == 'sports' %}aria-current="page"{% endif %}>Sports &amp; Events</a>
-      <a href="{{ url_for('articles') }}" {% if nav == 'articles' %}aria-current="page"{% endif %}>Expert Advice</a>
-    </nav>
+    <details class="navdrop">
+      <summary class="navdrop__toggle">Menu</summary>
+      <nav class="mainnav">
+        <a href="{{ url_for('breeds') }}" {% if nav == 'breeds' %}aria-current="page"{% endif %}>Dog Breeds</a>
+        <a href="{{ url_for('breed_selector') }}" {% if nav == 'selector' %}aria-current="page"{% endif %}>Breed Selector</a>
+        <a href="{{ url_for('compare') }}" {% if nav == 'compare' %}aria-current="page"{% endif %}>Compare Breeds</a>
+        <a href="{{ url_for('sports') }}" {% if nav == 'sports' %}aria-current="page"{% endif %}>Sports &amp; Events</a>
+        <a href="{{ url_for('articles') }}" {% if nav == 'articles' %}aria-current="page"{% endif %}>Expert Advice</a>
+      </nav>
+    </details>
     <form class="masthead__search inline-form" action="{{ url_for('search') }}" method="get" role="search">
       <input type="search" name="q" placeholder="Search" aria-label="Search akc.org" value="{{ request.args.get('q', '') }}">
       <button class="btn" type="submit">Search</button>

@@ -125,7 +125,24 @@ img { max-width: 100%; display: block; }
   line-height: 1.15;
   text-transform: uppercase;
 }
-.mainnav { display: flex; gap: 26px; flex: 1 1 auto; flex-wrap: wrap; }
+.navdrop { flex: 1 1 auto; }
+.navdrop__toggle {
+  display: none;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--navy);
+  cursor: pointer;
+  padding: 8px 0;
+  list-style: none;
+}
+.navdrop__toggle::-webkit-details-marker { display: none; }
+.navdrop__toggle::before { content: "\2630"; margin-right: 8px; font-size: 16px; }
+.mainnav { display: flex; gap: 26px; flex-wrap: wrap; }
+/* Above the collapse breakpoint the links are always visible, so the closed
+   <details> must not hide them. */
+.navdrop > .mainnav { display: flex; }
 .mainnav a {
   color: var(--ink);
   text-decoration: none;
@@ -452,7 +469,13 @@ h1, h2, h3, h4 { color: var(--ink); }
   .grid--3 { grid-template-columns: repeat(2, 1fr); }
   .traits { grid-template-columns: 1fr; }
   .masthead .container { flex-wrap: wrap; gap: 14px; }
-  .mainnav { order: 3; width: 100%; gap: 18px; }
+  .navdrop { order: 3; width: 100%; }
+  /* akc.org collapses the same links behind a MENU control below this width. */
+  .navdrop__toggle { display: block; }
+  .navdrop:not([open]) > .mainnav { display: none; }
+  .mainnav { flex-direction: column; gap: 0; padding: 6px 0 2px; }
+  .mainnav a { border-bottom: 1px solid var(--line); padding: 11px 0; }
+  .mainnav a:last-child { border-bottom: 0; }
 }
 
 @media (max-width: 640px) {
