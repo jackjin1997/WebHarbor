@@ -15,7 +15,8 @@ from flask import (
     url_for,
 )
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import check_password_hash, generate_password_hash
+from flask_wtf.csrf import CSRFProtect
+from werkzeug.security import check_password_hash
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -25,8 +26,19 @@ app.config["SECRET_KEY"] = "webharbor-versus-dev-key"
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{os.path.join(BASE_DIR, 'instance', 'versus.db')}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
+csrf = CSRFProtect(app)
 
 STOP_WORDS = {"the", "a", "an", "and", "or", "of", "for", "to", "in", "on", "with", "vs", "versus"}
+
+# Benchmark accounts all share the password "TestPass123!". The hash is frozen
+# rather than recomputed at seed time because werkzeug draws a fresh scrypt salt
+# on every call, which made instance_seed/versus.db differ byte-for-byte between
+# two builds of the same commit and left its hash unpinnable.
+BENCHMARK_PASSWORD = "TestPass123!"
+BENCHMARK_PASSWORD_HASH = (
+    "scrypt:32768:8:1$L0zp47QSxuocH7od$a67d3cb38348337beea69448cc092b28dde062db907e"
+    "f1b48ca024c4b3de11f31ae5ef044671d7d20de786d5be7ce8609b0481642c35d87fb696d6be9a2956dc"
+)
 
 
 class User(db.Model):
@@ -363,7 +375,7 @@ def seed_benchmark_users():
         ("david_k", "david.k@test.com", "David Kim"),
     ]
     for username, email, display_name in users:
-        db.session.add(User(username=username, email=email, display_name=display_name, password_hash=generate_password_hash("TestPass123!")))
+        db.session.add(User(username=username, email=email, display_name=display_name, password_hash=BENCHMARK_PASSWORD_HASH))
     db.session.commit()
     alice = User.query.filter_by(email="alice.j@test.com").first()
     for left_slug, right_slug, note in [
