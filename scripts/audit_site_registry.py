@@ -184,8 +184,9 @@ def slug_is_valid(slug: str) -> bool:
 
 
 def parse_site_array(text: str, file_label: str) -> tuple[list[str], int]:
+    declaration_prefix = r"^" if Path(file_label).suffix == ".py" else r"^[ \t]*"
     sites_match = re.search(
-        r"^SITES\s*=\s*(\(.*?\)|\[.*?\])",
+        declaration_prefix + r"SITES\s*=\s*(\(.*?\)|\[.*?\])",
         text,
         re.DOTALL | re.MULTILINE,
     )
@@ -203,7 +204,9 @@ def parse_site_array(text: str, file_label: str) -> tuple[list[str], int]:
             raise ValueError(f"SITES is not a list in {file_label}")
     if not all(isinstance(site, str) and site for site in sites):
         raise ValueError(f"SITES must contain only non-empty strings in {file_label}")
-    base_match = re.search(r"^BASE_PORT\s*=\s*(\d+)", text, re.MULTILINE)
+    base_match = re.search(
+        declaration_prefix + r"BASE_PORT\s*=\s*(\d+)", text, re.MULTILINE
+    )
     if not base_match:
         raise ValueError(f"Could not parse BASE_PORT from {file_label}")
     return sites, int(base_match.group(1))

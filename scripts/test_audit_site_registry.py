@@ -271,6 +271,24 @@ class AuditSiteRegistryTests(unittest.TestCase):
             self.assertEqual(result.exit_code, 0)
             self.assertEqual([site.site for site in result.sites], ["amazon"])
 
+    def test_indented_shell_registry_declarations_are_supported(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            build_repo(root)
+            write(
+                root / "websyn_start.sh",
+                """
+                #!/bin/bash
+                  SITES=(amazon)
+                  BASE_PORT=40000
+                """,
+            )
+
+            result = audit.audit_repository(root)
+
+            self.assertEqual(result.exit_code, 0)
+            self.assertEqual([site.site for site in result.sites], ["amazon"])
+
     def test_commented_registry_declarations_are_ignored(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
