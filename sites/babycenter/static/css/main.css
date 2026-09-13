@@ -171,6 +171,8 @@ main { min-height: 70vh; }
 .list-row:last-child { border-bottom: 0; }
 .list-row:hover, .mini-result:hover { background: var(--sky); }
 .saved-row { grid-template-columns: 1fr auto; align-items: center; }
+.saved-row > span { display: grid; min-width: 0; gap: 4px; }
+.saved-row strong, .saved-row small { overflow-wrap: anywhere; }
 .link-button.danger { color: #ac2832; }
 .article-detail { max-width: 820px; margin: 0 auto; padding: 56px 20px 26px; font-size: 18px; }
 .article-detail .lede { color: var(--muted); font-size: 21px; }
