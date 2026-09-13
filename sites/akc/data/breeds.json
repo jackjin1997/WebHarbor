@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "captured_at": "2026-09-13T02:46:46.104583+00:00",
+ "captured_at": "2026-09-13T03:00:35.279391+00:00",
  "capture_scope": "Breed detail pages only, for the 24 breeds this mirror carries. Each record comes from the breedPage data-js-props blob on akc.org/dog-breeds/<slug>/; no linked-page traversal. Photo bytes are fetched separately by fetch_images.py.",
  "source_site": "https://www.akc.org/",
  "sources": [
@@ -9,168 +9,168 @@
    "url": "https://www.akc.org/dog-breeds/labrador-retriever/",
    "status": 200,
    "sha256": "beaca6e5076764f5e8e4857c77b23bf4972a465038fae945dae1134f634363ba",
-   "at": "2026-09-13T02:45:48.702834+00:00"
+   "at": "2026-09-13T02:59:38.226623+00:00"
   },
   {
    "slug": "golden-retriever",
    "url": "https://www.akc.org/dog-breeds/golden-retriever/",
    "status": 200,
    "sha256": "39152bcf6b92b0e88a7e2b233e51b3d1e26a720b75035d4ac430bd49dbc59dc9",
-   "at": "2026-09-13T02:45:50.990275+00:00"
+   "at": "2026-09-13T02:59:40.672663+00:00"
   },
   {
    "slug": "french-bulldog",
    "url": "https://www.akc.org/dog-breeds/french-bulldog/",
    "status": 200,
    "sha256": "a8eb9c84d963c6a98fe3e4d4fce30c21342e13678d8e1d5a966aab8f3a2f8a4f",
-   "at": "2026-09-13T02:45:53.275634+00:00"
+   "at": "2026-09-13T02:59:43.043887+00:00"
   },
   {
    "slug": "german-shepherd-dog",
    "url": "https://www.akc.org/dog-breeds/german-shepherd-dog/",
    "status": 200,
    "sha256": "94b61e791b8b5b5b643e1b1def929389caa9b7ff960c8b5bf27026d38453bdad",
-   "at": "2026-09-13T02:45:55.578918+00:00"
+   "at": "2026-09-13T02:59:45.508163+00:00"
   },
   {
    "slug": "poodle-standard",
    "url": "https://www.akc.org/dog-breeds/poodle-standard/",
    "status": 200,
    "sha256": "c0b07dc3cca3a464160fdba3aed3377f8055639df6e2362c4f8c7fa91a5abac8",
-   "at": "2026-09-13T02:45:57.911489+00:00"
+   "at": "2026-09-13T02:59:47.974290+00:00"
   },
   {
    "slug": "beagle",
    "url": "https://www.akc.org/dog-breeds/beagle/",
    "status": 200,
    "sha256": "51abc48823292f1f86308915a6e8f9927f6be7bbce8cf36086ec7503fd8649fe",
-   "at": "2026-09-13T02:46:00.702915+00:00"
+   "at": "2026-09-13T02:59:50.387756+00:00"
   },
   {
    "slug": "dachshund",
    "url": "https://www.akc.org/dog-breeds/dachshund/",
    "status": 200,
    "sha256": "76986a3665d6b1515aec5fa7dc958c7d259bdbf0bcb09e4b5f8fb3be1d35e546",
-   "at": "2026-09-13T02:46:03.153510+00:00"
+   "at": "2026-09-13T02:59:52.938188+00:00"
   },
   {
    "slug": "rottweiler",
    "url": "https://www.akc.org/dog-breeds/rottweiler/",
    "status": 200,
    "sha256": "3083fa3a3c6f15146a511d3e48dc503356da8455ddad8a262dd99a388d1ddff2",
-   "at": "2026-09-13T02:46:05.608060+00:00"
+   "at": "2026-09-13T02:59:55.465270+00:00"
   },
   {
    "slug": "cavalier-king-charles-spaniel",
    "url": "https://www.akc.org/dog-breeds/cavalier-king-charles-spaniel/",
    "status": 200,
    "sha256": "d948659bf23ab3b90544f806c4dd303c450df5f500059795f7e7554aa15c56b0",
-   "at": "2026-09-13T02:46:07.927672+00:00"
+   "at": "2026-09-13T02:59:57.901881+00:00"
   },
   {
    "slug": "australian-shepherd",
    "url": "https://www.akc.org/dog-breeds/australian-shepherd/",
    "status": 200,
    "sha256": "22cab92a747d74cf94806731b707999143d65f7fb57beef6500876d1f7990514",
-   "at": "2026-09-13T02:46:10.355169+00:00"
+   "at": "2026-09-13T03:00:00.570768+00:00"
   },
   {
    "slug": "boxer",
    "url": "https://www.akc.org/dog-breeds/boxer/",
    "status": 200,
    "sha256": "075d22b90d3da78bf047f4585b37c886cee2f1d15e321e8495a4e250bed8d1c2",
-   "at": "2026-09-13T02:46:12.703439+00:00"
+   "at": "2026-09-13T03:00:03.318555+00:00"
   },
   {
    "slug": "border-collie",
    "url": "https://www.akc.org/dog-breeds/border-collie/",
    "status": 200,
-   "sha256": "49575feed12ca8a74d2b2ea3e027f8338055f79694058772274f3eb846ceee24",
-   "at": "2026-09-13T02:46:15.019194+00:00"
+   "sha256": "a82f16e3d0adf14bbd7bd08b3d4ed4a58ceb91c3d58b17f910a853e9cda8774a",
+   "at": "2026-09-13T03:00:06.024425+00:00"
   },
   {
    "slug": "shih-tzu",
    "url": "https://www.akc.org/dog-breeds/shih-tzu/",
    "status": 200,
    "sha256": "2d61209e4f596459a12c7da1da0e1691a6b16511f5413bc046e229fbb0873d6d",
-   "at": "2026-09-13T02:46:18.547375+00:00"
+   "at": "2026-09-13T03:00:08.401102+00:00"
   },
   {
    "slug": "bernese-mountain-dog",
    "url": "https://www.akc.org/dog-breeds/bernese-mountain-dog/",
    "status": 200,
    "sha256": "3427afabbeea9e82664cbc70bd9e312f1d39bb659592a55462c7caa5b396ebb2",
-   "at": "2026-09-13T02:46:20.991550+00:00"
+   "at": "2026-09-13T03:00:10.726925+00:00"
   },
   {
    "slug": "doberman-pinscher",
    "url": "https://www.akc.org/dog-breeds/doberman-pinscher/",
    "status": 200,
    "sha256": "5341253db0d123874a6491ca2cb4718dbadf246960a3b3b6a047b5b019deb284",
-   "at": "2026-09-13T02:46:23.622114+00:00"
+   "at": "2026-09-13T03:00:13.011184+00:00"
   },
   {
    "slug": "cocker-spaniel",
    "url": "https://www.akc.org/dog-breeds/cocker-spaniel/",
    "status": 200,
    "sha256": "c9f1c06bdcfa86edd5feea289ffcd025923b76e17605558f7dfa50a95a367214",
-   "at": "2026-09-13T02:46:25.969413+00:00"
+   "at": "2026-09-13T03:00:15.397790+00:00"
   },
   {
    "slug": "great-dane",
    "url": "https://www.akc.org/dog-breeds/great-dane/",
    "status": 200,
    "sha256": "216bce0268d24c1b9a627cbd90ac9f03cd9fd3291e931d6cf7e7382c684f56db",
-   "at": "2026-09-13T02:46:28.335580+00:00"
+   "at": "2026-09-13T03:00:17.875837+00:00"
   },
   {
    "slug": "papillon",
    "url": "https://www.akc.org/dog-breeds/papillon/",
    "status": 200,
    "sha256": "a72ea5e7755bca923fa3c96d4eb19469db37dd8056d5a0c4b0bc66a35ad93e3f",
-   "at": "2026-09-13T02:46:30.996384+00:00"
+   "at": "2026-09-13T03:00:20.313051+00:00"
   },
   {
    "slug": "whippet",
    "url": "https://www.akc.org/dog-breeds/whippet/",
    "status": 200,
    "sha256": "e9419f8f4268c4c8b4a26b1afd89d819012738355eb5debcdbef220da598e40d",
-   "at": "2026-09-13T02:46:33.901623+00:00"
+   "at": "2026-09-13T03:00:22.743558+00:00"
   },
   {
    "slug": "west-highland-white-terrier",
    "url": "https://www.akc.org/dog-breeds/west-highland-white-terrier/",
    "status": 200,
    "sha256": "e52958a6c22ed9d9d418afc5e58b233921599686f3e12b90a45309734d9c6f7a",
-   "at": "2026-09-13T02:46:36.197984+00:00"
+   "at": "2026-09-13T03:00:25.357841+00:00"
   },
   {
    "slug": "siberian-husky",
    "url": "https://www.akc.org/dog-breeds/siberian-husky/",
    "status": 200,
    "sha256": "c46aafc85508e6fc58c84146ab1dc2514507a1bec780085af6b5f637e879f884",
-   "at": "2026-09-13T02:46:38.555162+00:00"
+   "at": "2026-09-13T03:00:28.074244+00:00"
   },
   {
    "slug": "boston-terrier",
    "url": "https://www.akc.org/dog-breeds/boston-terrier/",
    "status": 200,
    "sha256": "89b95928e74c38eaca13386130021d888b6ae69d943b724a0b6aa0d7368d244f",
-   "at": "2026-09-13T02:46:41.037853+00:00"
+   "at": "2026-09-13T03:00:30.520439+00:00"
   },
   {
    "slug": "newfoundland",
    "url": "https://www.akc.org/dog-breeds/newfoundland/",
    "status": 200,
    "sha256": "e1fcea8db12eafdd2ff6367418c506322d06bb586ec4724b30d447519396ca49",
-   "at": "2026-09-13T02:46:43.667697+00:00"
+   "at": "2026-09-13T03:00:32.869418+00:00"
   },
   {
    "slug": "chihuahua",
    "url": "https://www.akc.org/dog-breeds/chihuahua/",
    "status": 200,
    "sha256": "6f801a4ca28e0cd1b59edb1a0b4b3d14a2988f4b1523bf05397d0f738dd4173d",
-   "at": "2026-09-13T02:46:46.104554+00:00"
+   "at": "2026-09-13T03:00:35.279368+00:00"
   }
  ],
  "records": [
@@ -184,6 +184,13 @@
    "origin": "Canada",
    "year_recognized": "1917",
    "life_expectancy": "11-13 years",
+   "height": "22.5-24.5 inches (male), 21.5-23.5 inches (female)",
+   "weight": "65-80 pounds (male), 55-70 pounds (female)",
+   "characteristics": [
+    "Best Family Dogs",
+    "Best Dog Breeds for Kids",
+    "Smartest Breeds of Dogs"
+   ],
    "temperament": "active / friendly / outgoing",
    "popularity_rank": 2,
    "popularity_history": {
@@ -506,6 +513,13 @@
    "origin": "Scotland",
    "year_recognized": "1925",
    "life_expectancy": "10-12 years",
+   "height": "23-24 inches (male), 21.5-22.5 inches (female)",
+   "weight": "65-75 pounds (male), 55-65 pounds (female)",
+   "characteristics": [
+    "Best Family Dogs",
+    "Best Dog Breeds for Kids",
+    "Smartest Breeds of Dogs"
+   ],
    "temperament": "intelligent / friendly / devoted",
    "popularity_rank": 3,
    "popularity_history": {
@@ -819,6 +833,12 @@
    "origin": "England",
    "year_recognized": "1898",
    "life_expectancy": "10-12 years",
+   "height": "11-13 inches",
+   "weight": "under 28 pounds",
+   "characteristics": [
+    "Best Family Dogs",
+    "Best Dogs for Apartment Dwellers"
+   ],
    "temperament": "playful / smart / adaptable",
    "popularity_rank": 1,
    "popularity_history": {
@@ -1216,6 +1236,12 @@
    "origin": "Germany",
    "year_recognized": "1908",
    "life_expectancy": "12-14 years",
+   "height": "24-26 inches (male), 22-24 inches (female)",
+   "weight": "65-90 pounds (male), 50-70 pounds (female)",
+   "characteristics": [
+    "Smartest Breeds of Dogs",
+    "Best Guard Dogs"
+   ],
    "temperament": "courageous / confident / smart",
    "popularity_rank": 4,
    "popularity_history": {
@@ -1556,6 +1582,13 @@
    "origin": "Germany",
    "year_recognized": "1887",
    "life_expectancy": "10-18 years",
+   "height": "over 15 inches (standard)",
+   "weight": "60-70 pounds (male standard), 40-50 pounds (female standard)",
+   "characteristics": [
+    "Smartest Breeds of Dogs",
+    "Hypoallergenic Dogs",
+    "Medium Dog Breeds"
+   ],
    "temperament": "active / proud / very smart",
    "popularity_rank": null,
    "popularity_history": {
@@ -1978,6 +2011,12 @@
    "origin": "England",
    "year_recognized": "1885",
    "life_expectancy": "10-15 years",
+   "height": "13 inches & under, 13-15 inches",
+   "weight": "under 20 pounds (13 inches & under), 20-30 pounds (13-15 inches)",
+   "characteristics": [
+    "Best Family Dogs",
+    "Best Dog Breeds for Kids"
+   ],
    "temperament": "curious / friendly / merry",
    "popularity_rank": 7,
    "popularity_history": {
@@ -2433,6 +2472,11 @@
    "origin": "Germany",
    "year_recognized": "1885",
    "life_expectancy": "12-16 years",
+   "height": "8-9 inches (standard), 5-6 inches (miniature)",
+   "weight": "16-32 pounds (standard), 11 pounds & under (miniature)",
+   "characteristics": [
+    "Smallest Dog Breeds"
+   ],
    "temperament": "curious / friendly / spunky",
    "popularity_rank": 5,
    "popularity_history": {
@@ -2831,6 +2875,12 @@
    "origin": "Germany",
    "year_recognized": "1931",
    "life_expectancy": "9-10 years",
+   "height": "24-27 inches (male), 22-25 inches (female)",
+   "weight": "95-135 pounds (male), 80-100 pounds (female)",
+   "characteristics": [
+    "Smartest Breeds of Dogs",
+    "Best Guard Dogs"
+   ],
    "temperament": "loyal / loving / confident guardian",
    "popularity_rank": 8,
    "popularity_history": {
@@ -3109,6 +3159,12 @@
    "origin": "England",
    "year_recognized": "1995",
    "life_expectancy": "12-15 years",
+   "height": "12-13 inches",
+   "weight": "13-18 pounds",
+   "characteristics": [
+    "Smallest Dog Breeds",
+    "Best Dogs for Apartment Dwellers"
+   ],
    "temperament": "affectionate / gentle / graceful",
    "popularity_rank": 12,
    "popularity_history": {
@@ -3422,6 +3478,13 @@
    "origin": "Australia",
    "year_recognized": "1991",
    "life_expectancy": "12-15 years",
+   "height": "20-23 inches (male), 18-21 inches (female)",
+   "weight": "50-65 pounds (male), 40-55 pounds (female)",
+   "characteristics": [
+    "Smartest Breeds of Dogs",
+    "Medium Dog Breeds",
+    "Best Guard Dogs"
+   ],
    "temperament": "smart / work-oriented / exuberant",
    "popularity_rank": null,
    "popularity_history": {
@@ -3729,6 +3792,12 @@
    "origin": "Germany",
    "year_recognized": "1904",
    "life_expectancy": "10-12 years",
+   "height": "23-25 inches (male), 21.5-23.5 inches (female)",
+   "weight": "65-80 pounds (male), females are about 15 pounds less than male",
+   "characteristics": [
+    "Best Dog Breeds for Kids",
+    "Largest Dog Breeds"
+   ],
    "temperament": "active / bright / fun-loving",
    "popularity_rank": 18,
    "popularity_history": {
@@ -4048,6 +4117,11 @@
    "origin": "England/Scotland",
    "year_recognized": "1995",
    "life_expectancy": "12-15 years",
+   "height": "19-22 inches (male), 18-21 inches (female)",
+   "weight": "30-55 pounds",
+   "characteristics": [
+    "Smartest Breeds of Dogs"
+   ],
    "temperament": "energetic / affectionate / smart",
    "popularity_rank": 26,
    "popularity_history": {
@@ -4474,6 +4548,12 @@
    "origin": "China",
    "year_recognized": "1969",
    "life_expectancy": "10-18 years",
+   "height": "9-10.5 inches",
+   "weight": "9-16 pounds",
+   "characteristics": [
+    "Smallest Dog Breeds",
+    "Best Dogs for Apartment Dwellers"
+   ],
    "temperament": "playful / affectionate / outgoing",
    "popularity_rank": 21,
    "popularity_history": {
@@ -4860,6 +4940,12 @@
    "origin": "Switzerland",
    "year_recognized": "1937",
    "life_expectancy": "7-10 years",
+   "height": "25-27.5 inches (male), 23-26 inches (female)",
+   "weight": "80-115 pounds (male), 70-95 pounds (female)",
+   "characteristics": [
+    "Best Family Dogs",
+    "Largest Dog Breeds"
+   ],
    "temperament": "good-natured / calm / strong",
    "popularity_rank": 20,
    "popularity_history": {
@@ -5180,6 +5266,13 @@
    "origin": "Germany",
    "year_recognized": "1908",
    "life_expectancy": "10-12 years",
+   "height": "26-28 inches (male), 24-26 inches (female)",
+   "weight": "75-100 pounds (male), 60-90 pounds (female)",
+   "characteristics": [
+    "Smartest Breeds of Dogs",
+    "Largest Dog Breeds",
+    "Best Guard Dogs"
+   ],
    "temperament": "alert / loyal / fearless",
    "popularity_rank": 15,
    "popularity_history": {
@@ -5504,6 +5597,11 @@
    "origin": "England",
    "year_recognized": "1878",
    "life_expectancy": "10-14 years",
+   "height": "14.5-15.5 inches (male), 13.5-14.5 inches (female)",
+   "weight": "25-30 pounds (male), 20-25 pounds (female)",
+   "characteristics": [
+    "Smallest Dog Breeds"
+   ],
    "temperament": "smart / happy / gentle",
    "popularity_rank": 33,
    "popularity_history": {
@@ -5914,6 +6012,11 @@
    "origin": "Germany",
    "year_recognized": "1887",
    "life_expectancy": "7-10 years",
+   "height": "30-32 inches (male), 28-30 inches (female)",
+   "weight": "140-175 pounds (male), 110-140 pounds (female)",
+   "characteristics": [
+    "Largest Dog Breeds"
+   ],
    "temperament": "friendly / patient / dependable",
    "popularity_rank": 22,
    "popularity_history": {
@@ -6342,6 +6445,12 @@
    "origin": "France",
    "year_recognized": "1915",
    "life_expectancy": "14-16 years",
+   "height": "8-11 inches",
+   "weight": "5-10 pounds",
+   "characteristics": [
+    "Smallest Dog Breeds",
+    "Smartest Breeds of Dogs"
+   ],
    "temperament": "alert / friendly / happy",
    "popularity_rank": 42,
    "popularity_history": {
@@ -6727,6 +6836,11 @@
    "origin": "England",
    "year_recognized": "1888",
    "life_expectancy": "12-15 years",
+   "height": "19-22 inches (male), 18-21 inches (female)",
+   "weight": "25-40 pounds",
+   "characteristics": [
+    "Medium Dog Breeds"
+   ],
    "temperament": "playful / affectionate / calm",
    "popularity_rank": 48,
    "popularity_history": {
@@ -7170,6 +7284,9 @@
    "origin": "Scotland",
    "year_recognized": "1908",
    "life_expectancy": "13-15 years",
+   "height": "11 inches (male), 10 inches (female)",
+   "weight": "15-20 pounds",
+   "characteristics": [],
    "temperament": "loyal / happy / entertaining",
    "popularity_rank": 45,
    "popularity_history": {
@@ -7473,6 +7590,11 @@
    "origin": "Siberia",
    "year_recognized": "1930",
    "life_expectancy": "12-14 years",
+   "height": "21-23.5 inches (male), 20-22 inches (female)",
+   "weight": "45-60 pounds (male), 35-50 pounds (female)",
+   "characteristics": [
+    "Largest Dog Breeds"
+   ],
    "temperament": "Loyal / Outgoing / mischievous",
    "popularity_rank": 30,
    "popularity_history": {
@@ -7801,6 +7923,11 @@
    "origin": "United States",
    "year_recognized": "1893",
    "life_expectancy": "11-13 years",
+   "height": "10-12 inches",
+   "weight": "12-25 pounds",
+   "characteristics": [
+    "Smallest Dog Breeds"
+   ],
    "temperament": "friendly / bright / amusing",
    "popularity_rank": 23,
    "popularity_history": {
@@ -8103,6 +8230,13 @@
    "origin": "Canada",
    "year_recognized": "1886",
    "life_expectancy": "9-10 years",
+   "height": "28 inches (average male), 26 inches (average female)",
+   "weight": "130-150 pounds (male), 100-120 pounds (female)",
+   "characteristics": [
+    "Best Family Dogs",
+    "Best Dog Breeds for Kids",
+    "Largest Dog Breeds"
+   ],
    "temperament": "devoted / sweet / patient",
    "popularity_rank": 46,
    "popularity_history": {
@@ -8442,6 +8576,11 @@
    "origin": "Mexican State of Chihuahua",
    "year_recognized": "1904",
    "life_expectancy": "14-16 years",
+   "height": "5-8 inches",
+   "weight": "not exceeding 6 pounds",
+   "characteristics": [
+    "Smallest Dog Breeds"
+   ],
    "temperament": "charming / graceful / sassy",
    "popularity_rank": 24,
    "popularity_history": {

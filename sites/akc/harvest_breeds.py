@@ -20,6 +20,7 @@ import datetime as dt
 import hashlib
 import json
 import os
+import re
 import ssl
 import sys
 import time
@@ -109,6 +110,19 @@ def choice_trait(t: dict) -> dict | None:
     }
 
 
+# akc.org publishes the vital stats as a PageMap DataObject in an HTML comment
+# rather than in the JSON blob, so they are read straight out of the markup.
+PAGEMAP_RE = {
+    "height": re.compile(r'name="height">Height:\s*(.*?)</Attribute>', re.S),
+    "weight": re.compile(r'name="weight">Weight:\s*(.*?)</Attribute>', re.S),
+}
+
+
+def pagemap_value(html: str, field: str) -> str:
+    m = PAGEMAP_RE[field].search(html)
+    return re.sub(r"\s+", " ", m.group(1)).strip() if m else ""
+
+
 def parse_breed(slug: str, html: str) -> dict:
     soup = BeautifulSoup(html, "lxml")
     node = soup.find("div", attrs={"data-js-component": "breedPage"})
@@ -168,6 +182,15 @@ def parse_breed(slug: str, html: str) -> dict:
         "origin": basics.get("origin") or "",
         "year_recognized": basics.get("year_recognized") or "",
         "life_expectancy": basics.get("life_expectancy") or "",
+        "height": pagemap_value(html, "height"),
+        "weight": pagemap_value(html, "weight"),
+        # AKC's own characteristic collections (Smallest Dog Breeds, Best Dogs
+        # for Apartment Dwellers, ...). Not every breed carries one.
+        "characteristics": [
+            c.strip()
+            for c in (basics.get("related_groups_characteristics") or "").split(",")
+            if c.strip()
+        ],
         "temperament": traits_blob.get("temperament") or "",
         "popularity_rank": basics.get("popularity_2025"),
         "popularity_history": popularity,
