@@ -1,0 +1,1298 @@
+[
+  {
+    "task": "AKC--0",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--0",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--0",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_breed_profile",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--0",
+    "case": "wrong_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "code_bound_to_chocolate",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--0",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--0",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--0",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_breed_profile",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--0",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--0",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--1",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--1",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--1",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_selector",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--1",
+    "case": "wrong_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_names_top_breed",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--1",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--1",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--1",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_selector",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--1",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--1",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--2",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--2",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--2",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_compare",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--2",
+    "case": "wrong_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "ratings_bound_to_breeds",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--2",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--2",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--2",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_compare",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--2",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--2",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--3",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--3",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--3",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_login",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--3",
+    "case": "wrong_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_lists_all_saved",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--3",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--3",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--3",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_login",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--3",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--3",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--4",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--4",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--4",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_sorted_directory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--4",
+    "case": "wrong_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "ranks_bound_to_breeds",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--4",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--4",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--4",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_sorted_directory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--4",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--4",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--5",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--5",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--5",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_conformation_filter",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--5",
+    "case": "wrong_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_lists_saturday_groups",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--5",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--5",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--5",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_conformation_filter",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--5",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--5",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--6",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--6",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--6",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_nutrition_filter",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--6",
+    "case": "wrong_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_has_count",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--6",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--6",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--6",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_nutrition_filter",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--6",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--6",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--7",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--7",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--7",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_working_filter",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--7",
+    "case": "wrong_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_names_missing_breed",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--7",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--7",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--7",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_working_filter",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--7",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--7",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--8",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--8",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--8",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_login",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--8",
+    "case": "self_report_no_db_change",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "db_registration_recorded",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--8",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--8",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--8",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_event_page",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--8",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--8",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--9",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--9",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--9",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_account",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--9",
+    "case": "self_report_no_db_change",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "db_activity_level_low",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--9",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--9",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--9",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_account",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--9",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--9",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--10",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--10",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--10",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_breed_profile",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--10",
+    "case": "wrong_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_has_male_range",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--10",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--10",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--10",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_breed_profile",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--10",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--10",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--11",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--11",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--11",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_breed_profile",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--11",
+    "case": "wrong_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_names_newfoundland",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--11",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--11",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--11",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_breed_profile",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--11",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--11",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--12",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--12",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--12",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_collection",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--12",
+    "case": "wrong_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "shedding_bound",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--12",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--12",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--12",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_collection",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--12",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--12",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--13",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--13",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--13",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_breed_profile",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--13",
+    "case": "wrong_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "ratings_bound_to_traits",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--13",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--13",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--13",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_breed_profile",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--13",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--13",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--14",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--14",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--14",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_login",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--14",
+    "case": "self_report_no_db_change",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "db_whippet_saved",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--14",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--14",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--14",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_login",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--14",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--14",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--15",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--15",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--15",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_register",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--15",
+    "case": "self_report_no_db_change",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "db_user_created",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--15",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--15",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--15",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_register",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--15",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--15",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--16",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--16",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--16",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_search",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--16",
+    "case": "wrong_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "counts_bound_to_sections",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--16",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--16",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--16",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_search",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--16",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--16",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--17",
+    "case": "positive",
+    "expected": "PASS",
+    "got": "PASS",
+    "reason": "",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--17",
+    "case": "no_op",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--17",
+    "case": "answer_no_navigation",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_breed_profile",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--17",
+    "case": "wrong_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "codes_bound_to_colors",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--17",
+    "case": "denial_answer",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "answer_present",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--17",
+    "case": "missing_final_snapshot",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_has_final_snapshot",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--17",
+    "case": "wrong_task_replay",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "nav_breed_profile",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--17",
+    "case": "foreign_origin",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "run_stayed_on_mirror",
+    "as_expected": true
+  },
+  {
+    "task": "AKC--17",
+    "case": "malformed_input",
+    "expected": "FAIL",
+    "got": "FAIL",
+    "reason": "malformed_trajectory",
+    "as_expected": true
+  }
+]
