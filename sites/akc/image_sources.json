@@ -1,0 +1,2524 @@
+{
+  "images": [
+    {
+      "file": "breeds/australian-shepherd-2.webp",
+      "breed": "australian-shepherd",
+      "role": "2",
+      "alt": "Best of Breed: GCH CH Bayouland's Spice De Vivre, Australian Shepherd; 2016 AKC National Championship presented by Royal Canin Herding Group judging, Orlando, FL.",
+      "credit": "David Woo ©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/australian-shepherd/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/ANC2016-Conformation-Herding-Group-David-0E9A1980.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "7824a3c8c57095e7a7173e8a70a1febd8c7e4dd749cc701b65e09bbbc17db5e5",
+      "output_sha256": "96aca99216d2d0a1ba6b16549f1beefab09178134da16e70e6ce1dc1906e6573",
+      "output_bytes": 35868
+    },
+    {
+      "file": "breeds/australian-shepherd-3.webp",
+      "breed": "australian-shepherd",
+      "role": "3",
+      "alt": "An Australian Shepherd herding a flock of sheep.",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/australian-shepherd/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Australian-Shepherd_Adult_Herding.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "4a1b5ea421ebab2e40b63fe59b7bed5a454a59e1fed068cf5b2b3b54f6ce8f63",
+      "output_sha256": "4cbb5f40f9cf2699838f715ccedc5abe18140e4594593110a66470d192b1d08b",
+      "output_bytes": 79230
+    },
+    {
+      "file": "breeds/australian-shepherd-4.webp",
+      "breed": "australian-shepherd",
+      "role": "4",
+      "alt": "Australian Shepherd standing in a green grassy field at twilight.",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/australian-shepherd/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Australian-Shepherd.2.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "a6e0b837b6ab2eb3345853ca5b02bd421ce9cf3714a777325baf290800aacf88",
+      "output_sha256": "032de1a8d3b175e3b04a4875fe61653f55701521a4b76d7e9426dab6dfd52ade",
+      "output_bytes": 69606
+    },
+    {
+      "file": "breeds/australian-shepherd-card.webp",
+      "breed": "australian-shepherd",
+      "role": "card",
+      "alt": "Australian Shepherd outdoors with a small toy basketball in its mouth.",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/australian-shepherd/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Australian-Shepherd.1.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "e8aecce4137866eded93146bc72da5ce7a6fef1e5017ede570202e7d9d6156f3",
+      "output_sha256": "db4362bb1dce7e8110f9152b92da12186d88047c2838b9346fed66c2b726ad19",
+      "output_bytes": 40678
+    },
+    {
+      "file": "breeds/australian-shepherd.webp",
+      "breed": "australian-shepherd",
+      "role": "hero",
+      "alt": "Australian Shepherd outdoors with a small toy basketball in its mouth.",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/australian-shepherd/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Australian-Shepherd.1.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "e8aecce4137866eded93146bc72da5ce7a6fef1e5017ede570202e7d9d6156f3",
+      "output_sha256": "d5bdf6b762ffbde4d48159ea605819c904423d1efe907c90bd8ec09ecf93ef1e",
+      "output_bytes": 56734
+    },
+    {
+      "file": "breeds/beagle-2.webp",
+      "breed": "beagle",
+      "role": "2",
+      "alt": "Beagle standing in profile looking up in the yard.",
+      "credit": "©CALLALLOO CANDCY - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/beagle/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Beagle-standing-in-profile-looking-up-in-the-yard.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "73a83f2ddc48a6367ec051a2cac7ec2e857440faa277971d57039a1513f4cfca",
+      "output_sha256": "780dae345b6925c740e801fc52b52f1c445c94822cbbb4c6101b9368a3215858",
+      "output_bytes": 49656
+    },
+    {
+      "file": "breeds/beagle-3.webp",
+      "breed": "beagle",
+      "role": "3",
+      "alt": "Group of Beagles running through a field on a scent trail.",
+      "credit": "eAlisa/Getty Images Plus via Getty Images",
+      "source_page": "https://www.akc.org/dog-breeds/beagle/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Group-of-Beagles-running-through-a-field-on-a-scent-trail.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "dce58326b2ae6860058608c6264cebd48a53398832d0442364d7e0ef18b205a0",
+      "output_sha256": "29390cfae88aadee87e26cf40d6a468bc74ec8b236ffeba17b175862835961f5",
+      "output_bytes": 58592
+    },
+    {
+      "file": "breeds/beagle-4.webp",
+      "breed": "beagle",
+      "role": "4",
+      "alt": "Beagle laying down in the shade outdoors.",
+      "credit": "©Kate - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/beagle/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "4eda0b1ec336460a7a155c2b6a769eb19ddf31b5c80b2150203a7e8c11e37363",
+      "output_sha256": "fe289f73f69f02ca4594aa4782a92037f63e2c9a3d92930c708e52fb957957ba",
+      "output_bytes": 71908
+    },
+    {
+      "file": "breeds/beagle-card.webp",
+      "breed": "beagle",
+      "role": "card",
+      "alt": "Beagles standing in a frosty field on a cold morning.",
+      "credit": "©Dogs - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/beagle/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Beagles-standing-in-a-frosty-field-on-a-cold-morning.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "55ef5164dd9be22841117868772a3e75135462ac7a4373fbfdccc35bec712d21",
+      "output_sha256": "5428fefd76f8a60f20c6a6b16cabadc2cdde5f2135957d022429d541782678b3",
+      "output_bytes": 49588
+    },
+    {
+      "file": "breeds/beagle.webp",
+      "breed": "beagle",
+      "role": "hero",
+      "alt": "Beagles standing in a frosty field on a cold morning.",
+      "credit": "©Dogs - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/beagle/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Beagles-standing-in-a-frosty-field-on-a-cold-morning.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "55ef5164dd9be22841117868772a3e75135462ac7a4373fbfdccc35bec712d21",
+      "output_sha256": "1c050887f6f71f9052b44ce2f92d7d9ec5c7ccbf5931e9f4fbec45742d215ff3",
+      "output_bytes": 66754
+    },
+    {
+      "file": "breeds/bernese-mountain-dog-2.webp",
+      "breed": "bernese-mountain-dog",
+      "role": "2",
+      "alt": "Best of Breed: GCH CH Bull Valleys Breezin Right Thru V Hinks, Bernese Mountain Dog; Working Group judging at the 2016 AKC National Championship presented by Royal Canin in Orlando, FL.",
+      "credit": "Photo by HOTdog",
+      "source_page": "https://www.akc.org/dog-breeds/bernese-mountain-dog/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/HDM_9000.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "4d0d0ca88815b76068f3378c16e2ee380a960b1aa4e549d21b0681929d4b5a54",
+      "output_sha256": "64d016c81daa28a4da67221ee955fc8753df7a03ac45f466b523114dd45e3cf0",
+      "output_bytes": 35032
+    },
+    {
+      "file": "breeds/bernese-mountain-dog-3.webp",
+      "breed": "bernese-mountain-dog",
+      "role": "3",
+      "alt": "Bernese Mountain Dog laying outdoors in a field.",
+      "credit": "©Alexandr - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/bernese-mountain-dog/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Bernese-Mountain-Dog-laying-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "3f4631b85f5d59bd0816254238a8b3b62405156caf60404c4dfccafa6f2137bf",
+      "output_sha256": "a87ecdb03bce7353f54d384052d9b990fc4918e18c9a62221ab44226772149e0",
+      "output_bytes": 32078
+    },
+    {
+      "file": "breeds/bernese-mountain-dog-4.webp",
+      "breed": "bernese-mountain-dog",
+      "role": "4",
+      "alt": "Bernese Mountain Dog head portrait outdoors.",
+      "credit": "©Mikkel Bigandt - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/bernese-mountain-dog/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Bernese-Mountain-Dog-head-portrait-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "4fc86d8e675eeb200dc80dc4ace1ca396f74b3ac10272ea28962e931d21a9a3b",
+      "output_sha256": "6178db62b65a488189c7c6f5720c252dcf62cd6ba753a9b5768a16561a8a0fd0",
+      "output_bytes": 30330
+    },
+    {
+      "file": "breeds/bernese-mountain-dog-card.webp",
+      "breed": "bernese-mountain-dog",
+      "role": "card",
+      "alt": "Bernese Mountain Dog standing in three-quarter view on a white background.",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/bernese-mountain-dog/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Bernese-Mountain-Dog-On-White-01.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "0e8617a4e73154bcab97270a40794739df170a6840e6adbf9908825e7d231374",
+      "output_sha256": "8a3913b0e426e9d9f7deaf5927b8ccf2893c81999e6e039102b9613f299853d1",
+      "output_bytes": 12744
+    },
+    {
+      "file": "breeds/bernese-mountain-dog.webp",
+      "breed": "bernese-mountain-dog",
+      "role": "hero",
+      "alt": "Bernese Mountain Dog standing in three-quarter view on a white background.",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/bernese-mountain-dog/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Bernese-Mountain-Dog-On-White-01.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "0e8617a4e73154bcab97270a40794739df170a6840e6adbf9908825e7d231374",
+      "output_sha256": "84be7487ea68630630111889a75e33236c0a3a0e6cd33bc8e09b4a62904bb19c",
+      "output_bytes": 17510
+    },
+    {
+      "file": "breeds/border-collie-2.webp",
+      "breed": "border-collie",
+      "role": "2",
+      "alt": "Border Collie herding a flock of sheep around the field.",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/border-collie/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Border-Collie-herding-a-flock-of-sheep.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "6d6725e0dfba8ce7385c496a02cb1dc70790f23fce47d03c46ee9e373277ddf6",
+      "output_sha256": "a28ef075e6ba5dad7e14e70da4e33bbcd40c356b167e82970d31d8c9eb110428",
+      "output_bytes": 84822
+    },
+    {
+      "file": "breeds/border-collie-3.webp",
+      "breed": "border-collie",
+      "role": "3",
+      "alt": "Border Collie leaping over an agility pole.",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/border-collie/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2018/03/border-collie-agility-pole-jump.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "4cad2335d1c56ad453ecfb9ad16456b68fcbd48198d7eb422fedd48b96280273",
+      "output_sha256": "f6b86e384d9b5212226841f91f53cf4d5f8627a38172b3f494c41296cb6d86af",
+      "output_bytes": 62942
+    },
+    {
+      "file": "breeds/border-collie-4.webp",
+      "breed": "border-collie",
+      "role": "4",
+      "alt": "Border Collie laying down in three-quarter view.",
+      "credit": "Angie Kerins © 2016 American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/border-collie/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Border-Collie-laying-down.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "e157c0a2a1defc9d247ce3063c428863aa2e234cb0705655c8d485f839b78811",
+      "output_sha256": "faf7d0b6983eb79357dd7a0070cf3bd87aa46f80d37016452664fd89facdf5dd",
+      "output_bytes": 25148
+    },
+    {
+      "file": "breeds/border-collie-card.webp",
+      "breed": "border-collie",
+      "role": "card",
+      "alt": "Best of Breed: GCHP CH Majestic Elite Clever Endeavor PT, Border Collie; 2016 AKC National Championship presented by Royal Canin Herding Group judging, Orlando, FL.",
+      "credit": "Photo by HOTdog",
+      "source_page": "https://www.akc.org/dog-breeds/border-collie/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/HDM_0045.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "fc92ddaf1a18dee197450f369b62bfc5d1774cd8cde380b2b59636a62bae7ba9",
+      "output_sha256": "659736d1f6ff79f064146ec6f432b7ffd8387b436c478d7969ad75633f0367f7",
+      "output_bytes": 26364
+    },
+    {
+      "file": "breeds/border-collie.webp",
+      "breed": "border-collie",
+      "role": "hero",
+      "alt": "Best of Breed: GCHP CH Majestic Elite Clever Endeavor PT, Border Collie; 2016 AKC National Championship presented by Royal Canin Herding Group judging, Orlando, FL.",
+      "credit": "Photo by HOTdog",
+      "source_page": "https://www.akc.org/dog-breeds/border-collie/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/HDM_0045.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "fc92ddaf1a18dee197450f369b62bfc5d1774cd8cde380b2b59636a62bae7ba9",
+      "output_sha256": "0d7933f28eb79888f3ae549f63fb9a20166d475f59d1443786ef70a0315a5ab3",
+      "output_bytes": 34782
+    },
+    {
+      "file": "breeds/boston-terrier-2.webp",
+      "breed": "boston-terrier",
+      "role": "2",
+      "alt": "Boston Terrier at the 2016 AKC National Championship presented by Royal Canin.",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/boston-terrier/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Boston-Terrier-at-the-AKC-National-Championship-presented-by-Royal-Canin.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "0b087645a75e2dc1407e289c9a6a6abba7dbd574999d0d79e2802607df5d852b",
+      "output_sha256": "bdfb6b1fce7dfa080c71b82b9add7e5c2ed4c16c762f02ad2fb587f17372ab78",
+      "output_bytes": 45712
+    },
+    {
+      "file": "breeds/boston-terrier-3.webp",
+      "breed": "boston-terrier",
+      "role": "3",
+      "alt": "Boston Terrier leaping over an agility jump.",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/boston-terrier/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Boston-Terrier-leaping-over-an-agility-jump.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "b6402c5e13f435496a9c38ac2424b9028f2706acbf42e1cf32de78e85ddf9b3c",
+      "output_sha256": "905f6f3384c2bac96aa9ebc129efc9879be82aef49ea792592eb656fb1a77acb",
+      "output_bytes": 62188
+    },
+    {
+      "file": "breeds/boston-terrier-4.webp",
+      "breed": "boston-terrier",
+      "role": "4",
+      "alt": "Boston Terrier running outdoors.",
+      "credit": "Tereza Jancikova/Getty Images Plus via Getty Images",
+      "source_page": "https://www.akc.org/dog-breeds/boston-terrier/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Boston-Terrier-running-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "ec3952993c2834e06a9fea7439cf6b79b25a8308556741da51548e619a1fb272",
+      "output_sha256": "877a0ac9514ea588c13a51f69f509215db8e61eaeb0bc228a7b746ba04159b5a",
+      "output_bytes": 21434
+    },
+    {
+      "file": "breeds/boston-terrier-card.webp",
+      "breed": "boston-terrier",
+      "role": "card",
+      "alt": "Boston Terrier head portrait outdoors.",
+      "credit": "Tereza Jancikova/Getty Images Plus",
+      "source_page": "https://www.akc.org/dog-breeds/boston-terrier/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Boston-Terrier-head-portrait-outdoors1.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        600,
+        400
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "9502f0085e325fd5475522a10faef5b455138b91032757e1852e339b85a52a63",
+      "output_sha256": "11f3144d4167408c21a4070e25235b3bd9d704792e62cba19f1d44c6ad074f03",
+      "output_bytes": 14882
+    },
+    {
+      "file": "breeds/boston-terrier.webp",
+      "breed": "boston-terrier",
+      "role": "hero",
+      "alt": "Boston Terrier head portrait outdoors.",
+      "credit": "Tereza Jancikova/Getty Images Plus",
+      "source_page": "https://www.akc.org/dog-breeds/boston-terrier/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Boston-Terrier-head-portrait-outdoors1.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        600,
+        400
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "9502f0085e325fd5475522a10faef5b455138b91032757e1852e339b85a52a63",
+      "output_sha256": "11f3144d4167408c21a4070e25235b3bd9d704792e62cba19f1d44c6ad074f03",
+      "output_bytes": 14882
+    },
+    {
+      "file": "breeds/boxer-2.webp",
+      "breed": "boxer",
+      "role": "2",
+      "alt": "Working Group First and Best of Breed: GCHP CH Mephisto's Speak Of The Devil, Boxer; Working Group judging at the 2016 AKC National Championship presented by Royal Canin in Orlando, FL.",
+      "credit": "David Woo ©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/boxer/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/ANC2016-Conformation-Working-Group-David-0E9A1193.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "4f0bbf244e0a5f245546147bef1f4f56f5f9ad85b17db6517e4b1a3f7e008d11",
+      "output_sha256": "971991dcf05283851ea4b0814b32bc64c11e024ae1821d696c976b264371881c",
+      "output_bytes": 31426
+    },
+    {
+      "file": "breeds/boxer-3.webp",
+      "breed": "boxer",
+      "role": "3",
+      "alt": "Boxer head portrait outdoors.",
+      "credit": "©MeganBetteridge - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/boxer/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Boxer-head-portrait-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "03428e27d15bc1eb20124fbc21a63924d08c3c584a14416cae6233206370976c",
+      "output_sha256": "704f7182126d579c95b96f55ab3b8211ed3dac2d4b8ac54946b25fb34c7ad3e0",
+      "output_bytes": 30148
+    },
+    {
+      "file": "breeds/boxer-4.webp",
+      "breed": "boxer",
+      "role": "4",
+      "alt": "Boxer standing facing forward.",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/boxer/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Boxer.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "55b420e97612b6fce4abc30f1c30098970ddf33933caaf4af5cce26b2c8b093e",
+      "output_sha256": "7391a1f58bd2e5da05e30fa7d7ba3466ee3efee9af6ae7cc0733e62ea6bd78b0",
+      "output_bytes": 8914
+    },
+    {
+      "file": "breeds/boxer-card.webp",
+      "breed": "boxer",
+      "role": "card",
+      "alt": "Boxer standing in profile facing left.",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/boxer/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Boxer.1.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "771cf0477a5975a76e462de45593181fea8847dc7b7b91ebe51022f9581f4ddb",
+      "output_sha256": "c0124fd31fd6327dab61e0d6fa8a3f30379e7e5afc182bd9b03d4a196cd821c7",
+      "output_bytes": 8094
+    },
+    {
+      "file": "breeds/boxer.webp",
+      "breed": "boxer",
+      "role": "hero",
+      "alt": "Boxer standing in profile facing left.",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/boxer/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Boxer.1.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "771cf0477a5975a76e462de45593181fea8847dc7b7b91ebe51022f9581f4ddb",
+      "output_sha256": "3d510ecb83cf15e312239b6b5403f84bebadb3281500548a2d15e3b02e018e51",
+      "output_bytes": 11106
+    },
+    {
+      "file": "breeds/cavalier-king-charles-spaniel-2.webp",
+      "breed": "cavalier-king-charles-spaniel",
+      "role": "2",
+      "alt": "Best of Breed: GCHG CH Blackdale's September Wind, Cavalier King Charles Spaniel; Toy Group judging at the 2016 AKC National Championship presented by Royal Canin in Orlando, FL.",
+      "credit": "Photo by HOTdog",
+      "source_page": "https://www.akc.org/dog-breeds/cavalier-king-charles-spaniel/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/HDM_3717.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "b071b83e99d09ce8031727f4bd0e44abc5854bc64a0e106cd737d64a250c5118",
+      "output_sha256": "b3172ad0b9efb058a1346b4a4eb623798c0ff64cf485977845e99aecdc9afb12",
+      "output_bytes": 23148
+    },
+    {
+      "file": "breeds/cavalier-king-charles-spaniel-3.webp",
+      "breed": "cavalier-king-charles-spaniel",
+      "role": "3",
+      "alt": "Cavalier King Charles Spaniel head in profile.",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/cavalier-king-charles-spaniel/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Cavalier-King-Charles-Spaniel-On-White-02.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        485
+      ],
+      "output_dimensions": [
+        729,
+        485
+      ],
+      "source_sha256": "c7e7e40cff8af3f7f2b7c10778d3eeaff6417e287db0f1103432a3cf1bca35be",
+      "output_sha256": "6f390af7665735914c7b8bf83080f4f345880d86c38e6527ccb0d0f07769317c",
+      "output_bytes": 41398
+    },
+    {
+      "file": "breeds/cavalier-king-charles-spaniel-4.webp",
+      "breed": "cavalier-king-charles-spaniel",
+      "role": "4",
+      "alt": "Cavalier King Charles Spaniel head portrait outdoors.",
+      "credit": "©AnnaFotyma - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/cavalier-king-charles-spaniel/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Cavalier-King-Charles-Spaniel-head-portrait-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "a51824c833eaabc39d97c45788db378f9bee78b6662bdaa6a5a6d1a51bd62f4a",
+      "output_sha256": "5f18b682cd24e41b1003e254d2a5b6a66945e6d68faae133c2ef7e3bc0651c2b",
+      "output_bytes": 28172
+    },
+    {
+      "file": "breeds/cavalier-king-charles-spaniel-card.webp",
+      "breed": "cavalier-king-charles-spaniel",
+      "role": "card",
+      "alt": "Cavalier King Charles Spaniel standing outdoors.",
+      "credit": "BIGANDT.COM/Shutterstock",
+      "source_page": "https://www.akc.org/dog-breeds/cavalier-king-charles-spaniel/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Cavalier-King-Charles-Spaniel-standing-in-the-grass.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "b844093560aa583be69bc77c7b5f5ff2dda4a1593e39d1db26d7b96a8270468d",
+      "output_sha256": "b6db93ef2d9a1a4e05778775fc8ce35efc1473b9bd13409ac68d289e50059312",
+      "output_bytes": 21682
+    },
+    {
+      "file": "breeds/cavalier-king-charles-spaniel.webp",
+      "breed": "cavalier-king-charles-spaniel",
+      "role": "hero",
+      "alt": "Cavalier King Charles Spaniel standing outdoors.",
+      "credit": "BIGANDT.COM/Shutterstock",
+      "source_page": "https://www.akc.org/dog-breeds/cavalier-king-charles-spaniel/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Cavalier-King-Charles-Spaniel-standing-in-the-grass.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "b844093560aa583be69bc77c7b5f5ff2dda4a1593e39d1db26d7b96a8270468d",
+      "output_sha256": "1649777cfe43e31ae20f280b7c42a138cb1bf3a776ad1fced2c73a1734390e41",
+      "output_bytes": 30764
+    },
+    {
+      "file": "breeds/chihuahua-2.webp",
+      "breed": "chihuahua",
+      "role": "2",
+      "alt": "Longhaired Chihuahua at the AKC National Championship.",
+      "credit": "David Woo ©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/chihuahua/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Chihuahua-at-the-AKC-National-Championship.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        485
+      ],
+      "output_dimensions": [
+        729,
+        485
+      ],
+      "source_sha256": "75e21971571185c54714204de3fc41e009ba2c312fd1b6a766b346ab83162bce",
+      "output_sha256": "c3688d163e4fbcbc7c2f6e1b686c9a2043d72a04bce29e2d15290395a62b8bec",
+      "output_bytes": 32600
+    },
+    {
+      "file": "breeds/chihuahua-3.webp",
+      "breed": "chihuahua",
+      "role": "3",
+      "alt": "Smooth coated Chihuahua at the 2016 AKC National Championship.",
+      "credit": "David Woo ©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/chihuahua/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Chihuahua-at-the-2016-AKC-National-Championship.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        485
+      ],
+      "output_dimensions": [
+        729,
+        485
+      ],
+      "source_sha256": "30bd1fb97a820a80621cba37c93db41e32a181f29e15ef6bca8a76793c5c62f9",
+      "output_sha256": "041063e903518c82651699518d35e713316fe0d3dd85b438e546d9c0febbff4d",
+      "output_bytes": 45020
+    },
+    {
+      "file": "breeds/chihuahua-4.webp",
+      "breed": "chihuahua",
+      "role": "4",
+      "alt": "Longhaired Chihuahua walking in the grass.",
+      "credit": "©Mikkel Bigandt - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/chihuahua/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Longhaired-Chihuahua-walking-in-the-grass.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "209656bf045c94a34533c0d707a4e29fa92281eb6eccb03fb1591b55a9171a3e",
+      "output_sha256": "911a01ceaac49383be0fd171b4ea09354f748b3e836e912b14a2cc93fa411809",
+      "output_bytes": 26342
+    },
+    {
+      "file": "breeds/chihuahua-card.webp",
+      "breed": "chihuahua",
+      "role": "card",
+      "alt": "Chihuahua standing in three-quarter view.",
+      "credit": "©cynoclub - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/chihuahua/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Chihuahua-standing-in-three-quarter-view.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "465246a777ba08e21bb31cc10f1cba123ff06b7fb161b5e88e4f403b9c0c3531",
+      "output_sha256": "492f9ed3d9bb2ff6e3815a74439fdfc0383e1c6edb8cbd6f6385ac3df030053b",
+      "output_bytes": 13288
+    },
+    {
+      "file": "breeds/chihuahua.webp",
+      "breed": "chihuahua",
+      "role": "hero",
+      "alt": "Chihuahua standing in three-quarter view.",
+      "credit": "©cynoclub - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/chihuahua/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Chihuahua-standing-in-three-quarter-view.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "465246a777ba08e21bb31cc10f1cba123ff06b7fb161b5e88e4f403b9c0c3531",
+      "output_sha256": "19b8bb9903d8ce90b8e351ef0a60ad6679bc71dcb57e2271d4f7b74960889b0f",
+      "output_bytes": 18556
+    },
+    {
+      "file": "breeds/cocker-spaniel-2.webp",
+      "breed": "cocker-spaniel",
+      "role": "2",
+      "alt": "Two Cocker Spaniels sitting side by side facing forward.",
+      "credit": "©cynoclub - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/cocker-spaniel/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Cocker-Spaniel-on-White-13.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "b120bbd5ab522ec34f8d366917d8f5f557756d73161f62df2650745129d50d9b",
+      "output_sha256": "ded7571d179bbb399748a6627a1f46f9825c739455129bb29b62a7b111b3c457",
+      "output_bytes": 21914
+    },
+    {
+      "file": "breeds/cocker-spaniel-3.webp",
+      "breed": "cocker-spaniel",
+      "role": "3",
+      "alt": "Cocker Spaniel lying down facing forward.",
+      "credit": "©liliya kulianionak - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/cocker-spaniel/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Cocker-Spaniel-on-White-12.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "095e047d982f9558897f3b6c7d3307e1ec7c7ccc9ae61fc4acbaa554ce16bad2",
+      "output_sha256": "debe9ab474f52d6dfb2cc1bee65706a644624c3c6937d691196c0e1e5621949f",
+      "output_bytes": 29888
+    },
+    {
+      "file": "breeds/cocker-spaniel-4.webp",
+      "breed": "cocker-spaniel",
+      "role": "4",
+      "alt": "Cocker Spaniels sitting on a bench outdoors.",
+      "credit": "©Dogs - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/cocker-spaniel/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Cocker-Spaniels-sitting-on-a-bench-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "0e38525a42cacedaeb23af7be87c0ff401643e8f7d9079a45676cc5be1e26bb0",
+      "output_sha256": "9cb011dc6a31a7bbc52b9257835d457b388bcd5df09c405f54358529b4984f71",
+      "output_bytes": 72292
+    },
+    {
+      "file": "breeds/cocker-spaniel-card.webp",
+      "breed": "cocker-spaniel",
+      "role": "card",
+      "alt": "Cocker Spaniel running in the yard.",
+      "credit": "otsphoto/Shutterstock",
+      "source_page": "https://www.akc.org/dog-breeds/cocker-spaniel/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Cocker-Spaniel-running-in-the-yard.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "ec5a607b47fe8616f1dc7ce26c4dab9b2e7957bc5dd0a3738233d3164b9f1970",
+      "output_sha256": "8114ae066ebdf819baf1b10d3f8a192610818d1493c1898715b0410a3a18c469",
+      "output_bytes": 32324
+    },
+    {
+      "file": "breeds/cocker-spaniel.webp",
+      "breed": "cocker-spaniel",
+      "role": "hero",
+      "alt": "Cocker Spaniel running in the yard.",
+      "credit": "otsphoto/Shutterstock",
+      "source_page": "https://www.akc.org/dog-breeds/cocker-spaniel/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Cocker-Spaniel-running-in-the-yard.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "ec5a607b47fe8616f1dc7ce26c4dab9b2e7957bc5dd0a3738233d3164b9f1970",
+      "output_sha256": "868d1f3a2a586489c8f0be35bf59c340aafa38bee021afc1df1eaa9546114671",
+      "output_bytes": 43740
+    },
+    {
+      "file": "breeds/dachshund-2.webp",
+      "breed": "dachshund",
+      "role": "2",
+      "alt": "Best of Breed: GCHS CH Laurelee's Adonis, Dachshund (Smooth); Hound Group judging at the 2016 AKC National Championship presented by Royal Canin in Orlando, FL.",
+      "credit": "Photo by HOTdog",
+      "source_page": "https://www.akc.org/dog-breeds/dachshund/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/HDM_5470.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "646ce4804f5bb2441d2487a40fce2a1ea8a0371cf561beea5eddd3f756e08d73",
+      "output_sha256": "33c4ea2e9f41b29eb5442e6af10d20f36ac841877d0162adff488a94cdc7f8f3",
+      "output_bytes": 27148
+    },
+    {
+      "file": "breeds/dachshund-3.webp",
+      "breed": "dachshund",
+      "role": "3",
+      "alt": "Wirehaired Dachshund on a scent in the grass.",
+      "credit": "©jakob wilden - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/dachshund/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Dachshund-on-a-scent-in-the-grass.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "85cacbb0c7f0b7849296fe6359726142090c6c7d44a9cdaf1856778bc8553ae5",
+      "output_sha256": "9961e9866ed45dd53b9fa6fe981b6d1ce4e2a80005ff8f817a9c35249278b6c4",
+      "output_bytes": 50414
+    },
+    {
+      "file": "breeds/dachshund-4.webp",
+      "breed": "dachshund",
+      "role": "4",
+      "alt": "Smooth coated Dachshund standing outdoors.",
+      "credit": "Plotitsyna NiNa/Shutterstock",
+      "source_page": "https://www.akc.org/dog-breeds/dachshund/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Dachshund-standing-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "3100d757935a365dcbd78f0f1814c5ac3c3ca31e5fa37847732a61134a238fc3",
+      "output_sha256": "626999afaa2a51fcc9b52e10163463157fbb9346abc4f1319387de32bb144154",
+      "output_bytes": 61722
+    },
+    {
+      "file": "breeds/dachshund-card.webp",
+      "breed": "dachshund",
+      "role": "card",
+      "alt": "Longhaired Dachshund standing outdoors.",
+      "credit": "©Mikkel Bigandt - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/dachshund/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Longhaired-Dachshund-standing-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "d78167d6eb02605a321eee45b921a4c0f2945e89744dfe82516569446efaeb7f",
+      "output_sha256": "4212a013e0b82e30711fc702e54ddb5d6ef8233f853c702d84a605e421cb8bf7",
+      "output_bytes": 25770
+    },
+    {
+      "file": "breeds/dachshund.webp",
+      "breed": "dachshund",
+      "role": "hero",
+      "alt": "Longhaired Dachshund standing outdoors.",
+      "credit": "©Mikkel Bigandt - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/dachshund/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Longhaired-Dachshund-standing-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "d78167d6eb02605a321eee45b921a4c0f2945e89744dfe82516569446efaeb7f",
+      "output_sha256": "fe3d0e8e1d4883b07e06cd5c2ce2f9ea297236b882eb24256cc7b94f1d58d89b",
+      "output_bytes": 35262
+    },
+    {
+      "file": "breeds/doberman-pinscher-2.webp",
+      "breed": "doberman-pinscher",
+      "role": "2",
+      "alt": "Doberman Pinscher standing in three-quarter view.",
+      "credit": "©Thomas Weigand",
+      "source_page": "https://www.akc.org/dog-breeds/doberman-pinscher/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Doberman-Pinsher-standing-in-three-quarter-view.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "d5ac4d034b8f9e8425f6eb2a5dc5aa8994140950f83231c7c7aebd1e511f3272",
+      "output_sha256": "96d4e259bea7aa1e387e8d50340415d4ccf3b97fc5659b2958b5e5928c582a5f",
+      "output_bytes": 14790
+    },
+    {
+      "file": "breeds/doberman-pinscher-3.webp",
+      "breed": "doberman-pinscher",
+      "role": "3",
+      "alt": "Doberman Pinscher at the AKC National Championship presented by Royal Canin.",
+      "credit": "HOTdog ©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/doberman-pinscher/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Doberman-Pinscher-at-the-AKC-National-Championship.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "01ad686e720861239243b34bed821958c3b33819b749bfd263d9966280d8cdd4",
+      "output_sha256": "62188b3ab2fb2f89077b9fd337f55f3274b0c3e230ea2b37258b0c0f752008b7",
+      "output_bytes": 32608
+    },
+    {
+      "file": "breeds/doberman-pinscher-4.webp",
+      "breed": "doberman-pinscher",
+      "role": "4",
+      "alt": "Two Doberman Pinschers sitting near the beach.",
+      "credit": "©Rona - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/doberman-pinscher/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Doberman-Pinschers-sitting-together-on-the-beach.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "950b089ac7e703882769824349fad66335eaed7338d5df3466916885ad643679",
+      "output_sha256": "2214089f39cc7230e2f5e9ac7c607811a8b0d419242db9614eef0af6e500e648",
+      "output_bytes": 47816
+    },
+    {
+      "file": "breeds/doberman-pinscher-card.webp",
+      "breed": "doberman-pinscher",
+      "role": "card",
+      "alt": "Doberman Pinscher standing stacked in the grass.",
+      "credit": "©everydoghasastory - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/doberman-pinscher/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Doberman-Pinscher-standing-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "d6c50202efa871ab34285237fd7e10e85b8abc00757a6e059d9b379cb04a7501",
+      "output_sha256": "e6c5f696f205d3e52966c3ac9c4b6495d7581a825875d1fd1da851622e2a39e4",
+      "output_bytes": 26598
+    },
+    {
+      "file": "breeds/doberman-pinscher.webp",
+      "breed": "doberman-pinscher",
+      "role": "hero",
+      "alt": "Doberman Pinscher standing stacked in the grass.",
+      "credit": "©everydoghasastory - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/doberman-pinscher/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Doberman-Pinscher-standing-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "d6c50202efa871ab34285237fd7e10e85b8abc00757a6e059d9b379cb04a7501",
+      "output_sha256": "dcfbcbc68229aee62bb1dc19cd5bedf605421a6404f67a15804936c6e281093f",
+      "output_bytes": 36620
+    },
+    {
+      "file": "breeds/french-bulldog-2.webp",
+      "breed": "french-bulldog",
+      "role": "2",
+      "alt": "French Bulldog standing in profile outdoors in the fall.",
+      "credit": "©Willee Cole - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/french-bulldog/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/French-Bulldog-standing-in-profile-outdoors-in-the-fall.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "031ca86b8c570aba81ae54143d3ce35991c60e50734419de7549d82d620e0507",
+      "output_sha256": "e4c1272a0966786b5163b81c5310745def5d8e1ca71762611affbcc3d9ac3473",
+      "output_bytes": 30446
+    },
+    {
+      "file": "breeds/french-bulldog-3.webp",
+      "breed": "french-bulldog",
+      "role": "3",
+      "alt": "Non-Sporting Group Third and Best of Breed: GCHS CH Le Petit Prince De La Bete, French Bulldog; Non-Sporting Group judging at the 2016 AKC National Championship presented by Royal Canin in Orlando, FL.",
+      "credit": "David Woo ©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/french-bulldog/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/ANC2016-Conformation-Non_Sporting-Group-David-0E9A7826.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "ef20aed9551e23fcaca978ab218b7a56931ba130c939080b30431a4e11c8fd3c",
+      "output_sha256": "b20228061536ac8fec29762573cfbd8cbc2a5b7913adeda00556e639580220e1",
+      "output_bytes": 28296
+    },
+    {
+      "file": "breeds/french-bulldog-4.webp",
+      "breed": "french-bulldog",
+      "role": "4",
+      "alt": "French Bulldog face close up.",
+      "credit": "©CySa  - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/french-bulldog/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/French-Bulldog-face-close-up.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "88c95881124604be8267f903811caac261fb8ce49f03181540d8181b26972472",
+      "output_sha256": "52167d95b4a6b6fc8625336f0dcfbf29b95485e07b30928993fb2d7b7adf45a5",
+      "output_bytes": 77196
+    },
+    {
+      "file": "breeds/french-bulldog-card.webp",
+      "breed": "french-bulldog",
+      "role": "card",
+      "alt": "French Bulldog standing outdoors.",
+      "credit": "©Dyrefotografi.dk - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/french-bulldog/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/French-Bulldog-standing-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        600,
+        400
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "960482169963c9940ced8834aa8f1422144a5e2d5d374916b7f9ff9b1a159ba3",
+      "output_sha256": "d511cc6da4e8b1f7c5f3dc8c524eb893ca1ee730214b87f95f926d8d689e4d9e",
+      "output_bytes": 17838
+    },
+    {
+      "file": "breeds/french-bulldog.webp",
+      "breed": "french-bulldog",
+      "role": "hero",
+      "alt": "French Bulldog standing outdoors.",
+      "credit": "©Dyrefotografi.dk - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/french-bulldog/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/French-Bulldog-standing-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        600,
+        400
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "960482169963c9940ced8834aa8f1422144a5e2d5d374916b7f9ff9b1a159ba3",
+      "output_sha256": "d511cc6da4e8b1f7c5f3dc8c524eb893ca1ee730214b87f95f926d8d689e4d9e",
+      "output_bytes": 17838
+    },
+    {
+      "file": "breeds/german-shepherd-dog-2.webp",
+      "breed": "german-shepherd-dog",
+      "role": "2",
+      "alt": "Best of Breed: GCHS CH Stuttgart's Now Don'T Refuse Me Of Masrock, German Shepherd Dog; 2016 AKC National Championship presented by Royal Canin Herding Group judging, Orlando, FL.",
+      "credit": "Photo by HOTdog",
+      "source_page": "https://www.akc.org/dog-breeds/german-shepherd-dog/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/IMG_0462.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "045b48576f8a940cdbad284d73602ab39fd097bacfbd9da2e0959543e22d2425",
+      "output_sha256": "0cbb8473998fa499ab07a3c67848ecea783cebf950e64278170ec792f605f25f",
+      "output_bytes": 49896
+    },
+    {
+      "file": "breeds/german-shepherd-dog-3.webp",
+      "breed": "german-shepherd-dog",
+      "role": "3",
+      "alt": "German Shepherd Dog running in a field.",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/german-shepherd-dog/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/German-Shepherd-Dog-running.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "6ac30bb663d69bd400ad9f571988df60e4a1dae0cfee4cf0ff639158ef2807c8",
+      "output_sha256": "0a4fa0d06d4ffa673fb8741f98e4f4d1106d5b19dc4fbf2a72c4e6d4f180e117",
+      "output_bytes": 45796
+    },
+    {
+      "file": "breeds/german-shepherd-dog-4.webp",
+      "breed": "german-shepherd-dog",
+      "role": "4",
+      "alt": "German Shepherd Dog standing sideways facing left.",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/german-shepherd-dog/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/German-Shepherd-Dog-On-White-03-1-1.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "7ec84f55ac99ac34da9d3351de5f39c38c869901b20b5ddf21f9552a18c6f4e9",
+      "output_sha256": "a6ac86604b97276d957b70334c432c43bad3ce632cde9044e8c24f1608c93e9d",
+      "output_bytes": 23674
+    },
+    {
+      "file": "breeds/german-shepherd-dog-card.webp",
+      "breed": "german-shepherd-dog",
+      "role": "card",
+      "alt": "German Shepherd Dog lying in three-quarter view with front paws crossed.",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/german-shepherd-dog/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/German-Shepherd-on-White-00.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "ba6d658550aeaccc18a16a28ec463b2f66522743188301323b7ff884111040ac",
+      "output_sha256": "9ff184d13cc895bb89c15dd52f2154c8a87fccce4a3e7b35b1d1d9a65cc680f4",
+      "output_bytes": 19218
+    },
+    {
+      "file": "breeds/german-shepherd-dog.webp",
+      "breed": "german-shepherd-dog",
+      "role": "hero",
+      "alt": "German Shepherd Dog lying in three-quarter view with front paws crossed.",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/german-shepherd-dog/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/German-Shepherd-on-White-00.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "ba6d658550aeaccc18a16a28ec463b2f66522743188301323b7ff884111040ac",
+      "output_sha256": "df79ee2c553c4242a2e03ebce4d954b8c64dc54efa8fe984b2b759aa910f0c8c",
+      "output_bytes": 27168
+    },
+    {
+      "file": "breeds/golden-retriever-2.webp",
+      "breed": "golden-retriever",
+      "role": "2",
+      "alt": "Golden Retriever standing outdoors in profile.",
+      "credit": "©pixphoto - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/golden-retriever/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Golden-Retriever-standing-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "0e532e51079817d0390716201c1f12a683aec78f4692e4285cca713d61866b6e",
+      "output_sha256": "3c4c0b811736c6e8687cad693d121fb0e337347a979218d0e00348f0c531f0a9",
+      "output_bytes": 101028
+    },
+    {
+      "file": "breeds/golden-retriever-3.webp",
+      "breed": "golden-retriever",
+      "role": "3",
+      "alt": "Golden Retriever laying down outdoors.",
+      "credit": "©Brodetskaya Elena - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/golden-retriever/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Golden-Retriever-Slide-11.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "fe29e82a319bde0905351cde4e2fd34bd74e1789c98527a8a86843461146a366",
+      "output_sha256": "dc0956d7ecaaabc63042b6c740a2bf95b5876790e556460044b3ddb35155b1fe",
+      "output_bytes": 48022
+    },
+    {
+      "file": "breeds/golden-retriever-4.webp",
+      "breed": "golden-retriever",
+      "role": "4",
+      "alt": "Golden Retriever retrieving a pheasant in a field.",
+      "credit": "©Field Dog Imagery",
+      "source_page": "https://www.akc.org/dog-breeds/golden-retriever/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Golden-Retriever-retrieving-a-pheasant-in-a-field.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "82d0e1c54ef37479aa58f1d65da7d62e4a805bee5baea80b6de5ac2161014745",
+      "output_sha256": "878841fc914e8ee357cba951c69451ed34fb97853ed71049003d5b5a4f3299e9",
+      "output_bytes": 69536
+    },
+    {
+      "file": "breeds/golden-retriever-card.webp",
+      "breed": "golden-retriever",
+      "role": "card",
+      "alt": "Golden Retriever wading into a lake.",
+      "credit": "PhilStev/Getty Images Plus via Getty Images",
+      "source_page": "https://www.akc.org/dog-breeds/golden-retriever/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Golden-Retriever-wading-into-a-lake.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "831dff48749612a4f12fed7ca7fdd61877fb76a5feea5f235926d1ce58a59246",
+      "output_sha256": "888d20298038f88cf4bf253a5f0410221632e3bfe151e510ba53988cc457e939",
+      "output_bytes": 68420
+    },
+    {
+      "file": "breeds/golden-retriever.webp",
+      "breed": "golden-retriever",
+      "role": "hero",
+      "alt": "Golden Retriever wading into a lake.",
+      "credit": "PhilStev/Getty Images Plus via Getty Images",
+      "source_page": "https://www.akc.org/dog-breeds/golden-retriever/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Golden-Retriever-wading-into-a-lake.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "831dff48749612a4f12fed7ca7fdd61877fb76a5feea5f235926d1ce58a59246",
+      "output_sha256": "936157fb2368bc7c4d3582fde16acd6d113e6324a17295f8755953a36a7ff544",
+      "output_bytes": 94838
+    },
+    {
+      "file": "breeds/great-dane-2.webp",
+      "breed": "great-dane",
+      "role": "2",
+      "alt": "Great Dane looking back over his shoulder outdoors at the park in the fall.",
+      "credit": "horsesdogscats/Getty Images Plus via Getty Images",
+      "source_page": "https://www.akc.org/dog-breeds/great-dane/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Great-Dane-looking-back-over-his-shoulder-outdoors-at-the-park.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "a597ef03374fd9d511faa40e5fb2493a84e5733187e406b471abe632dfc1a295",
+      "output_sha256": "53313ff05a0b612bea556e1544575a1b4244aa0d5088e8831b20bd6254a9e5a6",
+      "output_bytes": 23814
+    },
+    {
+      "file": "breeds/great-dane-3.webp",
+      "breed": "great-dane",
+      "role": "3",
+      "alt": "Great Dane playing on the beach.",
+      "credit": "©adogslifephoto - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/great-dane/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Great-Dane-playing-on-the-beach.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "3d1b51b8c67361407b14aa11f0a97c84f8886a70e2693afb86104564730a34c2",
+      "output_sha256": "b4d6016532dd332c721b50cb1da9dd62d31a6279310d6ea8b2afb302358b8e48",
+      "output_bytes": 44170
+    },
+    {
+      "file": "breeds/great-dane-4.webp",
+      "breed": "great-dane",
+      "role": "4",
+      "alt": "Great Dane at the AKC National Championship.",
+      "credit": "Photo by HOTdog",
+      "source_page": "https://www.akc.org/dog-breeds/great-dane/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Great-Dane-at-the-AKC-National-Championship.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "2f08be9ec8c0e813fe77d9ce420b56d8844fe175c3ee743ba7de4b96584c01fd",
+      "output_sha256": "27e32d219095d2b98ab588e95705d0da97c285893ed13e5cf54add199f30f8d1",
+      "output_bytes": 28180
+    },
+    {
+      "file": "breeds/great-dane-card.webp",
+      "breed": "great-dane",
+      "role": "card",
+      "alt": "Great Dane standing in profile outdoors.",
+      "credit": "©slowmotiongli - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/great-dane/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Great-Dane-standing-in-profile-outdoors1.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        600,
+        400
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "5903c99535696d965e719b7e6ace9a1f2dbe7ab8be107d531f8c14d3a2fd0848",
+      "output_sha256": "35013cc1e3b0ed70ed627d55364d6e748c424225d516e43080f24bd61c91cfa4",
+      "output_bytes": 53734
+    },
+    {
+      "file": "breeds/great-dane.webp",
+      "breed": "great-dane",
+      "role": "hero",
+      "alt": "Great Dane standing in profile outdoors.",
+      "credit": "©slowmotiongli - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/great-dane/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Great-Dane-standing-in-profile-outdoors1.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        600,
+        400
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "5903c99535696d965e719b7e6ace9a1f2dbe7ab8be107d531f8c14d3a2fd0848",
+      "output_sha256": "35013cc1e3b0ed70ed627d55364d6e748c424225d516e43080f24bd61c91cfa4",
+      "output_bytes": 53734
+    },
+    {
+      "file": "breeds/labrador-retriever-2.webp",
+      "breed": "labrador-retriever",
+      "role": "2",
+      "alt": "Labrador Retriever standing in three-quarter view facing forward.",
+      "credit": "Thomas Pitera ©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/labrador-retriever/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Labrador-Retriever-On-White-01.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "299a66c75c2a6fd354a9af10ea495ee6ac2f850f681023fc4f7aac314f6fe40a",
+      "output_sha256": "71e76b176ebd73d4fbcc7bed2713d0151e5a2c36447c978fc8bb013d2339bc79",
+      "output_bytes": 10180
+    },
+    {
+      "file": "breeds/labrador-retriever-3.webp",
+      "breed": "labrador-retriever",
+      "role": "3",
+      "alt": "Labrador Retriever retrieving a bird in a field.",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/labrador-retriever/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Labrador-Retriever-retrieving-a-bird-in-a-field.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "a40d6dc1190c904e1315c9bfaa9c25e5a3e538eba1c7a956fa8bf7e4e32d7147",
+      "output_sha256": "c90a2daee0478e8bac0f822dbe93c421b4ed53fb76b39bceeb920f78ffcbc2aa",
+      "output_bytes": 52990
+    },
+    {
+      "file": "breeds/labrador-retriever-4.webp",
+      "breed": "labrador-retriever",
+      "role": "4",
+      "alt": "Labrador Retriever leaping off a dock.",
+      "credit": "©Field Dog Imagery",
+      "source_page": "https://www.akc.org/dog-breeds/labrador-retriever/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Labrador-Retriever-jumping-off-deck.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "7a5f013d9fda53947821a873c6916ef888785c372c314d732664548d2f08f127",
+      "output_sha256": "41511a0062a23d952adab6acfeeb59375ffca37b6350b05b8872442ed1ad5bf5",
+      "output_bytes": 48328
+    },
+    {
+      "file": "breeds/labrador-retriever-card.webp",
+      "breed": "labrador-retriever",
+      "role": "card",
+      "alt": "Three Labrador Retrievers sitting outdoors, each a different coat color.",
+      "credit": "©Field Dog Imagery",
+      "source_page": "https://www.akc.org/dog-breeds/labrador-retriever/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Labrador-Retrievers-three-colors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "5b661cafa01557f988ccf7afa639e3525e8fca39fb3646132beed177ec7b0fab",
+      "output_sha256": "3cd586a42309eddf7f75ca3a195555ae34331851ea3a259afac6bcd50149c947",
+      "output_bytes": 68186
+    },
+    {
+      "file": "breeds/labrador-retriever.webp",
+      "breed": "labrador-retriever",
+      "role": "hero",
+      "alt": "Three Labrador Retrievers sitting outdoors, each a different coat color.",
+      "credit": "©Field Dog Imagery",
+      "source_page": "https://www.akc.org/dog-breeds/labrador-retriever/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Labrador-Retrievers-three-colors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "5b661cafa01557f988ccf7afa639e3525e8fca39fb3646132beed177ec7b0fab",
+      "output_sha256": "9163e686c12fcc8d36fccb09643eb34a6228e53f4880a95d097a2b905f2d319c",
+      "output_bytes": 97688
+    },
+    {
+      "file": "breeds/newfoundland-2.webp",
+      "breed": "newfoundland",
+      "role": "2",
+      "alt": "Newfoundland head portrait outdoors.",
+      "credit": "©olgagorovenko - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/newfoundland/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Newfoundland-head-portrait-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "afaf2a18ae220c45b1be54315434b666d0a6cd07137faa30d2d66783b8b80707",
+      "output_sha256": "3d2a0549d862b46c6fd60dd7bd062b92016e41d13a87582b4e195dab64a31e26",
+      "output_bytes": 38034
+    },
+    {
+      "file": "breeds/newfoundland-3.webp",
+      "breed": "newfoundland",
+      "role": "3",
+      "alt": "Newfoundland running in a field.",
+      "credit": "©hemlep - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/newfoundland/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Newfoundland-running-in-a-field-1.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "71d37f6ba07cb8112c7839c7788f2897bdd94a18cfab28e00242f8edd08c6990",
+      "output_sha256": "54c517fe58b9354ef53d562016eb1f5a247f49e99b0555b09359a531e12b2d00",
+      "output_bytes": 54398
+    },
+    {
+      "file": "breeds/newfoundland-4.webp",
+      "breed": "newfoundland",
+      "role": "4",
+      "alt": "Newfoundland laying down outdoors.",
+      "credit": "©deviddo - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/newfoundland/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Newfoundland-laying-down-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        600,
+        400
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "420d30dcad5ae8e86d0df4d876375b121c7363e1dd75e88605b2559b43b2b6e4",
+      "output_sha256": "a72be0c8f78e194e19eb459cfae66f72f01a3cc970632a3985a5f4b5cde24012",
+      "output_bytes": 33240
+    },
+    {
+      "file": "breeds/newfoundland-card.webp",
+      "breed": "newfoundland",
+      "role": "card",
+      "alt": "Newfoundland standing in profile outdoors.",
+      "credit": "©romaset - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/newfoundland/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Newfoundland-standing-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "df5deb4290ec68b8f9738c3b2167c2bd2a55552dcf6246f503fc607378dbbc15",
+      "output_sha256": "133acdd72099ec9cbe83a3a2061220b136ba87e2a522ba09493f903b04621ef6",
+      "output_bytes": 37044
+    },
+    {
+      "file": "breeds/newfoundland.webp",
+      "breed": "newfoundland",
+      "role": "hero",
+      "alt": "Newfoundland standing in profile outdoors.",
+      "credit": "©romaset - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/newfoundland/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Newfoundland-standing-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "df5deb4290ec68b8f9738c3b2167c2bd2a55552dcf6246f503fc607378dbbc15",
+      "output_sha256": "83af671b87c04ffbb2933bcdafaaa7956eeb304de6b0a060f3a1476fb6e837ca",
+      "output_bytes": 50078
+    },
+    {
+      "file": "breeds/papillon-2.webp",
+      "breed": "papillon",
+      "role": "2",
+      "alt": "Best of Breed: GCHP CH Involo Wanna Be Startin' Somethin', Papillon; Toy Group judging at the 2016 AKC National Championship presented by Royal Canin in Orlando, FL.",
+      "credit": "David Woo ©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/papillon/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/ANC2016-Conformation-Toy-Group-David-0E9A4983.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "862c6ddfc183252725f08df4495866879153dae6729c9c384c142d7d0748dd58",
+      "output_sha256": "03326586df3c6780a297adc4319b76a89ae457a9ef26333a717c9f1ee390b56a",
+      "output_bytes": 24310
+    },
+    {
+      "file": "breeds/papillon-3.webp",
+      "breed": "papillon",
+      "role": "3",
+      "alt": "Papillons sitting outdoors in autumn.",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/papillon/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Papillons-sitting-outdoors-in-autumn.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "94692a0bf885123b46ddbd1c479b06f0af7b54a65e0fe62a58f58b81f56faf4d",
+      "output_sha256": "494152d3bd62686363f5e6752b24f8cc96d998ec1ae0d0ec28a086e22eece998",
+      "output_bytes": 50546
+    },
+    {
+      "file": "breeds/papillon-4.webp",
+      "breed": "papillon",
+      "role": "4",
+      "alt": "Papillon",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/papillon/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Papillon-on-white-06.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "d46d2a4bfe5c9c9c74e83b09820ca479d0d50ef8319d3916afc93dbbd4b62816",
+      "output_sha256": "473b29f7e05f02baf5015b104b8e06981657c9f80df2eacb07f2c16cbd572c46",
+      "output_bytes": 24406
+    },
+    {
+      "file": "breeds/papillon-card.webp",
+      "breed": "papillon",
+      "role": "card",
+      "alt": "Papillon standing facing left, head turned forward",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/papillon/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Papillon-On-White-01.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "b750cc7a3c21086fb5852c08a5c1b8a6b36e786d124f742588c745acfb2522ae",
+      "output_sha256": "6c2f839e76110883eb353bcddb3f728e6af57d22d432a84503b66d0ce0366116",
+      "output_bytes": 8778
+    },
+    {
+      "file": "breeds/papillon.webp",
+      "breed": "papillon",
+      "role": "hero",
+      "alt": "Papillon standing facing left, head turned forward",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/papillon/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Papillon-On-White-01.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "b750cc7a3c21086fb5852c08a5c1b8a6b36e786d124f742588c745acfb2522ae",
+      "output_sha256": "b5ba2ab1f38e7420daa8abbab0ddb8e1e345d8f20c03976654c6caddc15bbeef",
+      "output_bytes": 12112
+    },
+    {
+      "file": "breeds/poodle-standard-2.webp",
+      "breed": "poodle-standard",
+      "role": "2",
+      "alt": "Best of Breed: CH Lakeridge Adventures Of Sam Spade, Poodle (Standard); Non-Sporting Group judging at the 2016 AKC National Championship presented by Royal Canin in Orlando, FL.",
+      "credit": "Photo by HOTdog",
+      "source_page": "https://www.akc.org/dog-breeds/poodle-standard/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/HDM_6215.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "e38f0017e792b6b8cfbe01752b917b6b24a0d8cc855bb542b30c23e7abbb5958",
+      "output_sha256": "b9a8079d67a82614e8ffab056042247be652c6d5eccc2c6f0f56bb6499129f5c",
+      "output_bytes": 25048
+    },
+    {
+      "file": "breeds/poodle-standard-3.webp",
+      "breed": "poodle-standard",
+      "role": "3",
+      "alt": "Poodle with a white coat lying facing forward",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/poodle-standard/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Poodle-On-White-121.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "e9d1839b131a2a0b0d9ac975a62a5fd35e97ba1b1873d4eca8bc4cb0bf895d9d",
+      "output_sha256": "9a8b14763791df00b240b108f8ee2a4b560f209fb4862da59f0044316a801636",
+      "output_bytes": 12508
+    },
+    {
+      "file": "breeds/poodle-standard-4.webp",
+      "breed": "poodle-standard",
+      "role": "4",
+      "alt": "Poodle retrieving a dumbbell in Obedience.",
+      "credit": "Photo by Pix 'n Pages ©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/poodle-standard/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Poodle-retrieving-a-dumbbell-in-Obedience-e1710360425653.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        600,
+        400
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "4168f8a6cc0db267438ae32f6f0bd5a821b8cce833f9e2cd2a961053c1e9096d",
+      "output_sha256": "da28d65a102e5297c7c5e10e5bb9d2c626ede0e7e8e95570674cb5ba9be09e7e",
+      "output_bytes": 30620
+    },
+    {
+      "file": "breeds/poodle-standard-card.webp",
+      "breed": "poodle-standard",
+      "role": "card",
+      "alt": "Standard Poodle standing outdoors at the beach.",
+      "credit": "©everydoghasastory - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/poodle-standard/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Standard-Poodle-standing-outdoors-at-the-beach.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        600,
+        400
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "45537e03093248c4cea8b460fdd1d36da8e5768e349ca527df45491d261e5fa3",
+      "output_sha256": "b9861f6b2ee7f4f4532ee6be77bb21c2ac4ea3666361d8e7db4dc6547f08ef00",
+      "output_bytes": 25282
+    },
+    {
+      "file": "breeds/poodle-standard.webp",
+      "breed": "poodle-standard",
+      "role": "hero",
+      "alt": "Standard Poodle standing outdoors at the beach.",
+      "credit": "©everydoghasastory - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/poodle-standard/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Standard-Poodle-standing-outdoors-at-the-beach.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        600,
+        400
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "45537e03093248c4cea8b460fdd1d36da8e5768e349ca527df45491d261e5fa3",
+      "output_sha256": "b9861f6b2ee7f4f4532ee6be77bb21c2ac4ea3666361d8e7db4dc6547f08ef00",
+      "output_bytes": 25282
+    },
+    {
+      "file": "breeds/rottweiler-2.webp",
+      "breed": "rottweiler",
+      "role": "2",
+      "alt": "Best of Breed: GCHP CH Big Beach's Rhumba Man, Rottweiler; Working Group judging at the 2016 AKC National Championship presented by Royal Canin in Orlando, FL.",
+      "credit": "David Woo ©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/rottweiler/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/ANC2016-Conformation-Working-Group-David-0E9A1263.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "6a2b0e21cc5025fc42501c45e443dd5958cdfea11335c26adf3cff8fd3e4acca",
+      "output_sha256": "079e9eb4b1a4e6e2a607747172170b10ed75b0ebc61c516666a9c0fdd30c4592",
+      "output_bytes": 31858
+    },
+    {
+      "file": "breeds/rottweiler-3.webp",
+      "breed": "rottweiler",
+      "role": "3",
+      "alt": "Rottweiler coat detail.",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/rottweiler/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Rottweiler-On-White-04-2.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "5e40dee4b4be74ad8823735567107b0a46839e857c81f174c3a4dad25a9a887f",
+      "output_sha256": "a6fb1cbe11f7e08852d92d6a8b80275ac40ee7aceafdee5401eda78bb5e33b6c",
+      "output_bytes": 33568
+    },
+    {
+      "file": "breeds/rottweiler-4.webp",
+      "breed": "rottweiler",
+      "role": "4",
+      "alt": "Rottweiler lying on a park bench.",
+      "credit": "virgonira/Getty Images Plus via Getty Images",
+      "source_page": "https://www.akc.org/dog-breeds/rottweiler/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Rottweiler-lying-on-a-park-bench.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "5b7a69c4fad802e4a7f1dd07a1deb4311b76146d59e06909c8c8bf68a407778b",
+      "output_sha256": "333e9dcae3becf60a5fcf5a0ef4a83d79d8d195e45b6d4ef637a4dd4677ad24c",
+      "output_bytes": 90618
+    },
+    {
+      "file": "breeds/rottweiler-card.webp",
+      "breed": "rottweiler",
+      "role": "card",
+      "alt": "Rottweiler sitting in three-quarter view.",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/rottweiler/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Rottweiler-On-White-10.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "75ab7cdc9638cd3f3bf05d4644ea13b435a9178e009df31653aa77de731d7da7",
+      "output_sha256": "f45896cdd97cc1982321939bea5a34ae8a4c0ecf2ef0734ba097452838dd9ce8",
+      "output_bytes": 12356
+    },
+    {
+      "file": "breeds/rottweiler.webp",
+      "breed": "rottweiler",
+      "role": "hero",
+      "alt": "Rottweiler sitting in three-quarter view.",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/rottweiler/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Rottweiler-On-White-10.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "75ab7cdc9638cd3f3bf05d4644ea13b435a9178e009df31653aa77de731d7da7",
+      "output_sha256": "0cae5532a7a1b7e33ef32aff8f12593dde338620aa64bde0731a4c2861ac45b1",
+      "output_bytes": 16848
+    },
+    {
+      "file": "breeds/shih-tzu-2.webp",
+      "breed": "shih-tzu",
+      "role": "2",
+      "alt": "Best of Breed and Best Bred By in Breed/Variety: GCHS CH Marja-Tu Chu Dream Catcher, Shih Tzu; Toy Group judging at the 2016 AKC National Championship presented by Royal Canin in Orlando, FL.",
+      "credit": "David Woo ©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/shih-tzu/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/ANC2016-Conformation-Toy-Group-David-0E9A4949.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "7fab86b3f1c470c2d78fdeda1ff455876032e3eb0370d6290fc4de0e30d66af7",
+      "output_sha256": "b37e2683c7912b146ec3e5c22e871d7bf83cf59826fd11b61dbe0377224805a4",
+      "output_bytes": 27714
+    },
+    {
+      "file": "breeds/shih-tzu-3.webp",
+      "breed": "shih-tzu",
+      "role": "3",
+      "alt": "Shih Tzu walking in the grass.",
+      "credit": "©Train arrival - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/shih-tzu/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Shih-Tzu-in-the-grass.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "df442bad260020eef728869772c3a7d38851cb7e97a127d71537260e3d534098",
+      "output_sha256": "acbaea2b97196d059878b4c109ae3d31c9ce5ab18ad199590c8fbdc34f32c4f9",
+      "output_bytes": 55558
+    },
+    {
+      "file": "breeds/shih-tzu-4.webp",
+      "breed": "shih-tzu",
+      "role": "4",
+      "alt": "Shih Tzu laying down in three-quarter view.",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/shih-tzu/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Shih-Tzu-laying-down-in-three-quarter-view.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "3b640d4786f3e0841735183c5b2a150a8c60b1a1bdc1fb7ec97a1aadef29d7d7",
+      "output_sha256": "b627e5b2bf608e2e9bd315092d48ef363a92f16f321602a4ee86bb248699a482",
+      "output_bytes": 15642
+    },
+    {
+      "file": "breeds/shih-tzu-card.webp",
+      "breed": "shih-tzu",
+      "role": "card",
+      "alt": "Shih Tzu standing in three-quarter view facing forward.",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/shih-tzu/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Shih-Tzu-On-White-01.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "ef5356e5427ecef583811adedb67531ca841a9e5a7c4240f3448ff4521076513",
+      "output_sha256": "7474eed7daff5c590ca41b95750a9abc690252e0b12cd20adb07c7bf0e3bdf2b",
+      "output_bytes": 12756
+    },
+    {
+      "file": "breeds/shih-tzu.webp",
+      "breed": "shih-tzu",
+      "role": "hero",
+      "alt": "Shih Tzu standing in three-quarter view facing forward.",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/shih-tzu/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Shih-Tzu-On-White-01.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "ef5356e5427ecef583811adedb67531ca841a9e5a7c4240f3448ff4521076513",
+      "output_sha256": "6264d14412dbfb59e26fe84f1560bbfdb083f965afdff91d1661b09f21e633d2",
+      "output_bytes": 17828
+    },
+    {
+      "file": "breeds/siberian-husky-2.webp",
+      "breed": "siberian-husky",
+      "role": "2",
+      "alt": "Best of Breed: GCHS CH Karnovanda's Stephen Coldbear, Siberian Husky; Working Group judging at the 2016 AKC National Championship presented by Royal Canin in Orlando, FL.",
+      "credit": "David Woo ©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/siberian-husky/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/ANC2016-Conformation-Working-Group-David-0E9A1344.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "2706910c2aa7cb4a58dafaab6e2d3f3a33e7cf8ab4e1cfb356c88b64dc7e3da8",
+      "output_sha256": "5f5a3d3ef7d02184276543d5c4d92e7223fdd45a98f1f8d7deb3229605e4338d",
+      "output_bytes": 27774
+    },
+    {
+      "file": "breeds/siberian-husky-3.webp",
+      "breed": "siberian-husky",
+      "role": "3",
+      "alt": "Siberian Husky standing in three-quarter view facing forward.",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/siberian-husky/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Siberian-Husky-On-White-01.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "ef1f819a099b68b7680497301d94c1cc87ef905171889879585048402b67273d",
+      "output_sha256": "546a16fcbd6e11b1e8e90f763d687627ed6ba39b37bb41a7deacfcb56174ae27",
+      "output_bytes": 12106
+    },
+    {
+      "file": "breeds/siberian-husky-4.webp",
+      "breed": "siberian-husky",
+      "role": "4",
+      "alt": "Siberian Husky head portrait outdoors.",
+      "credit": "©Tatiana - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/siberian-husky/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Siberian-Husky-head-portrait-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "2800ed541828275484e21ca84f399e4e7a949697edec758c83066ed867dec943",
+      "output_sha256": "d1cdc9949be16b105ad3bc6ad884e57254be15e95f3038598bd5b6c7930923a6",
+      "output_bytes": 23146
+    },
+    {
+      "file": "breeds/siberian-husky-card.webp",
+      "breed": "siberian-husky",
+      "role": "card",
+      "alt": "Siberian Husky standing outdoors in the winter.",
+      "credit": "©Sergey Bogdanov - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/siberian-husky/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Siberian-Husky-standing-outdoors-in-the-winter.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "8fb0318ed02f8a28133664be7faa884475cbb961c8f1ee1ff46410e34e38b8b3",
+      "output_sha256": "54a3d1e56572d241f597586e464e454ebbc43029ffe2955e8470eee71f5d6171",
+      "output_bytes": 17442
+    },
+    {
+      "file": "breeds/siberian-husky.webp",
+      "breed": "siberian-husky",
+      "role": "hero",
+      "alt": "Siberian Husky standing outdoors in the winter.",
+      "credit": "©Sergey Bogdanov - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/siberian-husky/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Siberian-Husky-standing-outdoors-in-the-winter.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "8fb0318ed02f8a28133664be7faa884475cbb961c8f1ee1ff46410e34e38b8b3",
+      "output_sha256": "b06679b26aefbfa3ea3ff4706d439955ba93e079a1b7ff1e637266804191bfa2",
+      "output_bytes": 23564
+    },
+    {
+      "file": "breeds/west-highland-white-terrier-2.webp",
+      "breed": "west-highland-white-terrier",
+      "role": "2",
+      "alt": "Best of Breed: GCHG CH Lotrando Sunshine Celebration, West Highland White Terrier; Terrier Group judging at the 2016 AKC National Championship presented by Royal Canin in Orlando, FL.",
+      "credit": "David Woo ©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/west-highland-white-terrier/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/ANC2016-Conformation-Terrier-Group-David-0E9A2996.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "a13044c77410c16cfa86e0109abcc51cc6e45147bbb013c6b56cdb637d74e596",
+      "output_sha256": "19639a95217a0f5d1175199aad628b470d6227fdf3f5e2271d924b00d5b46532",
+      "output_bytes": 34382
+    },
+    {
+      "file": "breeds/west-highland-white-terrier-3.webp",
+      "breed": "west-highland-white-terrier",
+      "role": "3",
+      "alt": "West Highland White Terrier standing facing left.",
+      "credit": "©American Kennel Club",
+      "source_page": "https://www.akc.org/dog-breeds/west-highland-white-terrier/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Westie1.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "e0767e261c51e400b02104a57933f79aa969911b067d0cd7c7b202bf9091b640",
+      "output_sha256": "6a635fbf9a477a330815bd8a22f6fea61d8a52fae636be7ec2e598c99b044b37",
+      "output_bytes": 9584
+    },
+    {
+      "file": "breeds/west-highland-white-terrier-4.webp",
+      "breed": "west-highland-white-terrier",
+      "role": "4",
+      "alt": "West Highland White Terrier head facing forward.",
+      "credit": "©Gordey - stock.adobe.com",
+      "source_page": "https://www.akc.org/dog-breeds/west-highland-white-terrier/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/West-Highland-White-Terrier-on-White-01.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "414d306f72a63a6c0b6e39d1b40075a63c752977ba038800d64481f01826b769",
+      "output_sha256": "4eadc9bcab0a9871420f14e27b9a3caa376919522e001383d1c8352295e6a042",
+      "output_bytes": 16908
+    },
+    {
+      "file": "breeds/west-highland-white-terrier-card.webp",
+      "breed": "west-highland-white-terrier",
+      "role": "card",
+      "alt": "West Highland White Terrier laying down in the grass.",
+      "credit": "Wavetop/Getty Images Plus via Getty Images",
+      "source_page": "https://www.akc.org/dog-breeds/west-highland-white-terrier/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/West-Highland-White-Terrier-laying-down-in-the-grass.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "b408a0c818b81b4e3a7d297f2c95dd74112390bbe005aac5ada8b523938d0ba5",
+      "output_sha256": "4bbe939db6042a5e20cd88d35bb26fe577d88012dbe3b85d38b3da434a3fbf3e",
+      "output_bytes": 29348
+    },
+    {
+      "file": "breeds/west-highland-white-terrier.webp",
+      "breed": "west-highland-white-terrier",
+      "role": "hero",
+      "alt": "West Highland White Terrier laying down in the grass.",
+      "credit": "Wavetop/Getty Images Plus via Getty Images",
+      "source_page": "https://www.akc.org/dog-breeds/west-highland-white-terrier/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/West-Highland-White-Terrier-laying-down-in-the-grass.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "b408a0c818b81b4e3a7d297f2c95dd74112390bbe005aac5ada8b523938d0ba5",
+      "output_sha256": "77299bbc9bec97aef2c6fd9213c52147ffff5f5808a25bac6d35e54b6fe84cad",
+      "output_bytes": 39878
+    },
+    {
+      "file": "breeds/whippet-2.webp",
+      "breed": "whippet",
+      "role": "2",
+      "alt": "Best in Show, Best Bred By Exhibitor in Show, Hound Group First, BBE Hound Group First, Best of Breed, Best Bred By in Breed: GCHP CH Pinnacle Tennessee Whiskey (Whiskey) (Whippet); 2018 AKC National Championship presented by Royal Canin in Orlando, FL.",
+      "credit": "Photo by HOTdog",
+      "source_page": "https://www.akc.org/dog-breeds/whippet/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/HDM_8590.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "e0a39d82cd8ab651b381a2587b46b90cc8f9c88d502e57aea225c00e733d558e",
+      "output_sha256": "ef98428a20c31cfe3469a814fc90d8df44e924f5a5efadc96d2b2a2d0814ec42",
+      "output_bytes": 33662
+    },
+    {
+      "file": "breeds/whippet-3.webp",
+      "breed": "whippet",
+      "role": "3",
+      "alt": "Whippet head looking up at a green tree branch with white flowers.",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/whippet/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Whippet-head.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "82dfccea84ef153a05e288038de7130d1a8199ba3ecccb39fc20918b6f9336a3",
+      "output_sha256": "5393b1be46364685b9b79321b752d35545cc51858acb628d5381b1a0f036a33e",
+      "output_bytes": 20156
+    },
+    {
+      "file": "breeds/whippet-4.webp",
+      "breed": "whippet",
+      "role": "4",
+      "alt": "Whippet standing outdoors in a field.",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/whippet/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Whippet-standing-outdoors.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "5773d5b04cfd45672243430e493b0c1f47fa119483d387264b4356a34cb41a4f",
+      "output_sha256": "530a5d2124c34a067624f027aa8ea1cad29947a65285023abb2a39df8c02b218",
+      "output_bytes": 33124
+    },
+    {
+      "file": "breeds/whippet-card.webp",
+      "breed": "whippet",
+      "role": "card",
+      "alt": "Whippet standing in three-quarter view",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/whippet/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Whippet-On-White-01.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        600,
+        400
+      ],
+      "source_sha256": "cce10c3256a0f1e960d2778de889c72a9855222a24a47f46898dc0b82b9abdfb",
+      "output_sha256": "ec950ccd74810fd5751b722c0b79f061dc09348321c01ae8ee8c0e822b48fd3c",
+      "output_bytes": 11108
+    },
+    {
+      "file": "breeds/whippet.webp",
+      "breed": "whippet",
+      "role": "hero",
+      "alt": "Whippet standing in three-quarter view",
+      "credit": "",
+      "source_page": "https://www.akc.org/dog-breeds/whippet/",
+      "source_url": "https://www.akc.org/wp-content/uploads/2017/11/Whippet-On-White-01.jpg",
+      "source_content_type": "image/jpeg",
+      "source_dimensions": [
+        729,
+        486
+      ],
+      "output_dimensions": [
+        729,
+        486
+      ],
+      "source_sha256": "cce10c3256a0f1e960d2778de889c72a9855222a24a47f46898dc0b82b9abdfb",
+      "output_sha256": "2438ba84cfa8437558fe7d68ddbdbdce30f688eb70ba8e7bfa4aab1f0077b088",
+      "output_bytes": 14798
+    }
+  ]
+}

@@ -1,0 +1,995 @@
+{
+ "schema_version": 1,
+ "captured_at": "2026-09-13T02:58:28.306253+00:00",
+ "capture_scope": "akc.org homepage sports tiles, the Featured Events akc.org/sports/ promotes plus each event's own detail page, and Expert Advice articles sampled per category. No event-search or member-only data.",
+ "source_site": "https://www.akc.org/",
+ "sources": [
+  {
+   "url": "https://www.akc.org/",
+   "status": 200,
+   "sha256": "477f9da5945ede6a0453923629282ecca8247b318301f4f0b1ab049892d590fc",
+   "at": "2026-09-13T02:57:22.169578+00:00"
+  },
+  {
+   "url": "https://www.akc.org/sports/",
+   "status": 200,
+   "sha256": "b10e0dc2c1e3af017148e01e8fe07482becf2586894feb5e388ef0596794aff7",
+   "at": "2026-09-13T02:57:23.255498+00:00"
+  },
+  {
+   "url": "https://www.akc.org/sports/conformation/fcm-universal-championship/",
+   "status": 200,
+   "sha256": "c6ce7bfc07f2b1469864aeae74af366cee9fc3bb325ec9dbf51dc005b37f5fcb",
+   "at": "2026-09-13T02:57:24.123809+00:00"
+  },
+  {
+   "url": "https://www.akc.org/sports/conformation/national-championship/",
+   "status": 200,
+   "sha256": "e46623351a5143dae803e7055a6e41be794c5cec064819abaa4c060f2cfec204",
+   "at": "2026-09-13T02:57:26.236806+00:00"
+  },
+  {
+   "url": "https://www.akc.org/sports/obedience/events/national-championship/",
+   "status": 200,
+   "sha256": "e6a3ba6ad4c5be625e02c5c574cb86ea7c98358c27c3f3e0c30b2f2d5d1c256d",
+   "at": "2026-09-13T02:57:28.384260+00:00"
+  },
+  {
+   "url": "https://www.akc.org/sports/rally/events/akc-rally-national-championship/",
+   "status": 200,
+   "sha256": "0cfe5edccd84c5e5531727b2f586e9c2626ebe8efc8127ad4309c954d47cd2cc",
+   "at": "2026-09-13T02:57:30.478206+00:00"
+  },
+  {
+   "url": "https://www.akc.org/sports/agility/events/akc-national-agility-championship/",
+   "status": 200,
+   "sha256": "7adf3f59376a6d046d49b512d6b36a4d3858e4600af1015595d9ec07dd3f9626",
+   "at": "2026-09-13T02:57:33.057125+00:00"
+  },
+  {
+   "url": "https://www.akc.org/sports/agility/events/akc-agility-invitational/junior-agility-competition",
+   "status": 200,
+   "sha256": "51c4087d3e84b5fc6fbadf0a83643cbaf7d0927f7465e5004d41548e685c4597",
+   "at": "2026-09-13T02:57:35.901427+00:00"
+  },
+  {
+   "url": "https://www.akc.org/article-sitemap6.xml",
+   "status": 200,
+   "sha256": "da4bc0f73ac493ebfaa505105e69a6ca43ee45f1030b2b51b4ff6491f85e6614",
+   "at": "2026-09-13T02:57:40.720480+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/health/dog-massage/",
+   "status": 200,
+   "sha256": "bf6dcc01a98e94f384d8fa9e3667b83d54400d3349f05168e210c92998fd9383",
+   "at": "2026-09-13T02:57:41.721510+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/health/marijuana-poisoning-in-dogs/",
+   "status": 200,
+   "sha256": "0e158bae5c6bed87cb0480849dd1cec548da57340e437e288039a5b73f1691a1",
+   "at": "2026-09-13T02:57:43.873669+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/health/can-pet-dog-be-spotted-lanterfly-detection-dog/",
+   "status": 200,
+   "sha256": "cb7ab6b195c7ae236c528e5922a2fa539b9c6e426996d2c3f1c340aafe3388e3",
+   "at": "2026-09-13T02:57:45.927427+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/health/aspirin-for-dogs/",
+   "status": 200,
+   "sha256": "86e55381b1e99f793065b8b651b415b2bfeb7adae547d777b2f43f483dfb7006",
+   "at": "2026-09-13T02:57:48.037040+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/training/stop-dog-jumping/",
+   "status": 200,
+   "sha256": "8fe942bb39df9d36c92ab0c146623a56cb39c806cba37259c0aaa729ca8fd8a4",
+   "at": "2026-09-13T02:57:50.091954+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/training/reactivity-vs-aggression/",
+   "status": 200,
+   "sha256": "fadf12cc5b7c29459d6fe91d55ba4cde80e7a4478c71d929bad4c5663f11949a",
+   "at": "2026-09-13T02:57:52.276603+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/training/how-to-crate-train-dog/",
+   "status": 200,
+   "sha256": "0b09010cfdea9d16df238bf4b4a4257e48ea436a4587b9b7924f26280e971c6e",
+   "at": "2026-09-13T02:57:54.456370+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/nutrition/can-dogs-have-green-beans/",
+   "status": 200,
+   "sha256": "bc2ddd0306e2554b4321a318d623deafa59f26814a0b2cc5cf5c94fee57955c7",
+   "at": "2026-09-13T02:57:56.524565+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/nutrition/can-dogs-eat-eggplants/",
+   "status": 200,
+   "sha256": "19f9c24ef0e7280df84942166faf061402bde9f2a8154be7cef570c9e8a0aee4",
+   "at": "2026-09-13T02:57:58.854549+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/nutrition/can-dogs-eat-bananas/",
+   "status": 200,
+   "sha256": "daef09871ec889f9b8066678611b3624dd89288d5542fe61f03b55ec8d0197ac",
+   "at": "2026-09-13T02:58:00.914822+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/dog-breeds/beauceron-vs-doberman/",
+   "status": 200,
+   "sha256": "3c28ddb17e29ccf56517edb20c258904395ec8c8c6636cf854e2eda391681596",
+   "at": "2026-09-13T02:58:03.039601+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/dog-breeds/vizsla-right-for-you/",
+   "status": 200,
+   "sha256": "8573dd9b1513de95283cc4f5c2302f3a3b58017e444e9903031eb0735324a867",
+   "at": "2026-09-13T02:58:05.050138+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/dog-breeds/english-cocker-spaniel-right-for-you/",
+   "status": 200,
+   "sha256": "bc18bd34af34f359f8eb1c2d7e70c53679a1db7b1dfbb86311f265e04447923d",
+   "at": "2026-09-13T02:58:07.229928+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/lifestyle/teach-dog-wear-backpack/",
+   "status": 200,
+   "sha256": "041e4f523c37bb5997dd17f6263b39d8d665684790487ad8a8714ebe5412affa",
+   "at": "2026-09-13T02:58:09.274534+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/lifestyle/prepare-dog-halloween-decorations/",
+   "status": 200,
+   "sha256": "7eaaea028172d3bdf10b56af601be268dbf915bf6085701e1360de131c2dd309",
+   "at": "2026-09-13T02:58:11.322638+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/lifestyle/dog-halloween-party/",
+   "status": 200,
+   "sha256": "ade778a993f0263210dd9e7dbda3e5390a070badd65a16649c0966bb49472bf1",
+   "at": "2026-09-13T02:58:14.432759+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/puppy-information/can-i-have-a-dog-if-i-have-allergies/",
+   "status": 200,
+   "sha256": "f2227f5ab4f801bbeb39733b4588d8bb80c47ce005d977b0a8f9c49c5abbc5c3",
+   "at": "2026-09-13T02:58:16.461459+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/puppy-information/prepare-apartment-for-new-puppy/",
+   "status": 200,
+   "sha256": "38ac7f0656bf03a36e994aec552eb95d5ff88d3dcc0b2c46f108af6230ef8b89",
+   "at": "2026-09-13T02:58:18.556675+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/sports/how-to-compete-in-akc-rally/",
+   "status": 200,
+   "sha256": "711ebc8ca0f66df66d0bd72c3f62aa50d8a2510a1df562af37f2b2fd90ca63cf",
+   "at": "2026-09-13T02:58:20.875996+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/sports/agility-competition-101/",
+   "status": 200,
+   "sha256": "349084f1e6302474c699b0cd740cc7890fbc88591073df3ad73558ca16ab0931",
+   "at": "2026-09-13T02:58:22.995055+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/news/maltese-hayden/",
+   "status": 200,
+   "sha256": "1b35f8584dbb9776ea835e44d7d8c1287a10d958f577e49ac553cd44e08be6e2",
+   "at": "2026-09-13T02:58:25.020746+00:00"
+  },
+  {
+   "url": "https://www.akc.org/expert-advice/news/junior-handler-spotlight-nevaeh-stadtfeld/",
+   "status": 200,
+   "sha256": "f19dcc2ab88c16505c81a262923672cdc320ef464040a5148bf86cf2d5f1925b",
+   "at": "2026-09-13T02:58:27.081605+00:00"
+  }
+ ],
+ "sports": [
+  {
+   "name": "Conformation",
+   "slug": "conformation",
+   "source_url": "https://www.akc.org/sports/conformation/"
+  },
+  {
+   "name": "Agility",
+   "slug": "agility",
+   "source_url": "https://www.akc.org/sports/agility/"
+  },
+  {
+   "name": "Rally",
+   "slug": "rally",
+   "source_url": "https://www.akc.org/sports/rally/"
+  },
+  {
+   "name": "Fast CAT",
+   "slug": "fast-cat",
+   "source_url": "https://www.akc.org/sports/coursing/fast-cat/"
+  },
+  {
+   "name": "Virtual Home Manners",
+   "slug": "virtual-home-manners",
+   "source_url": "https://www.akc.org/products-services/training-programs/canine-good-citizen/akc-family-dog-program/virtual-home-manners/"
+  },
+  {
+   "name": "Scent Work",
+   "slug": "scent-work",
+   "source_url": "https://www.akc.org/sports/akc-scent-work/"
+  },
+  {
+   "name": "Obedience",
+   "slug": "obedience",
+   "source_url": "https://www.akc.org/sports/obedience/"
+  },
+  {
+   "name": "Tracking",
+   "slug": "tracking",
+   "source_url": "https://www.akc.org/sports/tracking/"
+  },
+  {
+   "name": "Herding",
+   "slug": "herding",
+   "source_url": "https://www.akc.org/sports/herding/"
+  },
+  {
+   "name": "Earth Dog",
+   "slug": "earth-dog",
+   "source_url": "https://www.akc.org/sports/earthdog/"
+  },
+  {
+   "name": "Field Trials",
+   "slug": "field-trials",
+   "source_url": "https://www.akc.org/sports/pointing-breeds/"
+  },
+  {
+   "name": "Hunting",
+   "slug": "hunting",
+   "source_url": "https://www.akc.org/sports/field-events-hounds/basset-hound-field-trials/"
+  },
+  {
+   "name": "Farm Dog Certified",
+   "slug": "farm-dog-certified",
+   "source_url": "https://www.akc.org/sports/herding/farm-dog-certified-test/"
+  },
+  {
+   "name": "Lure Coursing",
+   "slug": "lure-coursing",
+   "source_url": "https://www.akc.org/sports/coursing/lure-coursing/"
+  },
+  {
+   "name": "Coursing Ability",
+   "slug": "coursing-ability",
+   "source_url": "https://www.akc.org/sports/coursing/coursing-ability-test/"
+  },
+  {
+   "name": "Coonhound",
+   "slug": "coonhound",
+   "source_url": "https://www.akc.org/sports/field-events-hounds/coonhound/"
+  },
+  {
+   "name": "Trick Dog",
+   "slug": "trick-dog",
+   "source_url": "https://www.akc.org/sports/trick-dog/about-trick-dog/"
+  }
+ ],
+ "events": [
+  {
+   "slug": "conformation-fcm-universal-championship",
+   "title": "FCM Universal Championship Dog Show",
+   "date_display": "November 12-15, 2026",
+   "start_date": "2026-11-12",
+   "end_date": "2026-11-15",
+   "city": "Mexico City",
+   "region": "Mexico",
+   "source_url": "https://www.akc.org/sports/conformation/fcm-universal-championship/",
+   "image_url": "https://www.akc.org/wp-content/uploads/2026/01/FCM-International-final-400x400.jpg",
+   "summary": "The FCM Universal Championship AKC International Dog Shows 2026 mark a historic milestone for the sport of dogs. Licensed by the American Kennel Club® (AKC) and hosted by the Federación Canófila Mexicana (FCM), this four-day international event will unite breeders, exhibitors, handlers, and dog enthusiasts from across the Americas and around the world.",
+   "body": [
+    "The FCM Universal Championship AKC International Dog Shows 2026 mark a historic milestone for the sport of dogs. Licensed by the American Kennel Club® (AKC) and hosted by the Federación Canófila Mexicana (FCM), this four-day international event will unite breeders, exhibitors, handlers, and dog enthusiasts from across the Americas and around the world.",
+    "This will be the first AKC-licensed all-breed conformation shows ever held in Mexico, celebrating global collaboration, shared standards of excellence, and the future of international dog sports.",
+    "Additional details including entry information, judging panels, schedules, and exhibitor resources will be released as they become available.",
+    "July 1, 2026 Official All-Breed Premium List Released",
+    "July 1, 2026 Official Specialty Premium List Released",
+    "May 5, 2026 Official Judging Panels Released"
+   ],
+   "sport": "Conformation"
+  },
+  {
+   "slug": "conformation-national-championship",
+   "title": "AKC National Championship",
+   "date_display": "December 12-13, 2026",
+   "start_date": "2026-12-12",
+   "end_date": "2026-12-13",
+   "city": "Orlando",
+   "region": "FL",
+   "source_url": "https://www.akc.org/sports/conformation/national-championship/",
+   "image_url": "https://www.akc.org/wp-content/uploads/2021/10/AKC-Natl-Champ-LOGO-2C-gradient-2018-400x400.jpg",
+   "summary": "All Sporting, Hound, Toy, Non-Sporting Breeds and Junior Showmanship Competition will be Judged on Saturday",
+   "body": [
+    "All Sporting, Hound, Toy, Non-Sporting Breeds and Junior Showmanship Competition will be Judged on Saturday",
+    "All Working, Terrier, Herding Breeds, Miscellaneous and Best in Show will be Judged on Sunday",
+    "The 2026 event will showcase the top canine athletes and will also include popular special attractions such as the Best Bred-by-Exhibitor competition, the AKC National Owner-Handled Series Finals and the AKC Royal Canin National All-Breed Puppy and Junior Stakes. The show will once again take place alongside the AKC Agility Invitational, AKC RACH Invitational and AKC Obedience Classic, with junior events in each sport.",
+    "July 29, 2026 AKC official Hotel Room Blocks will open on Tuesday August 4th at 1pm ET. Please note – individuals must call the Hotel for reservations cannot book online.",
+    "July 7, 2026 RV parking reservation form & information – This is for on-site overnight RV parking. Space is limited.",
+    "May 14, 2026 2026 AKC National Championship Judging Panel Released"
+   ],
+   "sport": "Conformation"
+  },
+  {
+   "slug": "obedience-national-championship",
+   "title": "AKC National Obedience Championship",
+   "date_display": "July 16-17, 2026",
+   "start_date": "2026-07-16",
+   "end_date": "2026-07-17",
+   "city": "Wilmington",
+   "region": "OH",
+   "source_url": "https://www.akc.org/sports/obedience/events/national-championship/",
+   "image_url": "https://www.akc.org/wp-content/uploads/2026/01/Obedeience-2026-logo-400x400.png",
+   "summary": "The American Kennel Club is pleased to announce that the 2026 AKC National Obedience Championship (NOC) and the AKC Rally®️ National Championship (RNC) will be held at the Roberts Centre in Wilmington, Ohio, on July 16–19, 2026.",
+   "body": [
+    "The American Kennel Club is pleased to announce that the 2026 AKC National Obedience Championship (NOC) and the AKC Rally®️ National Championship (RNC) will be held at the Roberts Centre in Wilmington, Ohio, on July 16–19, 2026.",
+    "The Roberts Centre offers a convenient central location, excellent facilities, and accommodations that have made it a favorite among past exhibitors and spectators. We look forward to welcoming top obedience and rally competitors from across the country to these premier AKC events.",
+    "Additional event details, including entry information, schedules, and travel accommodations, will be posted as they become available.",
+    "AKC National Obedience Championship Facebook page AKC Rally National Championship webpage AKC Rally National Championship Facebook page",
+    "Obedience regulations CHAPTER 9 National obedience champion",
+    "A National Obedience Champion title will be awarded annually to the dog who wins the National Obedience Championship. The winner of the event will be designated as National Obedience Champion (NOC) of ___ (year) and the AKC will permit the use of the letters NOC preceding the name of each dog that earns the award."
+   ],
+   "sport": "Obedience"
+  },
+  {
+   "slug": "akc-rally-national-championship",
+   "title": "AKC Rally National Championship",
+   "date_display": "July 18-19, 2026",
+   "start_date": "2026-07-18",
+   "end_date": "2026-07-19",
+   "city": "Wilmington",
+   "region": "OH",
+   "source_url": "https://www.akc.org/sports/rally/events/akc-rally-national-championship/",
+   "image_url": "https://www.akc.org/wp-content/uploads/2017/10/Rally-2026-logo-400x400.png",
+   "summary": "The American Kennel Club is pleased to announce that the 2026 AKC National Obedience Championship (NOC) and the AKC Rally® National Championship (RNC) will be held at the Roberts Centre in Wilmington, Ohio, on July 16–19, 2026.",
+   "body": [
+    "The American Kennel Club is pleased to announce that the 2026 AKC National Obedience Championship (NOC) and the AKC Rally® National Championship (RNC) will be held at the Roberts Centre in Wilmington, Ohio, on July 16–19, 2026.",
+    "The Roberts Centre offers a convenient central location, excellent facilities, and accommodations that have made it a favorite among past exhibitors and spectators. We look forward to welcoming top obedience and rally competitors from across the country to these premier AKC events.",
+    "Additional event details, including entry information, schedules, and travel accommodations, will be posted as they become available.",
+    "AKC Rally National Championship Facebook page AKC National Obedience Championship webpage AKC National Obedience Championship Facebook page"
+   ],
+   "sport": "Rally"
+  },
+  {
+   "slug": "akc-national-agility-championship",
+   "title": "AKC National Agility Championship",
+   "date_display": "March 19-23, 2026",
+   "start_date": "2026-03-19",
+   "end_date": "2026-03-23",
+   "city": "Temecula",
+   "region": "CA",
+   "source_url": "https://www.akc.org/sports/agility/events/akc-national-agility-championship/",
+   "image_url": "https://www.akc.org/wp-content/uploads/2022/04/2026-nac.sm-png-400x400.png",
+   "summary": "Learn more about AKC National Agility Championship, including how it works, rules, and how to get involved. Everything we do is for dogs.",
+   "body": [
+    "Learn more about AKC National Agility Championship, including how it works, rules, and how to get involved. Everything we do is for dogs."
+   ],
+   "sport": "Agility"
+  },
+  {
+   "slug": "akc-agility-invitational-junior-agility-competition",
+   "title": "AKC Junior Agility Competition",
+   "date_display": "December 12, 2025",
+   "start_date": "2025-12-12",
+   "end_date": "2025-12-12",
+   "city": "Orlando",
+   "region": "FL",
+   "source_url": "https://www.akc.org/sports/agility/events/akc-agility-invitational/junior-agility-competition",
+   "image_url": "https://www.akc.org/wp-content/uploads/2025/05/junior-color-2025-final-resized-logo-400x400.jpg",
+   "summary": "7/29/2026 – AKC official Hotel Room Blocks will open on Tuesday August 4th at 1pm ET. Please note- individuals must call the Hotel for reservations cannot book online.",
+   "body": [
+    "7/29/2026 – AKC official Hotel Room Blocks will open on Tuesday August 4th at 1pm ET. Please note- individuals must call the Hotel for reservations cannot book online.",
+    "7/17/2026 – The AKC 2026 Junior Agility Competition premium list has been published.",
+    "7/7/206 – RV parking reservation form & information – This is for on-site overnight RV parking. Space is limited."
+   ],
+   "sport": "Agility"
+  }
+ ],
+ "articles": [
+  {
+   "slug": "dog-massage",
+   "title": "Everything Dog Owners Need to Know About Canine Massage",
+   "category": "Health",
+   "category_slug": "health",
+   "author": "Stephanie Gibeault, MSc, CPDT",
+   "published": "2024-07-05",
+   "modified": "2026-09-11",
+   "summary": "Canine massage has many benefits for dogs from puppies to seniors. It can ease pain, increase mobility and circulation, and aid in recovery.",
+   "body": [
+    "Canine massage may sound like an activity for pampered dogs, but it’s more than a luxury treatment. Massage may help reduce pain, improve mobility, support recovery from injuries or surgery, and promote relaxation. Dogs of all ages and activity levels can benefit, but it’s important to understand when massage is appropriate and how to find a qualified professional.",
+    "Like massage therapy for people, canine massage involves manipulating soft tissues (muscles, tendons, fascia, and ligaments) using techniques such as kneading, pressing, and tapping. Dogs can receive different styles of massage, including Swedish and deep tissue techniques.",
+    "Potential benefits include reducing pain levels, improving circulation, and aiding mobility. Massage support emotional well-being by helping reduce stress and anxiety.",
+    "According to Dr. Sarah Blotevogel, DPT, CCRT, CMFT, a certified canine massage and rehabilitation therapist and owner of Pawsitive Touch Canine Therapy in Tulsa, Oklahoma, “Massage is an underutilized but valuable tool to maintain or restore function in your canine companion. Not only does it help reduce pain, make muscles more supple and limber, and assist your dog in returning to the activities they love, but it also plays a crucial role in strengthening the bond with your faithful friend.”",
+    "Dr. Blotevogel believes canine massage can play an important role in maintaining a dog’s quality of life.",
+    "“When a dog is in pain, their mental state is adversely affected, often manifesting in changes in behavior alongside physical symptoms. They may become depressed, lethargic, or exhibit unusual behavior,” she explains.",
+    "One of the most common reasons owners seek canine massage is to help manage pain and discomfort. While research in this area is still developing, many therapists and pet owners report positive results.",
+    "Dr. Blotevogel says she has yet to hear a client report that their dog wasn’t moving better or acting more energetic and engaged following a massage session. However, she emphasizes that more rigorous research is still needed.",
+    "A study published in Vet Record examined 527 dogs of various breeds undergoing massage therapy. Researchers found that dogs were significantly more likely to be rated as having a positive quality of life after treatment. The authors concluded that massage therapy may be a valid treatment option for pain associated with muscular injuries, arthritis, and other orthopedic conditions.",
+    "Although the study didn’t include certain controls, such as a non-treatment comparison group, it points to the potential benefits of canine massage. Dr. Blotevogel also notes that researchers observed cumulative benefits, suggesting that regular sessions may be more effective than a single treatment.",
+    "She emphasizes that massage works best as part of a broader wellness or rehabilitation plan. Combining massage with stretching, strengthening exercises, and balance work may enhance results. Even if massage appears to reduce pain, owners should never adjust or discontinue medications without first consulting their veterinarian.",
+    "Canine massage can benefit a wide variety of dogs, from active competitors to aging companions."
+   ],
+   "word_count": 1189,
+   "read_minutes": 6,
+   "source_url": "https://www.akc.org/expert-advice/health/dog-massage/"
+  },
+  {
+   "slug": "marijuana-poisoning-in-dogs",
+   "title": "Marijuana Poisoning in Dogs: Signs, Symptoms, Treatments",
+   "category": "Health",
+   "category_slug": "health",
+   "author": "Gemma Johnstone",
+   "published": "2023-04-10",
+   "modified": "2026-09-11",
+   "summary": "As marijuana has become legal for medicinal or recreational use in much of the U.S., veterinary emergency rooms have seen a corresponding rise in dogs coming through the door high. The good news is that marijuana poisoning in dogs is rarely fatal. However, it can cause a distinctive and even alarming set of symptoms. Any […]",
+   "body": [
+    "As marijuana has become legal for medicinal or recreational use in much of the U.S., veterinary emergency rooms have seen a corresponding rise in dogs coming through the door high.",
+    "The good news is that marijuana poisoning in dogs is rarely fatal. However, it can cause a distinctive and even alarming set of symptoms. Any dog suspected of ingesting the drug should see a veterinarian right away.",
+    "As cannabis laws have changed across the country, exposure among pets has increased. In 1996, California became the first state to legalize cannabis use for medicinal purposes, and many states now allow medical or recreational use.",
+    "In 2012, a retrospective clinical study examined marijuana toxicosis in dogs in Colorado between 2005 and 2010 and found a four-fold increase in cases reported to two veterinary hospitals after medical marijuana was legalized.",
+    "More recently, however, that upward trend in calls may be leveling off. “Calls to Pet Poison Helpline regarding marijuana/THC have remained fairly steady over the last few years after a sharp increase and then decline,” says Dr. Renee D. Schmid, DVM, DABT, DABVT, Director of Veterinary Medicine and Senior Veterinary Toxicologist at Pet Poison Helpline.",
+    "Dr. Schmid explains that this decrease in calls may reflect changing behavior rather than reduced exposure. “As more states legalize marijuana, it is unlikely fewer pets are being exposed to marijuana, but more likely that pet owners are comfortable talking with their veterinarian about marijuana exposure with their pets, resulting in fewer calls to Pet Poison Helpline,” she says.",
+    "Dogs are more commonly affected by marijuana toxicosis than cats, largely because they’re more likely to consume edible cannabis products.",
+    "Many exposures occur when dogs eat baked goods containing marijuana, especially if they tend to take food from counters. However, other sources of exposure are also possible, including:",
+    "The psychoactive compound in marijuana, tetrahydrocannabinol (THC), affects dogs more strongly than humans. Symptoms usually appear within 30 minutes to an hour after ingestion, or sooner if the drug is inhaled.",
+    "Dr. Stacy Meola, DVM, MS, DACVECC is the Associate Medical Director for Wheat Ridge Animal Hospital in Colorado and participated in the previously mentioned study. She explains that “the most common sign is stumbling and crossing over their feet, and walking like they are drunk (ataxic).”",
+    "In fact, 88% of the dogs in the study showed this lack of coordination. Around 50% of dogs also appeared lethargic with dilated pupils, and showed increased sensitivity to movement, flinching in reaction to fast movements toward their face.",
+    "Diagnosing marijuana toxicosis in dogs relies heavily on a veterinarian’s ability to combine clinical observations with a reliable history of possible exposure. Because pets cannot communicate what they’ve ingested, details from the owner about access to cannabis products often play a critical role."
+   ],
+   "word_count": 931,
+   "read_minutes": 5,
+   "source_url": "https://www.akc.org/expert-advice/health/marijuana-poisoning-in-dogs/"
+  },
+  {
+   "slug": "can-pet-dog-be-spotted-lanterfly-detection-dog",
+   "title": "Can Your Pet Dog Help Fight Invasive Species?",
+   "category": "Health",
+   "category_slug": "health",
+   "author": "Stephanie Gibeault, MSc, CPDT",
+   "published": "2026-09-09",
+   "modified": "2026-09-10",
+   "summary": "Conservation dogs work on all kinds of tasks. They can sniff for endangered wildlife, detect disease, and locate invasive species. One invasive species that they can track? The spotted lanternfly (SLF), an insect that can wreak havoc on agriculture. Spotted lanternfly detection dogs are among conservation dogs making a difference. In This Article Understanding Spotted […]",
+   "body": [
+    "Conservation dogs work on all kinds of tasks. They can sniff for endangered wildlife, detect disease, and locate invasive species. One invasive species that they can track? The spotted lanternfly (SLF), an insect that can wreak havoc on agriculture. Spotted lanternfly detection dogs are among conservation dogs making a difference.",
+    "Professional conservation detection dogs are skilled at finding the lanternflies’ egg masses, but recent research has shown that pet dogs can be spotted lantern fly dogs too. Could your dog be a conservation detection dog?",
+    "Spotted lanternflies are native to Asia but were discovered in the United States in Pennsylvania in 2014. They have now spread to 19 states and the District of Columbia, where they damage fruit and forest industries. But what makes them harmful? First, they feed on agriculturally important plants such as hops, stone fruit trees, and grapevines. Second, they excrete honeydew, a sticky, sugary fluid. This honeydew encourages the growth of sooty mold and other pathogens, which further harm plants.",
+    "A study showed that spotted lantern fly dogs can be very helpful in the effort to locate and destroy these insects. By detecting SLF egg masses, the dogs can help reduce the population in areas where SLF are already present. And inspections of shipments by dogs can control the spread to new areas. However, the number of detection dogs is far less than required to tackle such a task.",
+    "So why do detection dogs sniff out SLF egg masses instead of nymphs or adult insects? Because nymphs and adults are much harder to catch and therefore more difficult to destroy. Plus, each egg mass contains between 20 to 60 individuals, so the return on finding one is much higher.",
+    "Egg masses are very hard to find because they blend into their surroundings. And the lanternflies lay their eggs in protected areas, like bark crevices or behind car bumpers.",
+    "Dr. Sally Dickinson is a post-doctoral research associate at the School of Animal Sciences, Virginia Tech. “The SLF wants to protect its eggs to ensure they survive the winter and can hatch,” Dr. Dickinson says. “Additionally, the egg mass is very camouflaged, often looking like a mud smear or other lichen-type growth on the plant.”",
+    "Humans can search for egg masses, too. But it takes people a long time to completely inspect a given area. Plus, it’s impossible to visually inspect concealed locations. Relying on a dog’s sense of smell is far more efficient.",
+    "When Dr. Dickinson studied how dogs compare to humans, the dogs were not only more effective at searching, but they could also detect the egg masses from further away. “Dogs, using scent, are able to ‘scan’ an area very quickly and parse through all the conflicting scent information to isolate where the odor is coming from.”",
+    "Because conservation detection dogs are so effective at locating egg masses, Dr. Dickinson wanted to see if pet dogs were up to the task. She teamed up with principal investigator Dr. Erica Feuerbacher, associate professor at the School of Animal Sciences at, Virginia Tech. They recruited 110 citizen science dog-handler teams from across the U.S. Many of these dogs had previous scent work experience, but all were pet dogs. A variety of breeds participated in the research, including a Chow Chow, a Havanese, a Nova Scotia Duck Tolling Retriever, and several Labrador Retrievers.",
+    "Using inert egg masses, the teams trained independently for 3-6 months with oversight from local dog trainers. Their performance was assessed using an indoor odor recognition test (ORT) and an outdoor field test. The results showed that the dogs could reliably detect the egg masses 82% of the time in the indoor ORT and 61% of the time in the field test.",
+    "As a professional detection dog handler for over 20 years, Dr. Dickinson says the ORT was very challenging, and she was impressed by how many teams were successful. However, the drop in performance outdoors didn’t surprise her because these pet dogs were less experienced in complicated discrimination problems than professional dogs. “If we spent time with our citizen science dog teams and helped them understand dynamic outdoor environments and how to detect in those places, they would be able to detect in that space at a higher rate.”"
+   ],
+   "word_count": 1153,
+   "read_minutes": 6,
+   "source_url": "https://www.akc.org/expert-advice/health/can-pet-dog-be-spotted-lanterfly-detection-dog/"
+  },
+  {
+   "slug": "aspirin-for-dogs",
+   "title": "Aspirin for Dogs: Uses, Side Effects, and Alternatives",
+   "category": "Health",
+   "category_slug": "health",
+   "author": "Stephanie Gibeault, MSc, CPDT",
+   "published": "2016-11-16",
+   "modified": "2026-09-10",
+   "summary": "While vets do prescribe aspirin for dogs, it has some serious side effects. Before you reach into your medicine cabinet, talk to your vet.",
+   "body": [
+    "People use aspirin, also known as acetylsalicylic acid, for all kinds of ailments, so you might be tempted to give it to your dog to ease their fever or pain. After all, aspirin is easy to get over the counter, and it works so well in humans. But does aspirin work for dogs?",
+    "It’s not as easy as following an aspirin dosage chart for dogs. Aspirin can have serious side effects in dogs and can even be fatal, so it should never be given without guidance from a veterinarian.",
+    "According to Dr. Carly Fox, Senior Veterinarian in the Schwarzman Animal Medical Center’s Emergency & Critical Care Service, aspirin is an NSAID (non-steroidal anti-inflammatory drug) so it can help with pain and inflammation and reduce fever as well as being an antiplatelet medication that prevents blood from clotting. However, she says because the risks outweigh the advantages, “There are truly few benefits to using aspirin in dogs.”",
+    "That doesn’t mean your vet will never prescribe aspirin for your dog. But it has a very narrow use in veterinary medicine. Dr. Fox says it was previously used for diseases that put a dog at high risk for blood clots, such as immune-mediated hemolytic anemia, but now there are safer and more effective medications for those conditions such as clopidogrel.",
+    "So whether your dog has a fever or you see signs of pain in your dog, like shaking, unexpected aggression, panting excessively, or difficulty moving, don’t just grab your own aspirin and dose your dog. Alternative medications are likely a better choice. Dr. Fox warns, “Do not give your dog aspirin without direct instructions from a veterinarian. At this time, there are much more effective and safer medications, and aspirin use is out of favor in vet med.”",
+    "Aspirin is an NSAID just like ibuprofen or naproxen, which are medications that are geared to humans and can be extremely harmful to dogs. Aspirin works by inhibiting cyclooxygenase (COX) enzymes. These COX enzymes are responsible for the production of prostaglandin and thromboxane, chemicals that lead to pain and inflammation in the body. Therefore, blocking COX enzymes helps to reduce pain and inflammation.",
+    "But there are two types of COX enzymes, and they are expressed differently in the body. COX-1 protects the lining of the gastrointestinal tract, helps platelets clot, and helps with blood flow through the kidneys. COX-2 is expressed when there is inflammation and drives pain.",
+    "“Ideally, you want to choose an NSAID that selectively blocks COX-2 and spares COX-1 due to the potential for side effects,” says Dr. Fox. “No NSAID does this perfectly, but the ones we recommend in veterinary medicine are preferential for COX-2.”",
+    "As injectable or topical forms of aspirin aren’t used in veterinary medicine, if prescribed, the drug will be given orally to your dog. As aspirin isn’t approved for veterinary use by the Food and Drug Administration (FDA), there are no definitive studies on effective dosages. You must follow the advice of your veterinarian.",
+    "The aspirin your vet might prescribe to your dog is essentially the same aspirin used for humans. But coated aspirin, helpful for protecting human stomachs, isn’t recommended for dogs. They can’t reliably dissolve the coating which can lead to unpredictable absorption of the drug. Most importantly, Dr. Fox advises never using aspirin together with another NSAID or steroid as this can intensify toxicity.",
+    "Dr. Fox explains that the only potential benefit of aspirin in dogs is its reduction of the formation of blood clots since this can be seen at lower doses. To achieve anti-inflammatory effects or pain relief you need to use higher doses which come with adverse side effects. NSAID toxicity can lead to gastrointestinal upset, ulceration, and bleeding, as well as acute kidney injury. The signs to watch for include:",
+    "Don’t use aspirin in pregnant dogs or those with certain medical conditions such as kidney failure or bleeding disorders. Be sure to talk to your veterinarian about any other medications your dog may be taking in case of drug interactions."
+   ],
+   "word_count": 829,
+   "read_minutes": 4,
+   "source_url": "https://www.akc.org/expert-advice/health/aspirin-for-dogs/"
+  },
+  {
+   "slug": "stop-dog-jumping",
+   "title": "Expert Tips to Keep Your Dog from Jumping",
+   "category": "Training",
+   "category_slug": "training",
+   "author": "Stephanie Gibeault, MSc, CPDT",
+   "published": "2023-11-10",
+   "modified": "2026-09-11",
+   "summary": "Jumping up is an annoying and potentially dangerous behavior in dogs. But how do you stop your dog from jumping? Follow these 10 tips.",
+   "body": [
+    "Jumping when greeting is a common behavior problem in dogs. Large dogs can unintentionally knock people over, while smaller dogs may scratch legs or leave muddy paw prints on clothing. The key to stopping the behavior is teaching a more appropriate greeting and consistently rewarding it.",
+    "Dogs often jump because they’re excited and want attention. Since greeting people face-to-face is natural for many dogs, jumping can become a habit that’s unintentionally reinforced when people talk to, touch, or otherwise acknowledge them.",
+    "The good news is that jumping can be replaced with a more appropriate greeting behavior. Rather than focusing only on stopping the unwanted behavior, teach your dog exactly what you want them to do instead.",
+    "The most effective way to address problem behavior is to teach an incompatible alternative behavior. Your dog will learn faster if you tell them what to do rather than just what not to do.",
+    "A simple greeting rule might be “keep your front paws on the floor.” Your dog can’t jump and stand with four paws on the ground at the same time. Alternatively, you may prefer your dog to sit or lie down when greeting people.",
+    "Whatever rule you choose, only greet your dog and provide attention when they are following the rule. And be consistent. For example, don’t let your dog jump on you when you’re in jeans but not when you’re in a suit.",
+    "Dogs repeat behaviors that get them what they want. If your dog wants attention, make sure appropriate greeting behavior earns it immediately.",
+    "As soon as your dog’s front paws are on the floor or they’re following your chosen greeting rule offer praise, petting, and attention. Timing matters. Don’t delay your greeting while removing your coat or putting down your belongings. Reward the correct behavior right away so your dog clearly understands what earned your attention.",
+    "Equally important, always reward the correct behavior when it happens. Even if your dog spent several minutes jumping before finally settling down, respond positively the moment they comply with the greeting rule.",
+    "The only way to eliminate a behavior is to stop rewarding it. When your dog jumps, calmly remove your attention.",
+    "Turn your back, step away, or briefly disengage. The moment your dog returns to four paws on the floor, re-engage with quiet praise and attention. Over time, your dog will learn that appropriate greetings turn attention on, while jumping turns it off.",
+    "Ignoring jumping works, but learning through trial and error can be frustrating for some dogs. Set up your dog for success by making it easier for them to follow your greeting rule."
+   ],
+   "word_count": 1152,
+   "read_minutes": 6,
+   "source_url": "https://www.akc.org/expert-advice/training/stop-dog-jumping/"
+  },
+  {
+   "slug": "reactivity-vs-aggression",
+   "title": "Dog Reactivity: Understanding the Difference Between Reactivity and Aggression",
+   "category": "Training",
+   "category_slug": "training",
+   "author": "Stephanie Gibeault, MSc, CPDT",
+   "published": "2020-08-19",
+   "modified": "2026-09-11",
+   "summary": "Dog reactivity and aggression aren't the same. Learn what causes each behavior, how they're connected, and when professional training may help.",
+   "body": [
+    "A dog barking and lunging at the end of their leash is an all-too-common occurrence. No doubt you’ve seen a dog like that in your neighborhood, or perhaps your own dog exhibits this behavior. But do you understand what’s motivating your dog? Are they frustrated, scared, or out to do harm? It’s tempting to label these outbursts as aggression, but it’s not that simple.",
+    "Dogs that overreact to everyday triggers, such as barking hysterically at a dog on the other side of the fence, are exhibiting reactivity. Although reactivity can lead to aggression, it’s important to understand the difference between these two behaviors.",
+    "Dogs who respond to normal, common occurrences with abnormal and excessive levels of arousal are often termed reactive. For example, seeing a stranger on a walk is an everyday occurrence for most dogs and, depending on the dog’s personality, may elicit no interest at all, a passing glance, or a friendly desire to approach. However, for a reactive dog, the sight of a stranger can lead to intense barking, lunging, cowering, pulling on the leash, and so on – behaviors out of proportion to the situation.",
+    "These dogs are overcome by whatever emotions a particular trigger has elicited and therefore find it hard to calm down or listen to their owner. If you’ve ever tried to walk a reactive dog, you’ll understand how challenging it is once they’ve been set off. Loose leash walking and good manners go out the window, and it’s all you can do to drag your dog away.",
+    "Although fear is a common motivator for reactive dogs, there might be a different underlying emotion, such as frustration or excitement. The important point is that a reactive dog responds faster and more intensely than a non-reactive dog.",
+    "Rachel Lane, M.Sc., CBCC-KA, CPDT-KA, is the owner of Leash & Learn dog training and a certified canine behavior consultant with her master’s degree in applied animal behavior and welfare. She reminds people that reactivity can happen anywhere – on-leash, off-leash, indoors, and outdoors.",
+    "Dogs that become frustrated when their excitement to greet another dog or a stranger is thwarted by a leash, fence, or other barrier often lack emotional self-control.",
+    "On the other hand, anxious dogs are often reactive due to a lack of socialization as puppies. Things that would be no big deal to other dogs are overwhelming instead. Or a previous bad encounter, such as being attacked by another dog, can create fear later in life.",
+    "Lane points out, “It is important to keep in mind that the threat a dog is reacting to may not be scary for the person on the other end of the leash. The threat simply has to be scary for the dog for them to display reactive behavior.”",
+    "Veterinary behaviorists characterize aggression as any threatening or harmful behavior intended to avoid escalating conflict, increase distance between the dog and the target, or cause damage to the target. Although aggression can lead to biting or the surrender or euthanasia of the dog, it’s a normal dog behavior which, depending on the context, can be adaptive or appropriate.",
+    "If your dog attacked an intruder, for example, you would likely label them as courageous and loyal, but their behavior was aggressive, nonetheless.",
+    "According to Lane, “Aggression is a part of a dog’s natural and normal behavioral repertoire and has multiple causes. People often consider aggression socially unacceptable, but all dogs are/can be aggressive. Like any behavior trait, aggression is a complex interplay of genetic and environmental factors.”"
+   ],
+   "word_count": 1105,
+   "read_minutes": 6,
+   "source_url": "https://www.akc.org/expert-advice/training/reactivity-vs-aggression/"
+  },
+  {
+   "slug": "how-to-crate-train-dog",
+   "title": "Everything You Need to Know About Crate Training Your Dog",
+   "category": "Training",
+   "category_slug": "training",
+   "author": "Stephanie Gibeault, MSc, CPDT",
+   "published": "2021-11-05",
+   "modified": "2026-09-10",
+   "summary": "Crate training is beneficial for every dog. It's important to know the common challenges. Here are tips to help your dog love their crate.",
+   "body": [
+    "Wouldn’t it be wonderful if there was a way to keep your house safe from your dog’s teeth, prevent potty accidents, and transport your dog safely? There is! A crate can do all this and more. Although you might see it as caging your dog, in truth, dogs can learn to love their personal den. Crate training takes patience, but it’s an important piece of responsible dog ownership.",
+    "According to Rachel Lane, M.Sc., CPDT-KA, CBCC-KA, owner of Leash and Learn Dog Training, teaching your dog to be comfortable in a crate is an important life skill because it’s highly unlikely that your dog will never spend some time in one. “If they are ever at the vet, with a dog sitter, at a boarding facility, or have to evacuate during a natural disaster, they’re going to end up being in a crate, at least for a little while. Crate training them ahead can help your dog be less stressed in these situations.”",
+    "There are many advantages to crate training, especially for puppies. While you’re working on training, placing your puppy in a crate when you can’t supervise them can help prevents them from chewing your furniture or eating your socks. Plus, Lane says crates can indirectly prevent problem behavior because puppies who are well-rested tend to chew less.",
+    "A crate is also a wonderful tool to support potty training. You can manage your puppy’s environment when you aren’t watching them directly. If your puppy is in a crate, they can’t have accidents around the house. The crate should be just large enough for your puppy to stand up, turn around, and lie down comfortably. If it’s too large, your puppy can eliminate in one end and sleep in the other. Consider purchasing a crate appropriate for your puppy’s adult size with a divider so it can “grow” with your dog.",
+    "Lane points out that a crate can also be helpful when visitors come over. If the guest is afraid of dogs or allergic to dogs, placing your dog in the crate will ensure your guest and your dog are comfortable. On the flip side, if your dog is stressed by visitors, the crate can help. If you’re having a party and the number of guests will overwhelm your dog, the crate can be your dog’s safe haven.",
+    "Despite all its uses, there are times when you shouldn’t crate your dog. Lane says never crate your dog any longer than they’re comfortable or can hold their bladder. And never crate your dog if it causes stress or panic. Watch for pacing, shaking, scratching, or biting at the door, long bouts of howling or barking, or drooling.",
+    "If you need to be out of the house longer than your dog can manage, Lane recommends having a dog sitter or dog walker check on your pet and let them out to go to the bathroom and get some exercise. Another option is doggy daycare or creating a safe puppy-proofed space inside your home, such as inside a playpen or a gated area in your kitchen, where your dog has space to sleep and potty.",
+    "To ensure your dog looks forward to their crate, they must form positive associations with it. That means never using the crate for punishment or leaving your dog inside for too long. Instead, use rewards to teach your dog to love their crate. To start off, Lane advises sitting next to the crate with a big handful of your dog’s food or bite-sized treats. “Anytime your dog approaches their crate, toss a treat inside. For as long as they stay inside their crate, you can continue to give them treats every 5–10 seconds.”",
+    "It’s also important that your dog goes into their crate voluntarily. Lane suggests leaving the crate door open and making it as comfortable as possible. However, use caution when putting a bed or blankets inside. Many puppies prefer to go potty on soft, porous surfaces like these. It’s best to wait until your dog consistently doesn’t have accidents or shred fabric to add these items for extra comfort.",
+    "Let your dog discover rewards on their own. “When your dog is not paying attention, grab a smelly treat that your dog loves. Put a few pieces of it inside their crate towards the front so they can find it easily, then leave the crate door open and walk away. At some point, your dog should pass by their crate and find their surprise treat!”",
+    "Finally, Lane prescribes giving your dog a food-stuffed chew toy anytime you put them inside their crate. Freezing the stuffed toy first will help it last even longer. These special treats will keep your dog busy and provide a positive association with crate time. And be sure to provide water in the crate as well.",
+    "Dogs who haven’t yet been taught how to relax in their crate will often whine or bark while inside it. When vocalizing begins within minutes of your dog going inside, it’s likely due to stress or anxiety. This is particularly common in puppies who haven’t yet been taught to be alone. In these cases, you need to introduce your dog to their crate more gradually and add additional positive experiences. On the other hand, barking or whining after your dog has been settled for a while is more likely to indicate boredom, hunger, or need to go to the bathroom."
+   ],
+   "word_count": 1200,
+   "read_minutes": 6,
+   "source_url": "https://www.akc.org/expert-advice/training/how-to-crate-train-dog/"
+  },
+  {
+   "slug": "can-dogs-have-green-beans",
+   "title": "Can Dogs Have Green Beans?",
+   "category": "Nutrition",
+   "category_slug": "nutrition",
+   "author": "Rylee Johnston",
+   "published": "2022-08-25",
+   "modified": "2026-09-09",
+   "summary": "Can dogs eat green beans? Find out how to safely feed green beans to your pup and how to use it as a healthy treat option.",
+   "body": [
+    "Eating a snack is a quick way to earn a begging look from your dog, and while it’s tempting to share your treat with them, not all human foods are safe for them to consume. If you’re looking for something tasty, green beans are among the foods that are safe for your dog to eat. The crunchy vegetable offers some nutritional benefits, but only when served in moderation.",
+    "If you’re unsure of certain foods, it’s always best to consult with your veterinarian before adding anything new to your dog’s diet. A nutritionist can also work with you to create a well-balanced meal plan filled with supplements and proper nutrients for your pet.",
+    "Dr. Karen Cantor, Director of Veterinary Medicine at Westside Veterinary Center in New York City, says that green beans are safe for dogs to eat in moderation. However, she adds that you should “avoid canned green beans” because they contain high amounts of salt. Fresh, raw green beans, she says, are rich in vitamins A, C, and K, as well as the minerals iron and magnesium.",
+    "The food is versatile enough to be served cooked or raw, either as part of their regular diet or given as a tasty yet healthy treat. However, green beans cooked with butter aren’t recommended and never feed dogs green beans cooked with garlic or garlic salt.",
+    "Green beans aren’t the only vegetables your dog can eat. There are additional options that you can feed your pet in moderation.",
+    "“We usually stick to green beans and carrots as treats, but others can be fine, such as cucumber and squash,” says Dr. Angela Burrington, Medical Director and Chief of Staff at Veremedy Pet Hospitals in White River Junction, VT. “Brussels sprouts and broccoli could make a dog gassy or uncomfortable, but are not toxic.”",
+    "Additional vegetables that are safe but not recommended to include in a dog’s diet include corn, peas, potatoes, and sweet potatoes. Dr. Burrington warns that, when served in high quantities, these vegetables can add significant calories to a dog’s diet, though they’re sometimes used as a base carb source.",
+    "In general, you should only give your dog green beans as low-calorie treats. However, Dr. Burrington notes that you can also incorporate them into home-cooked diets to provide vitamins and additional nutrients. Nevertheless, it’s always recommended to consult with a veterinary nutritionist when formulating a home-cooked diet for your dog.",
+    "While treats are a quick way to make your dog happy, you want to make sure you’re not overfeeding them. Treats shouldn’t become the base of your dog’s diet, as you risk removing the nutrients that are required for a healthy diet.",
+    "The best way to determine how to incorporate new treats and foods into your pet’s diet is to consult with a nutritionist who can create a personalized plan tailored to your dog’s breed, weight, and age.",
+    "Green beans are low in calories and can also be used to help dogs lose weight, according to Dr. Burrington. “The added bulk and fiber help the dog feel full, while not adding much in the way of calories,” she says. “They can also be used instead of treats for the same reason. Otherwise, they aren’t needed when a dog is fed a balanced diet consisting of commercial dog food.",
+    "Both Dr. Cantor and Dr. Burrington advise consulting with a veterinarian before giving your dog green beans. In the event that your dog has eaten green beans before you’ve had a chance to talk with your vet, you should treat it the same as when you offer your pet any new food."
+   ],
+   "word_count": 711,
+   "read_minutes": 4,
+   "source_url": "https://www.akc.org/expert-advice/nutrition/can-dogs-have-green-beans/"
+  },
+  {
+   "slug": "can-dogs-eat-eggplants",
+   "title": "Can Dogs Eat Eggplants?",
+   "category": "Nutrition",
+   "category_slug": "nutrition",
+   "author": "Rylee Johnston",
+   "published": "2026-08-31",
+   "modified": "2026-09-04",
+   "summary": "If you’re enjoying vegetables at home, it can be tempting to share them with your dog. The good news is that dogs can eat eggplant in moderation. This vegetable contains beneficial nutrients, but it should only be offered as an occasional treat and prepared properly. In This Article Safety Considerations Nutritional Benefits Portion Guidance Digestive […]",
+   "body": [
+    "If you’re enjoying vegetables at home, it can be tempting to share them with your dog. The good news is that dogs can eat eggplant in moderation. This vegetable contains beneficial nutrients, but it should only be offered as an occasional treat and prepared properly.",
+    "Yes, eggplant is safe for dogs to eat when served in moderation. Like any new food, however, eggplant should be introduced gradually. If your dog has never eaten eggplant before, offer only a small amount and monitor them for any signs of a reaction.",
+    "As with all treats, eggplant should follow the 10% treat rule, meaning treats should make up no more than 10% of your dog’s daily caloric intake.",
+    "The edible fruit of the eggplant isn’t truly toxic in normal amounts, but it contains a natural chemical called solanine, a glycoalkaloid that the plant uses as a defense mechanism. The highest concentrations of these toxic alkaloids are found in the green parts of the plant, specifically the leaves and blossoms, rather than the purple fruit itself.",
+    "Eggplant contains several nutrients that can support your dog’s overall health. The vegetable is rich in fiber, potassium, and vitamins A, K, and C, along with natural antioxidants.",
+    "These nutrients can help support their joints, vision, gut, and a healthy immune system. While eggplant can be a healthy addition to your dog’s treat rotation, it shouldn’t replace a complete and balanced diet.",
+    "Start out with a small piece of peeled and cooked eggplant to see if your dog likes it and doesn’t have a reaction to it.",
+    "You should never feed your dog an entire eggplant, and keep servings to tiny, bite-sized pieces to prevent choking. The appropriate amount will vary based on your dog’s size, age, and nutritional needs. Since small and large dog breeds have different dietary requirements, it’s best to consult your veterinarian about the right serving size for your dog.",
+    "Proper preparation can make eggplant safer and easier for dogs to eat.",
+    "While eggplant skin isn’t toxic, it can be difficult for dogs to chew and may present a choking hazard, especially for puppies. Cooking softens the vegetable so that it’s even easier for your dog to eat, but you can also give them raw eggplant.",
+    "Eating too much eggplant may cause digestive upset. Because eggplant contains fiber, excessive amounts can lead to changes in your dog’s bowel movements and overall comfort.",
+    "If your dog develops these symptoms after eating eggplant, contact your veterinarian. In severe cases, reach out to the Pet Poison Helpline (855-764-7661) for guidance."
+   ],
+   "word_count": 423,
+   "read_minutes": 2,
+   "source_url": "https://www.akc.org/expert-advice/nutrition/can-dogs-eat-eggplants/"
+  },
+  {
+   "slug": "can-dogs-eat-bananas",
+   "title": "Can Dogs Eat Bananas? Benefits, Risks, and Safe Serving Tips",
+   "category": "Nutrition",
+   "category_slug": "nutrition",
+   "author": "AKC Staff",
+   "published": "2021-08-29",
+   "modified": "2026-09-01",
+   "summary": "Can dogs eat bananas? Here's how to safely feed your dog this fruit.",
+   "body": [
+    "As a pet owner, you may wonder which fruits or vegetables are safe for your dog. If you’ve ever asked, “Can dogs eat bananas?” the answer is yes.",
+    "Bananas can be a nutritious treat that provides beneficial vitamins and minerals, but because they contain natural sugars, they should be served in moderation rather than as an everyday snack.",
+    "Bananas can be a healthy treat when offered in small amounts. They’re high in potassium, vitamin B6, and vitamin C, all of which contribute to your dog’s overall well-being. Some veterinarians also recommend bananas as a healthier alternative to treats that are high in fat or salt.",
+    "In addition to vitamins and minerals, bananas contain fiber, which may help dogs experiencing gastrointestinal issues. They also provide magnesium, a mineral that supports bone growth and helps the body produce protein and absorb vitamins.",
+    "Although bananas offer nutritional benefits, they’re also high in natural sugar. Feeding too much banana can contribute to excess calorie intake and may cause digestive upset in some dogs.",
+    "For that reason, bananas are best reserved as an occasional treat rather than a regular part of your dog’s daily diet.",
+    "Banana peels aren’t toxic to dogs, but they are difficult to digest. If a dog eats a peel, it could lead to gastrointestinal discomfort or, in some cases, an intestinal blockage.",
+    "To reduce the risk of digestive problems, always remove the peel before offering bananas to your dog. If you’re unsure how much banana is appropriate for your dog’s size, age, or health status, consult your veterinarian",
+    "Bananas are versatile and easy to serve. You can incorporate small portions into your dog’s routine in a variety of ways. You can:",
+    "These simple options can make treat time more enjoyable while helping you manage portion sizes.",
+    "Many dogs enjoy the sweet, starchy taste of bananas. This easy frozen treat combines banana with a few dog-friendly ingredients for an engaging snack.",
+    "You’ll only need a few dog-friendly ingredients and basic supplies to make this frozen banana treat."
+   ],
+   "word_count": 364,
+   "read_minutes": 2,
+   "source_url": "https://www.akc.org/expert-advice/nutrition/can-dogs-eat-bananas/"
+  },
+  {
+   "slug": "beauceron-vs-doberman",
+   "title": "Beauceron vs. Doberman: Similarities and Differences",
+   "category": "Dog Breeds",
+   "category_slug": "dog-breeds",
+   "author": "Stephanie Gibeault, MSc, CPDT",
+   "published": "2021-05-19",
+   "modified": "2026-09-11",
+   "summary": "You’re no doubt familiar with the popular and easily recognizable Doberman Pinscher. Dobermans are distinguished and powerful with a keen intellect, and you might think their size, strength, and markings make them one of a kind. But there is a like-sized, equally powerful, and similarly attractive breed you might mistake for the Doberman – the […]",
+   "body": [
+    "You’re no doubt familiar with the popular and easily recognizable Doberman Pinscher. Dobermans are distinguished and powerful with a keen intellect, and you might think their size, strength, and markings make them one of a kind. But there is a like-sized, equally powerful, and similarly attractive breed you might mistake for the Doberman – the Beauceron.",
+    "Don’t let the surface similarities between the Beauceron and the Doberman fool you, though. Learn what makes each of them special and how to tell the difference.",
+    "The older of the two breeds, the Beauceron, is a member of the Herding Group. Originating in France, these dogs are the largest of the French sheepdogs. Thanks to the area where they were first developed, the plains region surrounding Paris, known as La Beauce, this breed is also known as Berger de Beauce, which translates to “shepherd of the Beauce.”",
+    "Based on their markings, the breed has yet another name: Bas Rouge, which translates to “red stockings.” Although it’s hard to tell on looks alone, according to the American Beauceron Club, the Beauceron is closely related to the Briard.",
+    "According to Victoria Paul, who has owned, trained, and competed with Beaucerons for over 14 years, the breed is likely hundreds of years old. “Although still uncommon in most countries outside of France, the breed is very old and was first documented in the 1500s. The Beauceron historically was developed as an all-purpose farm dog and used for both working the flock and guarding the home.”",
+    "In contrast, the Doberman is a relatively new breed. The first one registered with the AKC was in 1908. Members of the Working Group, Dobermans were developed in Apolda, Germany by Herr Louis Dobermann. Dobermann worked as a tax collector, night watchman, and dogcatcher in the middle to late 1890s.",
+    "Leslie Hall of Pajant Dobermans, AKC Breeder of Merit and former corresponding secretary for the Doberman Pinscher Club of America, says of Dobermann, “He wanted a brave and fearless dog that would protect him as he made his rounds. The exact ‘recipe’ will never be known; however, historians of the Dobermann believe the Rottweiler, the old German Shepherd (now extinct), German Pinscher, and Weimaraner are the main ingredients. It’s documented that crosses to the English Greyhound and Manchester Terrier were incorporated into the mixture to improve the appearance of the Doberman Pinscher.”",
+    "Hall explains that the biggest difference between the two breeds lies in their distinct separate purposes. While Beaucerons may work in military and police roles, they’re primarily a herding dog. In contrast, the Doberman is predominantly meant to work with people. “The Doberman is the only AKC breed bred as a protector of humans, rather than animals, and is a new breed compared to the history of the Beauceron.”",
+    "Despite their different origins, the two breeds have a similar appearance. Dobermans weigh between 55 and 90 pounds and stand 24 to 28 inches high at the shoulder. They also have a characteristic pattern of markings on their coat, preferably rusty red in color, that appear over each eye, on the muzzle, throat and forechest, all legs and feet, and below the tail. However, a Doberman’s base color can be black, red, fawn, or blue.",
+    "Beaucerons have similar rust markings on the same places on their body, but they only come in two base colors: black and tan, and harlequin (a black and tan base color with blue-gray patches distributed evenly over the body). They weigh 70 to 110 pounds and stand 24 to 27.5 inches high. As with Dobermans, males are larger than females.",
+    "Due to the similar markings between the breeds, Paul has encountered many people who mistook her Beaucerons for the more popular Doberman. Once, someone even told her they didn’t know Dobermans came in “that color” when they saw her harlequin female, “Luna.”",
+    "However, several physical distinctions set the breeds’ appearance apart. “Of course, in looks, the Beauceron has more coat, is a bit stockier, is never docked, and should have the firmly attached double dewclaws on the rear feet,” says Paul."
+   ],
+   "word_count": 1450,
+   "read_minutes": 7,
+   "source_url": "https://www.akc.org/expert-advice/dog-breeds/beauceron-vs-doberman/"
+  },
+  {
+   "slug": "vizsla-right-for-you",
+   "title": "Is the Vizsla a Good Fit for You?",
+   "category": "Dog Breeds",
+   "category_slug": "dog-breeds",
+   "author": "Micaela Erickson",
+   "published": "2026-09-01",
+   "modified": "2026-09-10",
+   "summary": "Choosing the right dog breed for you is an important decision. If you're considering the Vizsla, learn more about the breed.",
+   "body": [
+    "Choosing the right dog is an important decision, whether you’re a first-time owner or an experienced dog lover. If you’re ready to take on an endlessly devoted, athletic companion, consider the Vizsla. Known for their loyalty and close bonds with their families, Vizslas can be rewarding for the right household.",
+    "Vizslas are energetic, affectionate members of the Sporting Group. These gundogs were bred for long days in the field. They’re happiest when they have a job to do. Many opportunities to stay physically and mentally engaged are important for this breed.",
+    "One of the breed’s defining traits is their devotion to their owners. Vizslas form strong bonds with their families and have earned a reputation as “Velcro dogs.” These dogs prefer to stay close to their people whenever possible. Because of this deep attachment, they’re prone to social anxiety and can develop undesirable behaviors when left alone for extended periods.",
+    "Highly intelligent and athletic, Vizslas have exceptional stamina. They often excel at dog sports and make great partners for active owners who enjoy jogging, biking, or other outdoor activities.",
+    "Vizslas are perhaps best recognized for their sleek, golden-rust coats and elegant, athletic appearance. They typically stand between 21 and 24 inches tall, and weigh between 44 and 60 pounds.",
+    "Vizslas have a lean, muscular build that reflects their sporting heritage. Regular exercise is essential to help keep them healthy and mentally satisfied.",
+    "Fortunately, grooming a Vizsla is relatively simple. Their short, sleek coats require occasional brushing to keep shedding at bay. They’re a relatively clean breed and usually only need a bath when they get especially dirty or have rolled in something smelly.",
+    "In addition to coat care, Vizslas benefit from routine nail trims, regular ear checks for irritation or debris, and a consistent dental care routine.",
+    "Vizslas are intelligent dogs that are eager to please their loved ones. This makes them somewhat easy to train. Consistent, positive training methods work best for a Vizsla and should start in puppyhood.",
+    "Because Vizslas were bred as hunters, they naturally have a strong prey drive. Early training and socialization are important for helping them learn appropriate behaviors around distractions and other animals. While their hunting instincts will always remain part of the breed, proper training can help them become well-mannered companions.",
+    "Mental stimulation is just as important as physical exercise. Without enough activity, attention, and enrichment, a Vizsla may become bored and find creative ways to get into trouble.",
+    "The Vizsla’s versatility is one of their greatest strengths. They make great candidates for activities including field trials, hunting tests, conformation, obedience, AKC Rally, and more."
+   ],
+   "word_count": 584,
+   "read_minutes": 3,
+   "source_url": "https://www.akc.org/expert-advice/dog-breeds/vizsla-right-for-you/"
+  },
+  {
+   "slug": "english-cocker-spaniel-right-for-you",
+   "title": "Is the English Cocker Spaniel a Good Fit for You?",
+   "category": "Dog Breeds",
+   "category_slug": "dog-breeds",
+   "author": "Micaela Erickson",
+   "published": "2026-09-08",
+   "modified": "2026-09-10",
+   "summary": "When choosing a new dog to bring into your home, consider the English Cocker Spaniel. Learn more about the breed and if they're right for you.",
+   "body": [
+    "The decision to bring a dog into your life requires careful consideration. Whether it’s your first time or you’re an experienced dog owner, there’s a lot to think about. With so many breeds of varying size, exercise needs, and temperament, it can be hard to know where to start your search. If you’re looking for an affectionate and loving, energetic breed that does well with families, consider the English Cocker Spaniel.",
+    "Like its relative the “American” Cocker Spaniel, the English Cocker Spaniel is an energetic, loyal, and eager-to-please sporting dog. They’re often described as “merry,” reflecting their upbeat outlook and affectionate nature.",
+    "These dogs strike a pleasant balance between being active and relaxed. They enjoy outdoor and structured activities, but are just as content spending time with their families at home.",
+    "Their versatility is another hallmark of the breed. English Cocker Spaniels can excel as hunting dogs or therapy dogs too. They’re very adaptable, and have a strong desire to work closely with people.",
+    "The English Cocker Spaniel and the Cocker Spaniel share the same roots. There’s quite a bit of overlap in their personalities and appearance because of this. But there are some notable differences. The Cocker Spaniel is slightly longer. The English Cocker has a taller, more square-shaped outline.",
+    "English Cockers typically stand between 15 and 17 inches tall. They weigh between 26 and 34 pounds fully grown. Their medium-length coats are silky to the touch, and come in a variety of colors and patterns. Compared with their American counterparts, English Cockers have less dense coats, but with the same lush, silky texture. The breed’s longer muzzle and flowing ears help create its distinctive expression, highlighted by soft, expressive eyes.",
+    "Regular grooming is essential to keep an English Cocker Spaniel comfortable and looking their best. The breed’s profuse coat requires regular brushing and combing at least once a week to prevent mats and tangles. Monthly trimming also helps maintain their coat and overall appearance.",
+    "In addition to coat care, owners should check their ears weekly for debris and wax buildup. Their nails should also be trimmed on a monthly basis to support good paw health and comfort.",
+    "English Cockers are a highly trainable breed. They were developed to follow instructions in the field and still have that instinct. That strong working heritage remains evident today, in their responsiveness and willingness to learn.",
+    "Because they’re devoted and eager to please, English Cockers tend to work well with their owners and respond best to positive training methods. Consistent training combined with rewards and encouragement, helps build confidence and reinforces good behavior.",
+    "Early socialization is also important. Introducing puppies to a variety of people, environments, sounds, and experiences helps ensure they grow into well-adjusted, adaptable adult dogs.",
+    "English Cockers make great family dogs. They’re true people dogs that form strong bonds with their owners, and enjoy participating in daily family activities."
+   ],
+   "word_count": 688,
+   "read_minutes": 3,
+   "source_url": "https://www.akc.org/expert-advice/dog-breeds/english-cocker-spaniel-right-for-you/"
+  },
+  {
+   "slug": "teach-dog-wear-backpack",
+   "title": "How and Why to Teach Your Dog to Wear a Backpack",
+   "category": "Lifestyle",
+   "category_slug": "lifestyle",
+   "author": "Stephanie Gibeault, MSc, CPDT",
+   "published": "2026-08-24",
+   "modified": "2026-09-10",
+   "summary": "Why might you want to teach your dog to wear a backpack? There are a few reasons that it might be good for them to be comfortable with.",
+   "body": [
+    "Does your dog have excess energy? Perhaps you want to provide a greater workout than a walk around the block. Or maybe you like to hike with your dog. If so, then a dog backpack might be the answer. But before you strap one on, you need to know whether backpacking is right for your dog and how to introduce a backpack properly.",
+    "The most obvious advantage of a dog backpack is that your dog can carry their own supplies. That’s particularly beneficial when hiking or camping with your dog, as you won’t have to carry everything yourself. In fact, transporting items will give your dog a job to do. Many dogs, especially those in the working group or herding groups, love having a purpose. Carrying their water bowl or poop bags can boost their mental well-being and contribute towards preventing unwanted behaviors, like excessive barking, that can manifest when a dog doesn’t have an outlet for that energy.",
+    "When weighted down, dog backpacks are also great for physical exercise. They help condition your dog and build muscle. Plus, just like weighted vests for us, a weighted backpack ups the workout level so you can tire your dog in about half the time. A short walk around the neighborhood is more like a hike, and a hike can truly tire out a high-energy dog.",
+    "Even an empty backpack can benefit some dogs. If your dog is unable to carry anything, the backpack might still put them in work mode. The gentle pressure of a pack around your dog’s torso may also feel reassuring in the same way a calming vest can, which may be especially helpful for fearful or anxious dogs.",
+    "Dog backpacks aren’t for every dog. Some won’t enjoy the feel of the pack, although proper training and gradual introductions can make a big difference in how well they adapt. But there are other reasons to avoid a dog backpack as well. Puppies who are still growing and senior dogs with health issues, like arthritis, should only wear an empty pack or not use one at all, as you don’t want extra weight on their joints. The same goes for dogs who are overweight or out of shape: hold off on adding any weight to the pack until your dog reaches a healthier weight and better fitness level. Any extra pounds will put added strain on joints and muscles that are already working hard.",
+    "Before using a backpack with any dog, consult your veterinarian to ensure it’s a safe choice. Some conditions your dog might not be best to carry extra weight could be:",
+    "No matter the size of your dog, ensure the pack is always at a safe weight. The total weight of the pack and its contents should be no more than 10% of your dog’s body weight. This is if your dog is at a healthy weight and well-conditioned. So a 20-pound dog could carry up to 2 pounds in total. Your veterinarian can help you determine whether your dog can handle anything heavier based on their breed and fitness level.",
+    "When adjusting your dog’s backpack, the straps should be tight enough that the pack doesn’t move around or slip off, but not so tight as to cause discomfort or chafing. As a rule of thumb, you should be able to fit one or two fingers under each strap. You should set the straps in place so the pack sits evenly on both sides of your dog’s body.",
+    "When adding objects to the pack, be sure you evenly distribute the weight on both sides. For example, you shouldn’t put full water bottles on one side and poop bags on the other, as that weight imbalance can throw off your dog’s gait and make them feel uncomfortable.",
+    "If you want more precise control over the weight, use objects like dried beans or rice that will conform to your dog’s body. This will let you fine-tune the weight on each side. Finally, avoid placing sharp objects like your car keys in your dog’s pack. They can cause discomfort or injury.",
+    "Consider placing items in your dog’s pack that will be helpful for both of you, like:",
+    "Your dog should enjoy wearing their pack, so training your dog to wear a backpack is important. Start before you ever step outside and progress gradually, including lots of positive associations, like praise and treats, along the way."
+   ],
+   "word_count": 851,
+   "read_minutes": 4,
+   "source_url": "https://www.akc.org/expert-advice/lifestyle/teach-dog-wear-backpack/"
+  },
+  {
+   "slug": "prepare-dog-halloween-decorations",
+   "title": "How to Help Your Dog Feel Comfortable Around Halloween Decorations",
+   "category": "Lifestyle",
+   "category_slug": "lifestyle",
+   "author": "Sassafras Patterdale, CPDT-KA, CTDI",
+   "published": "2022-10-24",
+   "modified": "2026-09-09",
+   "summary": "Is your dog scared of Halloween decorations? Here's how to help them cope with the stress of surprising decor and feel comfortable when they're out for walks.",
+   "body": [
+    "Around Halloween, houses start cropping up with tombstones, flashing lights, motion-activated props, and other decorations that can be startling for dogs. Keeping your dog safely leashed, giving them space from scary displays, and rewarding calm behavior can help them build confidence and feel more comfortable as your neighborhood transforms for the season.",
+    "Many Halloween decorations are designed to surprise people with unexpected sounds, movements, or lights. It’s no surprise that even confident dogs may find these displays unsettling.",
+    "Whenever you’re walking your dog, keep them on leash and make sure they’re wearing a properly-fitting collar or harness. This helps prevent them from slipping out of their gear or running away if they become frightened. It’s also important to keep your dog’s identification tags up to date in case they do get loose.",
+    "If your dog has shown concern around Halloween decorations, being proactive can help prevent their fear from escalating. Pay attention to your surroundings and look for new displays before your dog notices them.",
+    "When you spot decorations, get your dog’s attention and reward them with praise. treats, or play as you pass by. Bringing treats and a favorite toy on walks gives you more opportunities to keep your dog engaged and focused on positive experiences. If a display looks especially intimidating, crossing the street can create enough distance to help your dog remain comfortable.",
+    "If you have Halloween decorations up at home, you can use them to work on building your dog’s confidence. Start when your dog is calm, relaxed, and willing to take treats.",
+    "Keep your dog on a loose leash while allowing them to observe the decorations. Avoid tightening the leash, as tension can unintentionally signal that something is wrong. Reward your dog for simply looking at the decorations.",
+    "If your dog chooses to calmly approach or investigate the decorations, continue offering praise and treats. However, watch for signs of stress such as a stiff body posture, barking, or lunging. If you see these behaviors, move your dog farther away until they’re comfortable again. Then, continue rewarding calm attention from that distance.",
+    "Distance is one of the most effective tools for helping dogs feel safe around unfamiliar objects.",
+    "Some dogs may want to approach decorations. That’s fine if they appear relaxed and it’s safe to do so. However, watch your dog’s body language. If they won’t take treats, ignore toys, or are unable to respond to familiar cues, they’re likely too close to something that makes them uncomfortable.",
+    "Move farther away until your dog can relax and engage with you. Staying under your dog’s stress threshold — the point where mild unease turns into fear — makes learning and confidence-building easier.",
+    "Positive reinforcement can help your dog develop new feelings about Halloween decorations."
+   ],
+   "word_count": 615,
+   "read_minutes": 3,
+   "source_url": "https://www.akc.org/expert-advice/lifestyle/prepare-dog-halloween-decorations/"
+  },
+  {
+   "slug": "dog-halloween-party",
+   "title": "How to Host a Fun and Safe Halloween Party for Dogs",
+   "category": "Lifestyle",
+   "category_slug": "lifestyle",
+   "author": "Randa Kriss",
+   "published": "2018-10-08",
+   "modified": "2026-09-08",
+   "summary": "Learn how to host a safe and fun Halloween party for dogs, including tips for decorations, treats, activities, and managing canine guests.",
+   "body": [
+    "Is your dog all dressed up for Halloween with no place to go? Hosting a dog Halloween party can be a fun way to celebrate the season with fellow dog lovers. With thoughtful planning, a dog-friendly space, and a focus on safety, you can create a memorable event that both dogs and their owners will enjoy.",
+    "Throwing a party is a big undertaking, and adding dogs to the mix requires extra preparation. Before sending invitations, think carefully about your party space. Make sure it can comfortably accommodate all the dogs and owners you plan to invite.",
+    "An outdoor area can be a great option if the weather is comfortable. Whether indoors or outdoors, make sure the space is dog-friendly. Remove anything that could be chewed, broken, or damaged, and choose an area that’s easy to clean and one you’re comfortable seeing get a little messy.",
+    "It’s also important to consider your guest list. Make sure the dogs you’re inviting are likely to get along, and confirm that their owners are available to attend and help supervise their pets throughout the event. A little advance planning can help prevent problems and create a more enjoyable experience for everyone.",
+    "One of the best parts of hosting a themed party is decorating. Halloween offers endless opportunities to create a festive atmosphere for both people and dogs.",
+    "You might place a skeleton dog statue near your front door, set up a giant inflatable dog in the yard, or decorate with pumpkins, lights, spider webs, and seasonal accents. As you decorate, remember that dog safety comes first. Keep decorations that could pose a hazard out of reach and avoid placing fragile items where curious dogs can access them.",
+    "If you’d like to offer treats at your party, consider serving simple, dog-friendly snacks. Before giving any food to a dog, check with the owner to make sure the ingredients are appropriate for their pet.",
+    "Fresh water is even more important than treats. Be sure to provide multiple water stations so dogs can stay hydrated throughout the party, especially if they’re running around and playing.",
+    "Don’t forget the humans, either. Having snacks and refreshments available for dog owners can help everyone feel welcome and comfortable.",
+    "The good news is that when a group of friendly dogs gets together, they often create their own entertainment.",
+    "An open space and a few toys may be all you need. Many dogs are perfectly happy to spend the party running around and playing together. These interactions are also a great chance for dogs to socialize and practice good manners.",
+    "If you’d like to add to the Halloween theme, set out a few Halloween-themed toys for the guests to enjoy. Simple activities tend to work best because they let dogs interact naturally while having fun."
+   ],
+   "word_count": 487,
+   "read_minutes": 2,
+   "source_url": "https://www.akc.org/expert-advice/lifestyle/dog-halloween-party/"
+  },
+  {
+   "slug": "can-i-have-a-dog-if-i-have-allergies",
+   "title": "Can I Have a Dog If I Have Allergies?",
+   "category": "Puppy Information",
+   "category_slug": "puppy-information",
+   "author": "Stephanie Gibeault, MSc, CPDT",
+   "published": "2023-01-31",
+   "modified": "2026-09-09",
+   "summary": "Sharing your life with a dog can be incredibly rewarding. Dogs are affectionate, intuitive companions, and growing up with one may even help children develop compassion and confidence. If you have allergies, though, you might wonder whether dog ownership is realistic. The answer depends on your sensitivity, the steps you take to manage exposure, and […]",
+   "body": [
+    "Sharing your life with a dog can be incredibly rewarding. Dogs are affectionate, intuitive companions, and growing up with one may even help children develop compassion and confidence. If you have allergies, though, you might wonder whether dog ownership is realistic. The answer depends on your sensitivity, the steps you take to manage exposure, and your willingness to plan ahead.",
+    "While no dog is truly hypoallergenic, understanding your triggers and making smart choices can help make living with a dog possible.",
+    "Many people believe dog hair is the main issue, but allergens actually come from proteins found in a dog’s dander, saliva, and waste. These tiny particles can travel through the air or cling to surfaces throughout your home.",
+    "“Hypoallergenic” dog breeds are often defined as those that either don’t shed or are hairless. “Breeds in the past thought of as being ‘hypoallergenic’ are really breeds or types of dogs with minimal shedding or whose type of hair (or lack of hair) may cause less possibility to create a reaction due to the type of coat that breed has,” affirms Dr. Jerry Klein, Chief Veterinarian for the AKC.",
+    "Dr. Klein explains that dog fur itself isn’t usually the problem. Dander, tiny bits of skin that are shed by the dog, carries proteins that trigger allergic reactions. Since dogs shed dander like people “shed” dandruff, these proteins can spread when a dog sheds, grooms, or simply moves around the home. Even dogs labeled “hypoallergenic” produce these allergens, meaning no breed is guaranteed to be allergy-safe.",
+    "In most breeds, shed fur can carry proteins and dander all over your house. So-called “hypoallergenic” breeds don’t have that problem. But of course, they can still cause an allergic reaction. No breed is truly allergy-safe. In fact, “hypoallergenic” dogs may produce just as many allergens as their shedding, furry cousins. And all those allergy-triggering proteins can become airborne, particularly when your dog licks themself when grooming. Dander and protein can also be directly transferred to you when you pet your dog or if your dog licks you.",
+    "So, despite their label, there isn’t a guarantee a “hypoallergenic” dog breed won’t trigger your allergies.",
+    "If you suspect a dog allergy, the first step is to get properly tested rather than relying on guesswork. Many people are allergic to multiple triggers, and understanding the full picture can change how you manage symptoms.",
+    "Although what’s causing your allergies might seem obvious, don’t self-diagnose, because your symptoms could be unrelated to what you suspect. Plus, up to 80% of people with allergies are allergic to more than one thing, and those allergic triggers can add up. So, if you have an issue with pollen and a pet allergy, reducing exposure to the pollen might be enough to keep your dog allergy symptoms at bay.",
+    "Traditional allergy testing options include skin prick tests and blood tests that identify common allergens like pet dander. Newer testing methods go even further. Using a standard blood draw, allergen component testing examines specific proteins at a molecular level, offering more detailed insights.",
+    "For example, some people are only sensitive to a dog protein called Can f 5, which is only produced by male dogs. Up to 30% of people who only have a Can f 5 sensitivity may be able to tolerate a female dog or a male dog that has been neutered. With precise test results, you can make a more informed and responsible decision about dog ownership.",
+    "The severity of your symptoms plays a major role in determining whether a dog is a good fit. If your reactions are mild and manageable, you may be able to live comfortably with the right dog and proper precautions."
+   ],
+   "word_count": 1136,
+   "read_minutes": 6,
+   "source_url": "https://www.akc.org/expert-advice/puppy-information/can-i-have-a-dog-if-i-have-allergies/"
+  },
+  {
+   "slug": "prepare-apartment-for-new-puppy",
+   "title": "How to Prepare Your Apartment for a New Puppy",
+   "category": "Puppy Information",
+   "category_slug": "puppy-information",
+   "author": "AKC Staff",
+   "published": "2021-11-16",
+   "modified": "2026-08-18",
+   "summary": "You’re bringing home your new puppy pretty soon. But while you’re overjoyed, you’ve also never owned a puppy while living in an apartment, so you aren’t sure what to expect. Don’t worry, even in a small space or a rental, you can raise a happy and healthy puppy. By taking preventative measures and dedicating time […]",
+   "body": [
+    "You’re bringing home your new puppy pretty soon. But while you’re overjoyed, you’ve also never owned a puppy while living in an apartment, so you aren’t sure what to expect. Don’t worry, even in a small space or a rental, you can raise a happy and healthy puppy.",
+    "By taking preventative measures and dedicating time to training your new puppy, you can ensure your apartment won’t be destroyed and your dog will stay safe.",
+    "Here are some tips from Daniel Goltzer, a dog trainer and owner of Daniel’s Dog Adventures in Los Angeles, on preparing your place for a puppy.",
+    "The first step is to puppy-proof your apartment. “That would mean moving breakables and valuables away from the lower places, and putting them into lockable and closable bins,” says Goltzer. “Puppies like to chew because they’re teething. If you have glasses, shoes, or anything else out, keep those in a bin or somewhere the puppy can’t get into.”",
+    "Even though puppies have a lot of energy, it doesn’t mean they need tons of space. In fact, according to Goltzer, being in more than one room can overwhelm them. Stick with one room “until your dog is more familiar with you and has some basic commands down,” he says. Use dog gates to separate rooms and spaces.",
+    "Avoid putting your puppy in a room with carpeting or furniture until they’re trained. If your dog pees on the floor or chews on the walls or doors, you could have an issue getting your pet deposit back.",
+    "Goltzer recommends crate training your new puppy right away to prevent any issues. The right size dog crate allows your dog to stand up, lie down, and stretch out, but it shouldn’t be so big that your dog starts peeing in it. Some dog crates have dividers in the middle that make them smaller, and you can remove them once your dog is bigger.",
+    "New dog owners may not be aware of all the foods that are toxic to dogs. Goltzer says it’s crucial to research these foods because your dog will likely eat anything off the floor. Make sure all your toxic foods, such as coffee and chocolate, are locked away in a safe space and your floor is clean before bringing your puppy home.",
+    "Keep all prescription and non-prescription drugs locked in a medicine cabinet. Consuming medication (such as Ibuprofen) is one of the top reasons for presentations to veterinary emergency clinics.",
+    "If you’re a renter, ask your landlord if they use Rodenticides and if so, where those products are placed. It’s also good to know the names of the products in case your dog gets into it and you need to inform the vet. If you’re using Rodenticides, look for pet safe rodent repellents.",
+    "Keep electric cords out of the dog’s reach. Your puppy will chew on anything in sight, and this can be a source of electrocution. Don’t forget your computer equipment and chargers. You can also get cable protectors to protect your wires.",
+    "Whether or not you’re home, your puppy is going to need toys to play with. Goltzer says that buying some chew toys and dog puzzle games to keep your dog stimulated is a great idea. “The goal is to try and prevent any anxiety that the dog has and to create a comfortable environment where they can be calm at home. Give your puppy a place to eat, drink, lie down, and play with toys.”"
+   ],
+   "word_count": 1168,
+   "read_minutes": 6,
+   "source_url": "https://www.akc.org/expert-advice/puppy-information/prepare-apartment-for-new-puppy/"
+  },
+  {
+   "slug": "how-to-compete-in-akc-rally",
+   "title": "AKC Rally 101: How Dogs Compete in AKC Rally",
+   "category": "Sports",
+   "category_slug": "sports",
+   "author": "Stephanie Gibeault, MSc, CPDT",
+   "published": "2020-12-08",
+   "modified": "2026-09-04",
+   "summary": "We break down the basics of AKC Rally, a sport centered around teamwork that requires a handler and their dog to complete a series of specific skills.",
+   "body": [
+    "AKC Rally® is a companion sport where handlers and dogs work together to complete a course of numbered signs, each directing a specific skill. Teams are judged on accuracy, control, and communication rather than speed. Open to dogs of many backgrounds and handlers of all ages, Rally offers a fun introduction to dog sports while strengthening the bond between dog and owner.",
+    "Just like any team sport, AKC Rally requires both teamwork and skill. Handlers and their dogs work side-by-side, navigating a course of 10-20 different signs. Each of these signs provides instructions for the next skill to perform.",
+    "Watching AKC Rally can seem confusing at first. But once you pick up on ring procedures, how scoring works, and what it takes to earn a qualifying score, the sport becomes much easier to follow.",
+    "AKC Rally is one of four companion events, along with obedience, agility, and tracking. The sport began in 2005 and is open to all AKC-recognized breeds and All-American Dogs registered with an AKC PAL or Canine Partners number.",
+    "It’s also open to handlers of all ages. Currently, there are no minimum age requirements for handlers in AKC Companion Events, and Juniors typically compete alongside adults.",
+    "The number of signs on a course, and which skills they call for, depends on the class level (see the class breakdown below). The handler doesn’t know which ones will be present on the course until the day of the event. Here are just a few of the signs you might see at an AKC Rally competition:",
+    "Although performances are timed, quickly completing a course isn’t the goal. AKC Rally is ultimately about the handler and their dog working together to execute the specified set of skills, with the dog remaining under control throughout the entire presentation.",
+    "At every AKC Rally level, handlers can use verbal commands and hand signals to encourage their dog throughout the course. At lower levels — like Novice, Intermediate, and Advanced — handlers can also clap their hands and pat their legs to engage with their dog.",
+    "As for scoring, each participant begins with a perfect score of 100, and points are deducted along the way. Minor deductions range from a dog interfering with their handler’s movement to a dog responding too slowly to a command. More substantial deductions include incorrectly performing a sign or luring or pleading with a dog to perform the exercises on the course.",
+    "Teams must finish the course with at least 70 points to earn a qualifying score and earn a “leg” toward a title.",
+    "AKC Rally offers multiple levels that gradually increase in difficulty as teams gain experience. At every level, teams need three qualifying scores of at least 70 points to earn a title.",
+    "If you’re inspired to start training your dog in AKC Rally after watching a competition, get connected with your local AKC Club or dog training facility to take a class. Instructors will show you how to train your dog to perform the required skills. But it will also take plenty of practice on your own. No specialized equipment is required to get started and videos of each skill are available on the AKC Rally resources page."
+   ],
+   "word_count": 620,
+   "read_minutes": 3,
+   "source_url": "https://www.akc.org/expert-advice/sports/how-to-compete-in-akc-rally/"
+  },
+  {
+   "slug": "agility-competition-101",
+   "title": "How Do Dog Agility Competitions Work?",
+   "category": "Sports",
+   "category_slug": "sports",
+   "author": "Stephanie Gibeault, MSc, CPDT",
+   "published": "2023-03-09",
+   "modified": "2026-08-17",
+   "summary": "Ever wonder what goes on at a dog agility competition? We've made a beginner's guide — including a breakdown of the obstacles!",
+   "body": [
+    "Many people may not be familiar with agility competitions, where dogs navigate through an obstacle course while racing against the clock. Even for those who have heard of the sport, acting as a spectator can be a little intimidating.",
+    "We are here to fill you in on the basics of watching an agility event — including a breakdown of each obstacle and how scoring works. Who knows? You may just be inspired to start training your dog after this mini-introduction.",
+    "Courses typically have between 14-20 obstacles. Here are several types of agility obstacles you’ll run into:",
+    "Jumps: These vary from course to course, but a dog must leap over the bar without displacing it. The height of the dog determines the height of each jump. Dogs are measured before the competition.",
+    "Dog Walk: A dog must run up the ramp on one side, scamper across the top horizontal plank, then run down the ramp on the other side, being sure to touch the “contact zone” (usually painted a bright yellow) at the bottom of the board as they exit.",
+    "Weave Poles: Weave poles consist of six to 12 upright poles. A dog must enter to the right of the first one and weave through each of the others quickly: without missing a pole. It is considered one of the trickiest obstacles to master.",
+    "Tire Jump: A dog must jump quickly and cleanly through the opening of the tire. The height of the jump is based on the height of the dog.",
+    "Open Tunnel: The objective is simple: A dog must enter from one side and exit through the other. Although the tunnel is often curved so the dog can’t see the exit from the entrance, given how straightforward it is, the Open Tunnel is often considered a great place to start when training.",
+    "Seesaw: Unlike the seesaws you may have played on as a child, dogs don’t get a partner for this obstacle. After running up the board and down the other side as it pivots with their momentum, a dog must touch the “contact zone” with at least one toenail as they descend.",
+    "A-frame: An A-frame consists of two broad ramps hinged together. A dog must quickly scale the structure, scramble over the apex, and touch the “contact zone” while descending.",
+    "Pause Table: This obstacle slows the team’s forward momentum. A dog must pause on the table for five consecutive seconds.",
+    "To earn a qualifying score, a dog must complete the course with the minimum defined standards for time, faults, and points and without receiving any non-qualifying deductions. Wondering how judges score dogs on each obstacle? Carrie DeYoung, AKC’s former Director of Agility, walks us through the process."
+   ],
+   "word_count": 851,
+   "read_minutes": 4,
+   "source_url": "https://www.akc.org/expert-advice/sports/agility-competition-101/"
+  },
+  {
+   "slug": "maltese-hayden",
+   "title": "Finding Maltese Changed Rubina Pak’s Life – In More Ways Than One",
+   "category": "News",
+   "category_slug": "news",
+   "author": "Courtney Campbell",
+   "published": "2026-08-04",
+   "modified": "2026-09-10",
+   "summary": "At dog sporting events, you’ll likely see Border Collies, Poodles, and Golden Retrievers. When you see a little white dog in the ring, you might do a double take. Enter “Hayden” the Maltese and his owner Rubina Pak, who are proving that every dog can do dog sports. “There are not many Maltese competing in […]",
+   "body": [
+    "At dog sporting events, you’ll likely see Border Collies, Poodles, and Golden Retrievers. When you see a little white dog in the ring, you might do a double take. Enter “Hayden” the Maltese and his owner Rubina Pak, who are proving that every dog can do dog sports.",
+    "“There are not many Maltese competing in performance/companion events,” she says. “It’s nice to show people what a non-traditional performance breed can do.”",
+    "Hayden has brought new experiences into Pak’s world. From dog sports to providing comfort to being on TV, Maltese changed her life. But there was a time she never thought she’d own a dog.",
+    "After being bitten by a dog when she was 5 years old, Pak was scared and wary of dogs. That is until she was 19 and her aunt got a Maltese puppy. At first, Pak was “scared to death” of him, but he was so sweet and loveable that any fear she initially had dissipated. She thought one day she’d get a Maltese of her own when the timing was right.",
+    "Then, in 2007, when Pak was in her 30s, her dad was diagnosed with lung cancer. She was devastated, the grief was overwhelming, and her cousin suggested the two of them get lunch to help console her. Lo and behold, there would be an 8-month-old Maltese there.",
+    "“All of a sudden I was happy, and giddy, and playing with this puppy,” says Pak. “For those few minutes I played with her, that emotion, that grief was gone.”",
+    "Two months later she got “Parker,” her first Maltese, who came into Pak’s life right when she needed him. Pak’s father passed two years later, but during that time Parker was able to bring so much joy, comfort, and laughter.",
+    "“I think Maltese were meant to be in my life,” Pak reflects. “It was like the universe put them there when I needed them most. There’s something magical about them and they provide comfort and healing.”",
+    "Parker lived for 15 years and passed away in 2022, and Pak got Hayden six months later. It was a bit sooner than Pak expected as her friend, who is a Maltese breeder, had just had a litter—and the rest is history. But the two have been inseparable ever since. Hayden was named after the Hayden Planetarium in New York City.",
+    "Pak first got interested in dog sports with Parker. “As a puppy, Parker had lots of energy that needed an outlet,” she says. “I discovered Agility classes and then that led to Obedience and Rally.” While Parker earned titles in all three sports, Hayden is Pak’s first RACH-titled dog.",
+    "Hayden first began Rally in August 2023 when Hayden was just 9 months old after finishing beginner obedience classes earlier that June. With that being his only official training, they attempted first Rally run to determine if he could enter his first Rally trial.",
+    "Their lofty goal? To qualify for the AKC Rally National Championship (RNC). But Pak never expected Hayden to do as well as he has. At the 2025 RACH Invitational, he placed 4th in the Toy breed — their first time competing in the event."
+   ],
+   "word_count": 1108,
+   "read_minutes": 6,
+   "source_url": "https://www.akc.org/expert-advice/news/maltese-hayden/"
+  },
+  {
+   "slug": "junior-handler-spotlight-nevaeh-stadtfeld",
+   "title": "Meet Junior Handler Nevaeh Stadtfeld",
+   "category": "News",
+   "category_slug": "news",
+   "author": "Lindsey Dobruck",
+   "published": "2026-09-02",
+   "modified": "2026-09-10",
+   "summary": "For Neveah Stadtfeld, Bedlington Terriers speak her language. This Junior Handler also competes with her Doberman Pinscher.",
+   "body": [
+    "For Bedlington Terrier “Loretta,” one look is all it takes. She’s so attuned to her owner, Nevaeh Stadtfeld, that just the slightest glance is her cue to reposition a foot or shift her weight for a more balanced freestack.",
+    "“In Juniors, I’ve learned that judges really look for your connection,” Nevaeh says. Being in sync with her canine teammate is what it’s about for this junior handler — whether she’s showing one of her Bedlingtons, her Doberman Pinscher “Sydnie,” or a dog she’s just met ringside.",
+    "“When I take a dog in, my main focus is not winning,” she says. “My main focus is how comfortable the dog is.”",
+    "Fourteen-year-old Nevaeh, of White Oak, Texas, says the dog fancy is like “one big family.”",
+    "As a fourth-generation fancier, she’s carrying on a Bedlington Terrier legacy. It started with her great-grandmother, Annette Gustavson, and continued with her grandmother, Tracey Gustavson. Nevaeh’s mom, Jessica Tate, prefers caring for the dogs and helping with the prep work over being in the ring.",
+    "Nevaeh, on the other hand, was smitten from the start. She was only 4 years old when she took her first dog into the ring to help out her grandma.",
+    "“I was very happy,” she recalls. “I was like, ‘Wow, this might be something I want to do for the rest of my life!’”",
+    "When she was 6 years old, Nevaeh started working with “Stone” (Tracewind’s Stone Cold Stunner). Stone was a Bedlington puppy that her grandmother bred, young at the time.",
+    "“He definitely taught me patience,” Nevaeh laughs. “With any puppy, especially with Bedlington puppies, they’re so high energy. They’re little alligators. You have to be very patient.”",
+    "But Stone wasn’t able to compete in conformation for long. He developed an underbite as he matured, which is a deviation from their breed standard. Nevaeh couldn’t continue to show him in conformation, but doesn’t mind.",
+    "Nevaeh continued to travel to shows with her grandma and learn about her breed as they looked for a suitable Juniors partner. At 9 years old, she started her Juniors career with a Bedlington named “Willow” (GCH CH Patchwork’s Latest New Fad).",
+    "“She shaped me as a Junior more than I could ever imagine,” Nevaeh reflects."
+   ],
+   "word_count": 856,
+   "read_minutes": 4,
+   "source_url": "https://www.akc.org/expert-advice/news/junior-handler-spotlight-nevaeh-stadtfeld/"
+  }
+ ]
+}
