@@ -24,8 +24,6 @@ Input signature (per task):
 Output: JSON {task_id, pass, reason, evidence[]} on stdout; exit 0 PASS / 1 FAIL.
 Malformed or missing input produces a structured FAIL, never a traceback.
 """
-from __future__ import annotations
-
 import base64
 import json
 import os
