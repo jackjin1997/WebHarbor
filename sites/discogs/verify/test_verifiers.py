@@ -15,12 +15,12 @@ from pathlib import Path
 
 VERIFY_DIR = Path(__file__).resolve().parent
 SEED_DB = VERIFY_DIR.parent / "instance_seed" / "discogs.db"
-BASE_URL = "http://localhost:40024"
+BASE_URL = "http://localhost:40026"
 # Grading must not depend on which host port the operator published the mirror on;
 # the repository's own guide runs the same image on 41000+. These alternates are used
 # to prove the verifiers accept any single loopback origin and still reject a
 # trajectory that wanders off one.
-ALT_ORIGIN = "http://127.0.0.1:41024"
+ALT_ORIGIN = "http://127.0.0.1:41026"
 # Each verifier is a short local SQLite job, but this suite is often run on a machine
 # that is busy building or serving other environments. The cap exists to catch a hung
 # verifier, not to benchmark the host, so it is generous and tunable.

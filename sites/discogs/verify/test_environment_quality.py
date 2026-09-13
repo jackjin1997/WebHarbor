@@ -39,7 +39,7 @@ class EnvironmentQualityTests(unittest.TestCase):
                 self.assertEqual(EXPECTED_KEYS, set(row))
                 self.assertEqual("Discogs", row["web_name"])
                 self.assertEqual(f"Discogs--{index}", row["id"])
-                self.assertEqual("http://localhost:40024/", row["web"])
+                self.assertEqual("http://localhost:40026/", row["web"])
                 self.assertEqual("https://www.discogs.com/", row["upstream_url"])
                 self.assertEqual(
                     f"sites/discogs/verify/verify_{index}.py",
