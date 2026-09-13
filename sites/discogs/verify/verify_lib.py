@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 from pathlib import Path
 import re
 import sqlite3
@@ -19,7 +20,12 @@ from urllib.parse import parse_qs, urlparse
 
 
 ALLOWED_HOSTS = {"localhost", "127.0.0.1"}
-ALLOWED_PORT = 40024
+# The mirror is served from a loopback origin. Which host port the operator publishes
+# is an operational detail (the repository's own guide runs the same sites on 41000+),
+# so grading must not depend on it. What must hold is that every recorded step points at
+# one loopback origin: that is what stops a trajectory from citing an outside site or
+# mixing the mirror with another local service. An exact origin can still be pinned with
+# the WHR_EXPECTED_ORIGIN environment variable when a grader wants that.
 
 READ_ONLY_SPECS = {
     0: {
@@ -108,7 +114,6 @@ def is_allowed_url(url: str) -> bool:
         return (
             parsed.scheme == "http"
             and parsed.hostname in ALLOWED_HOSTS
-            and parsed.port == ALLOWED_PORT
             and parsed.username is None
             and parsed.password is None
         )
@@ -238,6 +243,30 @@ def attributed_to(text: str, value: str, target: str, other: str) -> bool:
         if after and min(after)[1]:
             return True
     return False
+
+
+def step_origins(trajectory: dict) -> list[str]:
+    """Scheme://host:port for every recorded step URL, in order."""
+    origins = []
+    for url in trajectory_urls(trajectory):
+        parsed = urlparse(url)
+        if parsed.scheme or parsed.netloc:
+            origins.append(f"{parsed.scheme}://{parsed.netloc}")
+    return origins
+
+
+def check_origin_discipline(trajectory: dict, judge: Judge) -> None:
+    """Every step must sit on one loopback origin, and none may sit off it."""
+    urls = trajectory_urls(trajectory)
+    judge.check("trajectory_has_urls", bool(urls), f"count={len(urls)}")
+    foreign = sorted({u for u in urls if not is_allowed_url(u)})
+    judge.check("no_foreign_origins", not foreign, f"foreign={foreign[:5]}")
+    origins = sorted(set(step_origins(trajectory)))
+    judge.check("single_origin", len(origins) == 1, f"origins={origins}")
+    expected = os.environ.get("WHR_EXPECTED_ORIGIN", "").rstrip("/")
+    if expected:
+        judge.check("origin_matches_expected", origins == [expected],
+                    f"expected={expected} actual={origins}")
 
 
 def marketplace_filters_used(trajectory: dict) -> bool:
@@ -640,6 +669,7 @@ def run(index: int) -> None:
         judge.emit()
     judge.check("task_identity", trajectory.get("task_id") == task_id,
                 f"actual={trajectory.get('task_id')!r}")
+    check_origin_discipline(trajectory, judge)
     if index in READ_ONLY_SPECS:
         verify_read_only(index, trajectory, judge)
         initial = resolve_snapshot(run_dir, args.initial_db, ("initial_state.db", "before.db"))

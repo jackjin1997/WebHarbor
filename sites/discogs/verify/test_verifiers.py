@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import sqlite3
 import subprocess
@@ -15,6 +16,28 @@ from pathlib import Path
 VERIFY_DIR = Path(__file__).resolve().parent
 SEED_DB = VERIFY_DIR.parent / "instance_seed" / "discogs.db"
 BASE_URL = "http://localhost:40024"
+# Grading must not depend on which host port the operator published the mirror on;
+# the repository's own guide runs the same image on 41000+. These alternates are used
+# to prove the verifiers accept any single loopback origin and still reject a
+# trajectory that wanders off one.
+ALT_ORIGIN = "http://127.0.0.1:41024"
+# Each verifier is a short local SQLite job, but this suite is often run on a machine
+# that is busy building or serving other environments. The cap exists to catch a hung
+# verifier, not to benchmark the host, so it is generous and tunable.
+VERIFIER_TIMEOUT = int(os.environ.get("WHR_VERIFIER_TIMEOUT", "180"))
+FOREIGN_ORIGIN = "https://attacker.invalid"
+
+
+def rewrite_origin(steps: list[dict], new_origin: str, old: str = BASE_URL) -> list[dict]:
+    """Re-host every recorded URL in `steps` on `new_origin`."""
+    moved = []
+    for step in steps:
+        copy = dict(step)
+        for key in ("url", "url_after"):
+            if copy.get(key):
+                copy[key] = copy[key].replace(old, new_origin)
+        moved.append(copy)
+    return moved
 
 
 def navigate(path: str, *, origin: str = BASE_URL) -> dict:
@@ -68,6 +91,8 @@ class VerifierTests(unittest.TestCase):
         *,
         task_id: str | None = None,
         include_snapshots: bool = True,
+        base_url: str = BASE_URL,
+        env: dict[str, str] | None = None,
     ) -> tuple[int, dict]:
         with tempfile.TemporaryDirectory(prefix=f"discogs-verify-{task}-") as temp_dir:
             root = Path(temp_dir)
@@ -96,12 +121,12 @@ class VerifierTests(unittest.TestCase):
                 command.extend(["--initial_db", str(initial), "--after_db", str(after)])
             trajectory = {
                 "task_id": task_id or f"Discogs--{task}",
-                "start_url": f"{BASE_URL}/",
+                "start_url": f"{base_url}/",
                 "steps": steps,
                 "final_url": (
                     steps[-1].get("url_after", steps[-1].get("url"))
                     if steps
-                    else f"{BASE_URL}/"
+                    else f"{base_url}/"
                 ),
                 "final_answer": answer,
             }
@@ -112,8 +137,9 @@ class VerifierTests(unittest.TestCase):
                 command,
                 capture_output=True,
                 text=True,
-                timeout=30,
+                timeout=VERIFIER_TIMEOUT,
                 check=False,
+                env={**os.environ, **env} if env else None,
             )
             try:
                 verdict = json.loads(result.stdout)
@@ -460,27 +486,55 @@ class VerifierTests(unittest.TestCase):
         for task in range(15):
             with self.subTest(task=task):
                 steps, answer, mutate = self.positive_case(task)
-                spoofed = [
-                    {
-                        **step,
-                        "url": step.get("url", "").replace(
-                            BASE_URL, "https://attacker.invalid"
-                        ),
-                        **(
-                            {
-                                "url_after": step["url_after"].replace(
-                                    BASE_URL, "https://attacker.invalid"
-                                )
-                            }
-                            if step.get("url_after")
-                            else {}
-                        ),
-                    }
-                    for step in steps
-                ]
+                spoofed = rewrite_origin(steps, FOREIGN_ORIGIN)
                 code, verdict = self.run_verifier(task, spoofed, answer, mutate)
                 self.assertNotEqual(0, code)
                 self.assertFalse(verdict["pass"])
+
+    def test_alternate_loopback_port_is_accepted(self) -> None:
+        """A run published on another host port grades exactly like the default one."""
+        for task in range(15):
+            with self.subTest(task=task):
+                steps, answer, mutate = self.positive_case(task)
+                moved = rewrite_origin(steps, ALT_ORIGIN)
+                code, verdict = self.run_verifier(
+                    task, moved, answer, mutate, base_url=ALT_ORIGIN
+                )
+                self.assertEqual(0, code, verdict)
+                self.assertTrue(verdict["pass"], verdict)
+
+    def test_mixed_origin_trajectory_fails_all(self) -> None:
+        """A run that wanders onto a second local origin must not grade.
+
+        Dropping the hard-coded port is what makes this test the real control: any one
+        loopback origin is accepted, but a trajectory that straddles two of them is
+        stitched together from different services and is rejected. Appending the extra
+        origin works for every task, including the ones whose path is a single step.
+        """
+        for task in range(15):
+            with self.subTest(task=task):
+                steps, answer, mutate = self.positive_case(task)
+                mixed = steps + rewrite_origin(steps[-1:], ALT_ORIGIN)
+                code, verdict = self.run_verifier(task, mixed, answer, mutate)
+                self.assertNotEqual(0, code, verdict)
+                self.assertFalse(verdict["pass"], verdict)
+                self.assertEqual("single_origin", verdict["reason"], verdict)
+
+    def test_expected_origin_pin_is_enforced_when_set(self) -> None:
+        """WHR_EXPECTED_ORIGIN lets a grader pin one origin without hard-coding it."""
+        steps, answer, mutate = self.positive_case(0)
+        code, verdict = self.run_verifier(
+            0, steps, answer, mutate, env={"WHR_EXPECTED_ORIGIN": BASE_URL}
+        )
+        self.assertEqual(0, code, verdict)
+        self.assertTrue(verdict["pass"], verdict)
+
+        code, verdict = self.run_verifier(
+            0, steps, answer, mutate, env={"WHR_EXPECTED_ORIGIN": ALT_ORIGIN}
+        )
+        self.assertNotEqual(0, code, verdict)
+        self.assertFalse(verdict["pass"], verdict)
+        self.assertEqual("origin_matches_expected", verdict["reason"])
 
     def test_state_tasks_require_frozen_snapshots(self) -> None:
         for task in range(7, 15):
