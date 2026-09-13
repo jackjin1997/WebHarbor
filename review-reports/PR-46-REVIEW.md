@@ -7,7 +7,7 @@ Original contribution: [aiming-lab/WebHarbor#46](https://github.com/aiming-lab/W
 - Base: `f20b5ee8377ba31bcb825b4dfe30ad96c416e477`
 - Original contribution: `6e5d77b0af6c2b7dfcd82039361df4228f2c3c65`
 - Isolated-review fixed point: `80bd5817109563313d1ae30fac684a8b918599f7`
-- Reconciled implementation commit: `e0a53163f41ec18c67967f47d9e7230d9926a44b`
+- Reconciled implementation commit: `839c74dc0dd1a2967552b9d6df991701c61aafe6`
 - Assets pin is unchanged: `ad6f424f72cada9e6f5c09a58093d0ceeab9c52b`
 
 This PR adds repository-level tooling only. It does not add or modify a mirror site, task set, deterministic task verifier, or Hugging Face asset.
@@ -44,7 +44,7 @@ The frozen candidate was independently reviewed at `80bd581`. The reviewer repro
 - Accepted the P3 findings for top-level registry parsing, unreachable generated-port code / misleading test coverage, and the missing `AGENTS.md` checklist entry.
 - Did not broaden `.assetpaths` to accept arbitrary recursive glob spellings. The checked-in file and the actual pack/extract scripts define three canonical managed roots; no repository consumer defines the proposed spellings as equivalent. Certifying them in the audit would accept an unverified asset configuration. Canonical wildcard entries and explicit per-site entries remain supported.
 
-Affected tests and the full validation set were rerun after reconciliation.
+Affected tests and the full validation set were rerun after reconciliation. A direct regression check also confirmed that restricting Python assignments to module scope does not reject valid indented shell declarations.
 
 ## Validation
 
@@ -59,13 +59,13 @@ pyright scripts/audit_site_registry.py scripts/test_audit_site_registry.py
 
 Results:
 
-- 21/21 unit and adversarial tests passed.
+- 22/22 unit and adversarial tests passed.
 - Current repository scan covered 26 site directories, 26 registered sites, 26 ports, 26 task files, and 843 tasks.
 - Strict scan: 0 errors, 0 warnings, exit 0.
 - Pyright: 0 errors, 0 warnings.
 - Python byte-compilation: passed.
 
-The negative fixtures cover missing registrations/directories, duplicate task ports, mismatched ports, malformed JSONL inputs, malformed registries, function-local lookalike declarations, runtime-like regular files, missing core files, invalid Docker ranges/ports, warning/strict exit behavior, and JSON error output. Legal alternatives cover explicit per-site asset paths, brand aliases, shell comments, and protocol-qualified Docker ports.
+The negative fixtures cover missing registrations/directories, duplicate task ports, mismatched ports, malformed JSONL inputs, malformed registries, function-local lookalike declarations, runtime-like regular files, missing core files, invalid Docker ranges/ports, warning/strict exit behavior, and JSON error output. Legal alternatives cover explicit per-site asset paths, brand aliases, shell comments and indentation, and protocol-qualified Docker ports.
 
 ## Applicability and unexecuted checks
 
