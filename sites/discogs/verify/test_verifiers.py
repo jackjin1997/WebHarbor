@@ -324,7 +324,9 @@ class VerifierTests(unittest.TestCase):
             ),
             3: (
                 [navigate("/release/9732909"), navigate("/release/8837214")],
-                "Release 9732909 is the Dolby System edition; release 8837214 is the Repress. Both show D 57.352 and D-57352.",
+                "Release 9732909 lists the extra Impuesto de lujo entry Num. 6649. "
+                "The other edition is release 8837214. Both editions share "
+                "Deposito Legal B. 9417-1978.",
                 None,
             ),
             4: (
@@ -681,11 +683,26 @@ class VerifierTests(unittest.TestCase):
         self.assertNotEqual(0, code)
         self.assertFalse(verdict["pass"])
 
-    def test_task_three_rejects_swapped_id_descriptor_pairs(self) -> None:
+    def test_task_three_rejects_swapped_identifier_binding(self) -> None:
         steps, _, _ = self.positive_case(3)
+        # Every requested token is present, but the extra identifier is attached to the
+        # wrong edition. The binding check must still reject it.
         answer = (
-            "Release 9732909 is the Repress, while release 8837214 is the Dolby "
-            "System edition. They share D 57.352 and D-57352."
+            "Release 8837214 lists the extra Impuesto de lujo entry Num. 6649. "
+            "The other edition is release 9732909. Both editions share "
+            "Deposito Legal B. 9417-1978."
+        )
+        code, verdict = self.run_verifier(3, steps, answer)
+        self.assertNotEqual(0, code)
+        self.assertFalse(verdict["pass"])
+
+    def test_task_three_rejects_results_page_only_facts(self) -> None:
+        steps, _, _ = self.positive_case(3)
+        # The format descriptors are readable from the search results page, so an answer
+        # built only from them no longer satisfies the task.
+        answer = (
+            "Release 9732909 is the Dolby System edition; release 8837214 is the "
+            "Repress. They share D 57.352 and D-57352."
         )
         code, verdict = self.run_verifier(3, steps, answer)
         self.assertNotEqual(0, code)
@@ -709,6 +726,8 @@ class VerifierTests(unittest.TestCase):
         alternatives = {
             0: "It is the 1966 release. The two catalogue identifiers are RS 9242 and 242, and ‘Well, You Needn’t’ runs 11 minutes 24 seconds (11:24).",
             2: "Japan's 2007 UCCO-9038 version is the one with seven tracks; digital remastering is credited to Joe Tarantino.",
+            3: "The extra Impuesto de lujo line, Num. 6649, is printed on release 9732909. "
+               "Release 8837214 stops at two identifiers. Both carry Deposito Legal B. 9417-1978.",
             5: "At US$8.27, kosmische's Kelly Blue by Wynton Kelly was cheapest. The detail page lists SRS-6059 plus SMJ-6114.",
         }
         for task, answer in alternatives.items():

@@ -37,8 +37,11 @@ READ_ONLY_SPECS = {
     },
     3: {
         "paths": ("/release/9732909", "/release/8837214"),
-        "tokens": ("9732909", "8837214", "dolby system", "repress", "d 57.352", "d-57352"),
-        "associations": (("9732909", "dolby system"), ("8837214", "repress")),
+        # The live-faithful search card shows the full format description, so the
+        # Dolby System / Repress split is readable from the results page. The task now
+        # asks for identifier facts that only the detail pages carry.
+        "tokens": ("9732909", "8837214", "impuesto de lujo", "6649", "9417-1978"),
+        "attribution": (("6649", "9732909", "8837214"),),
     },
     4: {
         "paths": ("/release/35846581",),
@@ -208,6 +211,35 @@ def associated(text: str, left: str, right: str,
     return False
 
 
+def attributed_to(text: str, value: str, target: str, other: str) -> bool:
+    """True when `value` is attributed to `target` rather than to `other`.
+
+    Natural phrasing names the edition before the fact ("release X lists ... 6649"),
+    so the nearest identifier *preceding* the value decides the binding; if none
+    precedes, the nearest one following it is used. A swapped attribution fails even
+    though both identifiers appear in the answer.
+    """
+    body = normalize(text)
+    value, target, other = normalize(value), normalize(target), normalize(other)
+    value_starts = [m.start() for m in re.finditer(re.escape(value), body)]
+    target_starts = [m.start() for m in re.finditer(re.escape(target), body)]
+    other_starts = [m.start() for m in re.finditer(re.escape(other), body)]
+    if not value_starts or not target_starts:
+        return False
+    for start in value_starts:
+        before = ([(start - s, True) for s in target_starts if s < start]
+                  + [(start - s, False) for s in other_starts if s < start])
+        if before:
+            if min(before)[1]:
+                return True
+            continue
+        after = ([(s - start, True) for s in target_starts if s > start]
+                 + [(s - start, False) for s in other_starts if s > start])
+        if after and min(after)[1]:
+            return True
+    return False
+
+
 def marketplace_filters_used(trajectory: dict) -> bool:
     for url in trajectory_urls(trajectory):
         if not is_allowed_url(url):
@@ -243,6 +275,12 @@ def verify_read_only(index: int, trajectory: dict, judge: Judge) -> None:
             f"bind_{left}_{right}",
             associated(answer, left, right, associations),
             "expected descriptor is nearest to its release ID",
+        )
+    for value, target, other in spec.get("attribution", ()):
+        judge.check(
+            f"bind_{target}_{value}",
+            attributed_to(answer, value, target, other),
+            f"'{value}' must be attributed to {target}, not {other}",
         )
     if spec.get("marketplace_filters"):
         judge.check("marketplace_filters", marketplace_filters_used(trajectory),
