@@ -1,0 +1,202 @@
+name: Y Combinator full environment smoke
+
+on:
+  push:
+    branches:
+      - ci/y-combinator-full-smoke
+
+permissions:
+  contents: read
+
+jobs:
+  full-environment-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Verify candidate identity and runner capacity
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/full-smoke
+          workflow_sha=$(git rev-parse HEAD)
+          candidate_sha=$(git rev-parse HEAD^)
+          test "$candidate_sha" = 386b467bf0f9a13065200589c93d3741f287a228
+          test "$(git diff --name-only "$candidate_sha" "$workflow_sha")" = ".github/workflows/y-combinator-full-smoke.yml"
+          printf 'workflow=%s\ncandidate=%s\n' "$workflow_sha" "$candidate_sha" \
+            > /tmp/full-smoke/code-sha.txt
+          git checkout --detach "$candidate_sha"
+          df -h | tee /tmp/full-smoke/disk-before.txt
+          docker system df | tee /tmp/full-smoke/docker-disk-before.txt
+          available_kib=$(df -Pk . | awk 'NR==2 {print $4}')
+          test "$available_kib" -ge 52428800
+          cp .assets-revision /tmp/full-smoke/assets-revision.txt
+
+      - name: Fetch frozen base assets and Y Combinator candidate
+        run: |
+          set -euo pipefail
+          python -m pip install 'huggingface_hub[cli]' pillow -r sites/y_combinator/requirements.txt
+          repo=$(awk '/^repo:/ {print $2}' .assets-revision)
+          base_revision=$(awk '/^revision:/ {print $2}' .assets-revision)
+          candidate_revision=4a9b9dd20cc3704e069bbd297d2b7522c3d14b38
+          test "$repo" = ChilleD/WebHarbor
+          test "$base_revision" = 64264d065cdb0b7755ee99dab356be5733d9ddef
+          base_cache="sites/.cache/tarballs/$base_revision"
+          candidate_cache="sites/.cache/tarballs/$candidate_revision"
+          mkdir -p "$base_cache" "$candidate_cache"
+
+          include_args=()
+          base_sites=()
+          for site_dir in sites/*/; do
+            site=$(basename "$site_dir")
+            if [[ "$site" != y_combinator ]]; then
+              include_args+=(--include "$site.tar.gz")
+              base_sites+=("$site")
+            fi
+          done
+          test "${#base_sites[@]}" = 28
+          hf download "$repo" --repo-type dataset --revision "$base_revision" \
+            "${include_args[@]}" --local-dir "$base_cache"
+
+          for site in "${base_sites[@]}"; do
+            tarball="$base_cache/$site.tar.gz"
+            test -f "$tarball"
+            python3 scripts/validate_asset_archive.py "$tarball" "$site"
+            python3 scripts/extract_asset_archive.py "$tarball" sites "$site"
+            python3 scripts/sync_assets_to_inventory.py "sites/$site"
+            migrator="sites/$site/migrate_seed.py"
+            database="sites/$site/instance_seed/$site.db"
+            if [[ -f "sites/$site/.build-generated-seed" ]]; then
+              rm -rf "sites/$site/instance_seed"
+            elif [[ -f "$migrator" && -f "$database" ]]; then
+              PYTHONHASHSEED=0 python3 "$migrator" "$database"
+            fi
+          done
+
+          hf download "$repo" --repo-type dataset --revision "$candidate_revision" \
+            --include 'y_combinator.tar.gz' --local-dir "$candidate_cache"
+          archive="$candidate_cache/y_combinator.tar.gz"
+          python3 scripts/validate_asset_archive.py "$archive" y_combinator
+          python3 scripts/extract_asset_archive.py "$archive" sites y_combinator
+          python3 scripts/sync_assets_to_inventory.py sites/y_combinator
+          PYTHONHASHSEED=0 python3 sites/y_combinator/seed_data.py
+          test "$(sha256sum "$archive" | awk '{print $1}')" = \
+            43c666bda84680f327ce64720b2baa2f9e427acb751fe81900967f267e9176f4
+          test "$(stat -c '%s' "$archive")" = 121085653
+          python3 scripts/check_asset_inventory.py sites/y_combinator
+          ./scripts/check_assets.sh
+          sha256sum "$archive" sites/y_combinator/source_data.json \
+            sites/y_combinator/asset_inventory.json sites/y_combinator/tasks.jsonl \
+            > /tmp/full-smoke/candidate-sha256.txt
+          python -m unittest discover -s sites/y_combinator/verify/tests -v \
+            2>&1 | tee /tmp/full-smoke/y-combinator-tests.txt
+          ./scripts/build.sh webharbor:whr031-full-smoke
+
+      - name: Verify deterministic target seed
+        run: |
+          set -euo pipefail
+          docker run --rm webharbor:whr031-full-smoke sh -lc '
+            cd /opt/WebSyn/y_combinator
+            first=$(sha256sum instance_seed/y_combinator.db | cut -d" " -f1)
+            rm -rf instance
+            PYTHONHASHSEED=0 python3 seed_data.py >/tmp/seed-1.log
+            second=$(sha256sum instance_seed/y_combinator.db | cut -d" " -f1)
+            rm -rf instance
+            PYTHONHASHSEED=0 python3 seed_data.py >/tmp/seed-2.log
+            third=$(sha256sum instance_seed/y_combinator.db | cut -d" " -f1)
+            printf "first=%s\nsecond=%s\nthird=%s\n" "$first" "$second" "$third"
+            test "$first" = "$second"
+            test "$second" = "$third"
+            test "$third" = 149bb93c3fec656d761ab90b4cc259544e2d86b8896fda69183496c1b168dd9b
+          ' | tee /tmp/full-smoke/y-combinator-seed-sha256.txt
+
+      - name: Run HTTP, health, target reset, and reset-all gates
+        run: |
+          set -euo pipefail
+          docker run -d --name wh-whr031-full-smoke \
+            -p 8201:8101 -p 42000-42028:40000-40028 \
+            webharbor:whr031-full-smoke
+
+          ready=0
+          for attempt in $(seq 1 90); do
+            if curl -fsS http://localhost:8201/health > /tmp/full-smoke/health-before.json; then
+              ready=1
+              break
+            fi
+            sleep 2
+          done
+          test "$ready" = 1
+          jq -e '.ok == true and (.sites | length == 29) and ([.sites[].alive] | all)' \
+            /tmp/full-smoke/health-before.json
+
+          : > /tmp/full-smoke/http-before.txt
+          for port in $(seq 42000 42028); do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' "http://localhost:${port}/")
+            printf '%s\n' "${port}:${code}" | tee -a /tmp/full-smoke/http-before.txt
+            test "$code" = 200
+          done
+
+          seed_sha=$(docker exec wh-whr031-full-smoke sha256sum \
+            /opt/WebSyn/y_combinator/instance_seed/y_combinator.db | awk '{print $1}')
+          test "$seed_sha" = 149bb93c3fec656d761ab90b4cc259544e2d86b8896fda69183496c1b168dd9b
+          docker exec wh-whr031-full-smoke sh -c \
+            'printf reset-probe >> /opt/WebSyn/y_combinator/instance/y_combinator.db'
+          dirty_sha=$(docker exec wh-whr031-full-smoke sha256sum \
+            /opt/WebSyn/y_combinator/instance/y_combinator.db | awk '{print $1}')
+          test "$dirty_sha" != "$seed_sha"
+          curl -fsS -X POST http://localhost:8201/reset/y_combinator \
+            > /tmp/full-smoke/reset-y-combinator.json
+          reset_sha=$(docker exec wh-whr031-full-smoke sha256sum \
+            /opt/WebSyn/y_combinator/instance/y_combinator.db | awk '{print $1}')
+          test "$reset_sha" = "$seed_sha"
+          printf 'seed=%s\ndirty=%s\nreset=%s\n' \
+            "$seed_sha" "$dirty_sha" "$reset_sha" \
+            > /tmp/full-smoke/y-combinator-reset-sha256.txt
+
+          start=$(date +%s)
+          curl -fsS -X POST http://localhost:8201/reset-all \
+            > /tmp/full-smoke/reset-all.json
+          elapsed=$(($(date +%s) - start))
+          printf '%s\n' "$elapsed" > /tmp/full-smoke/reset-all-seconds.txt
+          test "$elapsed" -le 30
+          jq -e '.ok == true and (.sites | length == 29) and ([.sites[].ready] | all)' \
+            /tmp/full-smoke/reset-all.json
+
+          post_reset_all_sha=$(docker exec wh-whr031-full-smoke sha256sum \
+            /opt/WebSyn/y_combinator/instance/y_combinator.db | awk '{print $1}')
+          test "$post_reset_all_sha" = "$seed_sha"
+          printf '%s\n' "$post_reset_all_sha" \
+            > /tmp/full-smoke/y-combinator-post-reset-all-sha256.txt
+
+          curl -fsS http://localhost:8201/health > /tmp/full-smoke/health-after.json
+          jq -e '.ok == true and (.sites | length == 29) and ([.sites[].alive] | all)' \
+            /tmp/full-smoke/health-after.json
+          : > /tmp/full-smoke/http-after.txt
+          for port in $(seq 42000 42028); do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' "http://localhost:${port}/")
+            printf '%s\n' "${port}:${code}" | tee -a /tmp/full-smoke/http-after.txt
+            test "$code" = 200
+          done
+
+      - name: Collect diagnostics
+        if: always()
+        run: |
+          mkdir -p /tmp/full-smoke
+          docker logs wh-whr031-full-smoke > /tmp/full-smoke/container.log 2>&1 || true
+          docker image inspect webharbor:whr031-full-smoke --format '{{.Size}}' \
+            > /tmp/full-smoke/image-size-bytes.txt || true
+          df -h > /tmp/full-smoke/disk-after.txt
+          docker system df > /tmp/full-smoke/docker-disk-after.txt
+
+      - name: Upload smoke evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: y-combinator-29-site-full-smoke
+          path: /tmp/full-smoke
