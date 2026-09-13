@@ -9,6 +9,7 @@
 <section class="winner-band">
   <strong>{{ winner.name }}</strong> wins with a {{ winner.score }} Versus Score.
   <form method="post" action="{{ url_for('save_comparison', left=left.slug, right=right.slug) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <button type="submit">Save comparison</button>
   </form>
 </section>
