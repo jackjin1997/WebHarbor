@@ -185,7 +185,7 @@ def slug_is_valid(slug: str) -> bool:
 
 def parse_site_array(text: str, file_label: str) -> tuple[list[str], int]:
     sites_match = re.search(
-        r"^[ \t]*SITES\s*=\s*(\(.*?\)|\[.*?\])",
+        r"^SITES\s*=\s*(\(.*?\)|\[.*?\])",
         text,
         re.DOTALL | re.MULTILINE,
     )
@@ -203,7 +203,7 @@ def parse_site_array(text: str, file_label: str) -> tuple[list[str], int]:
             raise ValueError(f"SITES is not a list in {file_label}")
     if not all(isinstance(site, str) and site for site in sites):
         raise ValueError(f"SITES must contain only non-empty strings in {file_label}")
-    base_match = re.search(r"^[ \t]*BASE_PORT\s*=\s*(\d+)", text, re.MULTILINE)
+    base_match = re.search(r"^BASE_PORT\s*=\s*(\d+)", text, re.MULTILINE)
     if not base_match:
         raise ValueError(f"Could not parse BASE_PORT from {file_label}")
     return sites, int(base_match.group(1))
@@ -545,18 +545,6 @@ def audit_repository(root: Path, *, site: str | None = None, strict: bool = Fals
     registered_site_ports = {
         site_slug: websyn_port_map[site_slug] for site_slug in websyn_sites
     }
-    if len(set(registered_site_ports.values())) != len(registered_site_ports):
-        seen: dict[int, str] = {}
-        for site_slug, port in registered_site_ports.items():
-            if port in seen:
-                collector.error(
-                    f"duplicate registered port {port} for sites '{seen[port]}' and '{site_slug}'",
-                    file=str(websyn_path),
-                    site=site_slug,
-                    port=port,
-                )
-            else:
-                seen[port] = site_slug
 
     if "from app import app" not in site_runner_text:
         collector.warn(
@@ -647,7 +635,13 @@ def audit_repository(root: Path, *, site: str | None = None, strict: bool = Fals
         if in_sites_dir:
             for runtime_subdir in RUNTIME_SUBDIRS:
                 runtime_path = site_dir / runtime_subdir
-                if runtime_path.exists():
+                if runtime_path.is_file():
+                    collector.warn(
+                        f"runtime-like path is a file: {runtime_subdir}",
+                        file=str(runtime_path),
+                        site=site_slug,
+                    )
+                elif runtime_path.is_dir():
                     tracked = git_tracked_files(root, site_slug, runtime_subdir)
                     if tracked:
                         collector.warn(

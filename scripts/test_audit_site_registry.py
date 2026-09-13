@@ -121,7 +121,7 @@ class AuditSiteRegistryTests(unittest.TestCase):
             self.assertEqual(result.exit_code, 0)
             self.assertEqual(len(result.errors), 0)
 
-    def test_duplicate_ports_fail(self) -> None:
+    def test_duplicate_task_url_ports_fail(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
             build_repo(
@@ -130,8 +130,15 @@ class AuditSiteRegistryTests(unittest.TestCase):
                 task_ports={"amazon": 40000, "apple": 40000},
             )
             result = audit.audit_repository(root)
-            self.assertGreaterEqual(len(result.errors), 1)
             self.assertNotEqual(result.exit_code, 0)
+            self.assertTrue(
+                any(
+                    "task web URL port 40000 is already used by site 'amazon'"
+                    in error.message
+                    for error in result.errors
+                ),
+                result.errors,
+            )
 
     def test_site_directory_missing_registration_warns(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
@@ -283,6 +290,27 @@ class AuditSiteRegistryTests(unittest.TestCase):
             self.assertEqual(result.exit_code, 0)
             self.assertEqual([site.site for site in result.sites], ["amazon"])
 
+    def test_function_local_registry_declarations_are_ignored(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            build_repo(root)
+            write(
+                root / "control_server.py",
+                """
+                def helper():
+                    SITES = ["wrong_site"]
+                    BASE_PORT = 49999
+
+                SITES = ["amazon"]
+                BASE_PORT = 40000
+                """,
+            )
+
+            result = audit.audit_repository(root)
+
+            self.assertEqual(result.exit_code, 0)
+            self.assertEqual([site.site for site in result.sites], ["amazon"])
+
     def test_malformed_registry_is_reported_without_traceback(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)
@@ -310,6 +338,25 @@ class AuditSiteRegistryTests(unittest.TestCase):
             self.assertEqual(exit_code, 1)
             self.assertEqual(payload["summary"]["errors"], 1)
             self.assertIn("Dockerfile", payload["errors"][0]["message"])
+
+    def test_runtime_like_regular_file_is_reported_as_json(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            build_repo(root)
+            write(root / "sites" / "amazon" / "logs", "runtime output\n")
+            buffer = io.StringIO()
+
+            exit_code = audit.main(["--json", "--strict"], root=root, stdout=buffer)
+            payload = json.loads(buffer.getvalue())
+
+            self.assertEqual(exit_code, 1)
+            self.assertTrue(
+                any(
+                    warning["message"] == "runtime-like path is a file: logs"
+                    for warning in payload["warnings"]
+                ),
+                payload["warnings"],
+            )
 
     def test_explicit_assetpaths_cover_site_without_wildcard(self) -> None:
         with tempfile.TemporaryDirectory() as tmpdir:
