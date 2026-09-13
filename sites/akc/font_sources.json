@@ -1,0 +1,44 @@
+{
+  "fonts": [
+    {
+      "file": "fonts/lato-400.woff2",
+      "family": "Lato",
+      "weight": 400,
+      "licence": "SIL Open Font License 1.1",
+      "source_page": "https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap",
+      "source_url": "https://fonts.gstatic.com/s/lato/v25/S6uyw4BMUTPHjx4wXiWtFCc.woff2",
+      "sha256": "d4ae5188a65370ecfe28f42293bbee8297cfd5712c6aadfdb270d48f2bcd88b0",
+      "bytes": 13980
+    },
+    {
+      "file": "fonts/lato-700.woff2",
+      "family": "Lato",
+      "weight": 700,
+      "licence": "SIL Open Font License 1.1",
+      "source_page": "https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap",
+      "source_url": "https://fonts.gstatic.com/s/lato/v25/S6u9w4BMUTPHh6UVSwiPGQ3q5d0.woff2",
+      "sha256": "7a7ce1a34f3e9944fe88fc61abbc93b6db383afa2b90815fd7ccea456fbce4e5",
+      "bytes": 14168
+    },
+    {
+      "file": "fonts/merriweather-400.woff2",
+      "family": "Merriweather",
+      "weight": 400,
+      "licence": "SIL Open Font License 1.1",
+      "source_page": "https://fonts.googleapis.com/css2?family=Merriweather:wght@400&display=swap",
+      "source_url": "https://fonts.gstatic.com/s/merriweather/v33/u-4D0qyriQwlOrhSvowK_l5UcA6zuSYEqOzpPe3HOZJ5eX1WtLaQwmYiScCmDxhtNOKl8yDr3icaFF31CPDaYKfF.woff2",
+      "sha256": "dee192ab2bd7ef52f137f2d2fb07e64b490e768c88d635ba543d01df9ecb904b",
+      "bytes": 49008
+    },
+    {
+      "file": "fonts/paytone-one-400.woff2",
+      "family": "Paytone One",
+      "weight": 400,
+      "licence": "SIL Open Font License 1.1",
+      "source_page": "https://fonts.googleapis.com/css2?family=Paytone+One&display=swap",
+      "source_url": "https://fonts.gstatic.com/s/paytoneone/v25/0nksC9P7MfYHj2oFtYm2ChTtgPvfiwq-.woff2",
+      "sha256": "5e3f268d609db3663e88299cb77461b271f1d9051d47df1e253c12303520c699",
+      "bytes": 15852
+    }
+  ]
+}

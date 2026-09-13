@@ -1,39 +1,43 @@
 {% extends "base.html" %}
-{% block title %}Breed Selector{% endblock %}
+{% set nav = 'selector' %}
+{% block title %}Breed Selector &ndash; American Kennel Club{% endblock %}
+
 {% block content %}
-<section class="page-heading">
-  <div>
-    <div class="eyebrow">Guided Finder</div>
-    <h1>Breed Selector</h1>
-    <p>Answer a few lifestyle questions and compare breeds ranked by fit.</p>
-  </div>
-</section>
-<form class="quiz-panel" method="post">
-  <label>Home type
-    <select name="home">
-      <option value="apartment">Apartment or condo</option>
-      <option value="house">House with yard</option>
-    </select>
-  </label>
-  <label>Preferred energy level
-    <input type="range" min="1" max="5" value="{{ answers.energy or 3 }}" name="energy">
-  </label>
-  <label>Grooming tolerance
-    <input type="range" min="1" max="5" value="{{ answers.grooming or 3 }}" name="grooming">
-  </label>
-  <label>Good with children importance
-    <input type="range" min="1" max="5" value="{{ answers.children or 4 }}" name="children">
-  </label>
-  <button type="submit">Find Matches</button>
-</form>
-{% if matches %}
-<section class="section">
-  <h2>Best Matches</h2>
-  <div class="card-grid">
-    {% for score, breed in matches %}
-      {% include "_breed_card.html" %}
+<div class="container">
+  <p class="crumbs"><a href="{{ url_for('index') }}">Home</a> / Breed Selector</p>
+  <h1 class="page-title">Breed Selector</h1>
+  <p>Rate what matters to you on the same 1&ndash;5 scale AKC uses for its breed traits, and the selector ranks the breeds in this mirror against your answers.</p>
+
+  <form class="filters" method="post" action="{{ url_for('breed_selector') }}">
+    <div>
+      <label for="s-home">Your home</label>
+      <select id="s-home" name="home">
+        <option value="apartment" {% if answers.get('home') == 'apartment' %}selected{% endif %}>Apartment</option>
+        <option value="house" {% if answers.get('home') == 'house' %}selected{% endif %}>House with yard</option>
+      </select>
+    </div>
+    {% for field, key, label in axes %}
+      <div>
+        <label for="s-{{ field }}">{{ label }}</label>
+        <select id="s-{{ field }}" name="{{ field }}">
+          {% for value in range(1, 6) %}
+            <option value="{{ value }}" {% if answers.get(field, 3) == value %}selected{% endif %}>{{ value }}</option>
+          {% endfor %}
+        </select>
+      </div>
     {% endfor %}
-  </div>
-</section>
-{% endif %}
+    <button class="btn" type="submit">Show Recommendations</button>
+  </form>
+
+  {% if matches %}
+    <h2 class="section__title" style="text-align:left">Recommended Breeds</h2>
+    <div class="grid grid--4">
+      {% for score, breed in matches %}
+        {% include "_breed_card.html" %}
+      {% endfor %}
+    </div>
+  {% elif request.method == 'POST' %}
+    <p>No breeds matched those answers.</p>
+  {% endif %}
+</div>
 {% endblock %}

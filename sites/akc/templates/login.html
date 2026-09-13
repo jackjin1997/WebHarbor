@@ -1,13 +1,23 @@
 {% extends "base.html" %}
-{% block title %}Sign in{% endblock %}
+{% block title %}Sign In &ndash; American Kennel Club{% endblock %}
+{% block breedbar %}{% endblock %}
+
 {% block content %}
-<section class="auth-panel">
-  <form method="post">
-    <h1>Sign in</h1>
-    <label>Email <input name="email" type="email" value="alice.j@test.com"></label>
-    <label>Password <input name="password" type="password" value="TestPass123!"></label>
-    <button type="submit">Sign in</button>
-    <p>Benchmark users use password <code>TestPass123!</code>.</p>
-  </form>
-</section>
+<div class="container section">
+  <div class="auth">
+    <h1 class="page-title">Sign In</h1>
+    <form method="post" class="stack">
+      <div>
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" autocomplete="username" required>
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" autocomplete="current-password" required>
+      </div>
+      <button class="btn" type="submit">Sign In</button>
+    </form>
+    <p style="margin-top:18px">No account yet? <a href="{{ url_for('register') }}">Create one</a>.</p>
+  </div>
+</div>
 {% endblock %}

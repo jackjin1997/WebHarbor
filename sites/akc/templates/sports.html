@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% set nav = 'sports' %}
+{% block title %}Sports &amp; Events &ndash; American Kennel Club{% endblock %}
+
+{% block content %}
+<div class="container">
+  <p class="crumbs"><a href="{{ url_for('index') }}">Home</a> / Sports &amp; Events</p>
+  <h1 class="page-title">Sports &amp; Events</h1>
+  <p>AKC titling sports and programs, and the featured events on the calendar.</p>
+
+  <h2 class="section__title" style="text-align:left">Sports</h2>
+  <div class="grid grid--6">
+    {% for sport in sports %}
+      <a class="tile" href="{{ url_for('events', sport=sport.name) }}">{{ sport.name }}</a>
+    {% endfor %}
+  </div>
+
+  <h2 class="section__title" style="text-align:left;margin-top:40px">Featured Events</h2>
+  <div class="stack">
+    {% for event in events %}
+      <article class="row row--plain">
+        <div>
+          <p class="row__meta">{{ event.sport }} &middot; {{ event.date_display }} &middot; {{ event.location }}</p>
+          <h3><a href="{{ url_for('event_detail', slug=event.slug) }}">{{ event.title }}</a></h3>
+          <p>{{ event.summary }}</p>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

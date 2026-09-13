@@ -1,17 +1,56 @@
 {% extends "base.html" %}
-{% block title %}Create Profile{% endblock %}
+{% block title %}Create an Account &ndash; American Kennel Club{% endblock %}
+{% block breedbar %}{% endblock %}
+
 {% block content %}
-<section class="auth-panel">
-  <form method="post">
-    <h1>Create AKC Profile</h1>
-    <label>Name <input name="display_name" required></label>
-    <label>Username <input name="username" required></label>
-    <label>Email <input name="email" type="email" required></label>
-    <label>Password <input name="password" type="password" value="TestPass123!"></label>
-    <label>Household <input name="household" value="Apartment"></label>
-    <label>Activity level <input name="activity_level" value="Moderate"></label>
-    <label>Experience <input name="experience" value="First-time owner"></label>
-    <button type="submit">Create Profile</button>
-  </form>
-</section>
+<div class="container section">
+  <div class="auth">
+    <h1 class="page-title">Create an Account</h1>
+    <form method="post" class="stack">
+      <div>
+        <label for="display_name">Full name</label>
+        <input id="display_name" type="text" name="display_name" required>
+      </div>
+      <div>
+        <label for="username">Username</label>
+        <input id="username" type="text" name="username" required>
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input id="email" type="email" name="email" autocomplete="username" required>
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input id="password" type="password" name="password" autocomplete="new-password" required>
+      </div>
+      <div>
+        <label for="household">Household</label>
+        <select id="household" name="household">
+          <option>Apartment</option>
+          <option>Condo</option>
+          <option>Suburban home</option>
+          <option>House with yard</option>
+        </select>
+      </div>
+      <div>
+        <label for="activity_level">Activity level</label>
+        <select id="activity_level" name="activity_level">
+          <option>Low</option>
+          <option>Moderate</option>
+          <option>High</option>
+        </select>
+      </div>
+      <div>
+        <label for="experience">Experience</label>
+        <select id="experience" name="experience">
+          <option>First-time owner</option>
+          <option>Family owner</option>
+          <option>Experienced owner</option>
+          <option>Sports competitor</option>
+        </select>
+      </div>
+      <button class="btn" type="submit">Create Account</button>
+    </form>
+  </div>
+</div>
 {% endblock %}

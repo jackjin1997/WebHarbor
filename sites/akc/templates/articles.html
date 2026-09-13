@@ -1,23 +1,41 @@
 {% extends "base.html" %}
-{% block title %}Expert Advice{% endblock %}
+{% set nav = 'articles' %}
+{% block title %}Expert Advice &ndash; American Kennel Club{% endblock %}
+
 {% block content %}
-<section class="page-heading">
-  <div><div class="eyebrow">Training, health, and lifestyle</div><h1>Expert Advice</h1></div>
-</section>
-<div class="category-pills">
-  <a class="{{ 'active' if not category }}" href="{{ url_for('articles') }}">All</a>
-  {% for item in categories %}
-    <a class="{{ 'active' if item == category }}" href="{{ url_for('articles', category=item) }}">{{ item }}</a>
-  {% endfor %}
+<div class="container">
+  <p class="crumbs"><a href="{{ url_for('index') }}">Home</a> / Expert Advice</p>
+  <h1 class="page-title">Expert Advice</h1>
+  <p>Health, training, nutrition and lifestyle guidance from AKC.</p>
+
+  <form class="filters" method="get" action="{{ url_for('articles') }}">
+    <div>
+      <label for="a-category">Category</label>
+      <select id="a-category" name="category">
+        <option value="">All categories</option>
+        {% for slug, label in categories %}
+          <option value="{{ slug }}" {% if slug == category %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <button class="btn" type="submit">Filter</button>
+    <a class="btn btn--ghost" href="{{ url_for('articles') }}">Reset</a>
+  </form>
+
+  <p class="result-count">{{ articles|length }} article{{ '' if articles|length == 1 else 's' }}.</p>
+
+  <div class="stack">
+    {% for article in articles %}
+      <article class="row row--plain">
+        <div>
+          <p class="row__meta">{{ article.category }} &middot; {{ article.author }}{% if article.published_on %} &middot; {{ article.published_on.strftime('%B %-d, %Y') }}{% endif %} &middot; {{ article.read_minutes }} min read</p>
+          <h3><a href="{{ url_for('article_detail', slug=article.slug) }}">{{ article.title }}</a></h3>
+          <p>{{ article.summary }}</p>
+        </div>
+      </article>
+    {% else %}
+      <p>No articles in that category.</p>
+    {% endfor %}
+  </div>
 </div>
-<section class="article-grid">
-  {% for article in articles %}
-    <article class="article-card">
-      <span class="eyebrow">{{ article.category }}</span>
-      <h2><a href="{{ url_for('article_detail', slug=article.slug) }}">{{ article.title }}</a></h2>
-      <p>{{ article.summary }}</p>
-      <small>{{ article.author }} · {{ article.read_minutes }} min read</small>
-    </article>
-  {% endfor %}
-</section>
 {% endblock %}

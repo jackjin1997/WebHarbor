@@ -1,31 +1,68 @@
 {% extends "base.html" %}
-{% block title %}Compare Breeds{% endblock %}
+{% set nav = 'compare' %}
+{% block title %}Compare Breeds &ndash; American Kennel Club{% endblock %}
+
 {% block content %}
-<section class="page-heading"><div><div class="eyebrow">Side by side</div><h1>Compare Breeds</h1></div></section>
-<form class="filter-bar" action="{{ url_for('compare') }}">
-  <select name="breed" multiple size="6">
-    {% for breed in breeds %}
-      <option value="{{ breed.slug }}" {% if breed.slug in selected %}selected{% endif %}>{{ breed.name }}</option>
+<div class="container">
+  <p class="crumbs"><a href="{{ url_for('index') }}">Home</a> / Compare Breeds</p>
+  <h1 class="page-title">Compare Breeds</h1>
+  <p>Put two or more breeds side by side on their AKC vital stats and trait ratings.</p>
+
+  <form class="filters" method="get" action="{{ url_for('compare') }}">
+    {% for slot in [0, 1, 2] %}
+      <div>
+        <label for="c-{{ slot }}">Breed {{ slot + 1 }}</label>
+        <select id="c-{{ slot }}" name="breed">
+          <option value="">Select a breed</option>
+          {% for row in breeds %}
+            <option value="{{ row.slug }}" {% if selected|length > slot and selected[slot] == row.slug %}selected{% endif %}>{{ row.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
     {% endfor %}
-  </select>
-  <button type="submit">Compare Selected</button>
-</form>
-{% if compared %}
-<div class="compare-table-wrap">
-  <table class="compare-table">
-    <thead><tr><th>Signal</th>{% for breed in compared %}<th>{{ breed.name }}</th>{% endfor %}</tr></thead>
-    <tbody>
-      <tr><th>Group</th>{% for breed in compared %}<td>{{ breed.group }}</td>{% endfor %}</tr>
-      <tr><th>Size</th>{% for breed in compared %}<td>{{ breed.size }}</td>{% endfor %}</tr>
-      <tr><th>Temperament</th>{% for breed in compared %}<td>{{ breed.temperament }}</td>{% endfor %}</tr>
-      <tr><th>Energy</th>{% for breed in compared %}<td>{{ breed.energy }}/5</td>{% endfor %}</tr>
-      <tr><th>Grooming</th>{% for breed in compared %}<td>{{ breed.grooming }}/5</td>{% endfor %}</tr>
-      <tr><th>Trainability</th>{% for breed in compared %}<td>{{ breed.trainability }}/5</td>{% endfor %}</tr>
-      <tr><th>Apartment Fit</th>{% for breed in compared %}<td>{{ breed.apartment_score }}/5</td>{% endfor %}</tr>
-    </tbody>
-  </table>
+    <button class="btn" type="submit">Compare</button>
+  </form>
+
+  {% if compared %}
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th scope="col">&nbsp;</th>
+          {% for breed in compared %}
+            <th scope="col"><a href="{{ url_for('breed_detail', slug=breed.slug) }}">{{ breed.name }}</a></th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">&nbsp;</th>
+          {% for breed in compared %}
+            {% set photo = breed.photo('card') %}
+            <td>{% if photo %}<img src="{{ url_for('static', filename='images/' ~ photo.file) }}" alt="{{ photo.alt }}" style="height:120px;object-fit:cover;border-radius:2px">{% endif %}</td>
+          {% endfor %}
+        </tr>
+        <tr><th scope="row">Breed group</th>{% for breed in compared %}<td>{{ breed.group }}</td>{% endfor %}</tr>
+        <tr><th scope="row">Height</th>{% for breed in compared %}<td>{{ breed.height }}</td>{% endfor %}</tr>
+        <tr><th scope="row">Weight</th>{% for breed in compared %}<td>{{ breed.weight }}</td>{% endfor %}</tr>
+        <tr><th scope="row">Life expectancy</th>{% for breed in compared %}<td>{{ breed.life_expectancy }}</td>{% endfor %}</tr>
+        <tr><th scope="row">Temperament</th>{% for breed in compared %}<td>{{ breed.temperament }}</td>{% endfor %}</tr>
+        <tr>
+          <th scope="row">Popularity ranking</th>
+          {% for breed in compared %}
+            <td>{% if breed.popularity_rank %}#{{ breed.popularity_rank }}{% else %}Not separately ranked{% endif %}</td>
+          {% endfor %}
+        </tr>
+        {% for key, label in axes %}
+          <tr>
+            <th scope="row">{{ label }}</th>
+            {% for breed in compared %}
+              {% set trait = breed.trait(key) %}
+              <td>{% if trait %}{{ trait.score }}/5{% else %}&mdash;{% endif %}</td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
 </div>
-{% else %}
-<p class="empty-state">Select two or more breeds to compare owner fit signals.</p>
-{% endif %}
 {% endblock %}

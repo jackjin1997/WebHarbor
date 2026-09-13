@@ -1,29 +1,53 @@
 {% extends "base.html" %}
-{% block title %}{{ event.title }}{% endblock %}
+{% set nav = 'sports' %}
+{% block title %}{{ event.title }} &ndash; American Kennel Club{% endblock %}
+
 {% block content %}
-<section class="detail-page">
-  <div>
-    <div class="eyebrow">{{ event.event_type }} · {{ event.starts_on.strftime("%B %d, %Y") }}</div>
-    <h1>{{ event.title }}</h1>
-    <p>{{ event.description }}</p>
-    <dl class="metric-list">
-      <div><dt>Venue</dt><dd>{{ event.venue }}</dd></div>
-      <div><dt>Location</dt><dd>{{ event.city }}, {{ event.state }}</dd></div>
-      <div><dt>Entries</dt><dd>Open until seven days before the event</dd></div>
-    </dl>
+<div class="container">
+  <p class="crumbs"><a href="{{ url_for('index') }}">Home</a> / <a href="{{ url_for('events') }}">Event Search</a> / {{ event.title }}</p>
+  <div class="layout">
+    <article class="prose">
+      <h1 class="page-title">{{ event.title }}</h1>
+      <p class="row__meta">{{ event.sport }} &middot; {{ event.date_display }} &middot; {{ event.location }}</p>
+      {% for paragraph in event.paragraphs %}<p>{{ paragraph }}</p>{% endfor %}
+    </article>
+    <aside class="sidebar">
+      <div class="panel">
+        <h3>Enter This Event</h3>
+        {% if current_user %}
+          <form method="post" action="{{ url_for('event_detail', slug=event.slug) }}" class="stack">
+            <div>
+              <label for="dog_name">Dog's registered name</label>
+              <input id="dog_name" type="text" name="dog_name" required style="width:100%">
+            </div>
+            <div>
+              <label for="class_name">Class</label>
+              <select id="class_name" name="class_name" style="width:100%">
+                <option>Beginner Novice</option>
+                <option>Novice</option>
+                <option>Open</option>
+                <option>Excellent</option>
+                <option>Masters</option>
+              </select>
+            </div>
+            <button class="btn" type="submit">Register Dog</button>
+          </form>
+        {% else %}
+          <p>Sign in to enter a dog in this event.</p>
+          <a class="btn" href="{{ url_for('login', next=request.path) }}">Sign In</a>
+        {% endif %}
+      </div>
+      <div class="panel">
+        <h3>Event Details</h3>
+        <table class="datatable">
+          <tbody>
+            <tr><th scope="row">Sport</th><td>{{ event.sport }}</td></tr>
+            <tr><th scope="row">Dates</th><td>{{ event.date_display }}</td></tr>
+            <tr><th scope="row">Location</th><td>{{ event.location }}</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </aside>
   </div>
-  <form class="side-form" method="post">
-    <h2>Register a Dog</h2>
-    <label>Dog name <input name="dog_name" placeholder="Registered or call name"></label>
-    <label>Class
-      <select name="class_name">
-        <option>Beginner Novice</option>
-        <option>Open Standard</option>
-        <option>Junior Handler</option>
-        <option>Canine Good Citizen</option>
-      </select>
-    </label>
-    <button type="submit">Save Registration</button>
-  </form>
-</section>
+</div>
 {% endblock %}

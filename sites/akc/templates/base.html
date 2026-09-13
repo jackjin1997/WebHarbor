@@ -1,63 +1,138 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}American Kennel Club{% endblock %}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}American Kennel Club{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 </head>
 <body>
-  <header class="site-header" role="banner">
-    <a class="brand" href="{{ url_for('index') }}">
-      <span class="brand-mark">AKC</span>
-      <span>American Kennel Club</span>
-    </a>
-    <nav class="top-nav" role="navigation" aria-label="Main">
-      <a href="{{ url_for('breeds') }}">Breeds</a>
-      <a href="{{ url_for('breed_selector') }}">Breed Selector</a>
-      <a href="{{ url_for('compare') }}">Compare</a>
-      <a href="{{ url_for('articles') }}">Expert Advice</a>
-      <a href="{{ url_for('events') }}">Events</a>
-    </nav>
-    <form class="header-search" action="{{ url_for('search') }}">
-      <input name="q" placeholder="Search breeds, training, events" value="{{ request.args.get('q', '') }}">
-      <button type="submit">Search</button>
-    </form>
-    <div class="account-links">
-      {% if current_user %}
-        <a href="{{ url_for('account') }}">{{ current_user.display_name }}</a>
-        <a href="{{ url_for('logout') }}">Sign out</a>
-      {% else %}
-        <a href="{{ url_for('login') }}">Sign in</a>
-      {% endif %}
-    </div>
-  </header>
 
+<div class="utility">
+  <div class="container">
+    <a href="{{ url_for('events') }}">Event Search</a>
+    <a href="{{ url_for('breeds') }}">Find a Breed</a>
+    <a href="{{ url_for('register') }}">Register</a>
+    <a href="{{ url_for('sports') }}">Sports &amp; Events</a>
+    {% if current_user %}
+      <a href="{{ url_for('account') }}">{{ current_user.display_name }}</a>
+      <a href="{{ url_for('logout') }}">Sign Out</a>
+    {% else %}
+      <a href="{{ url_for('login') }}">Sign In</a>
+    {% endif %}
+  </div>
+</div>
+
+<header class="masthead">
+  <div class="container">
+    <a class="brand" href="{{ url_for('index') }}">
+      <span class="brand__seal">AKC</span>
+      <span class="brand__name">American<br>Kennel Club<sup>®</sup></span>
+    </a>
+    <nav class="mainnav">
+      <a href="{{ url_for('breeds') }}" {% if nav == 'breeds' %}aria-current="page"{% endif %}>Dog Breeds</a>
+      <a href="{{ url_for('breed_selector') }}" {% if nav == 'selector' %}aria-current="page"{% endif %}>Breed Selector</a>
+      <a href="{{ url_for('compare') }}" {% if nav == 'compare' %}aria-current="page"{% endif %}>Compare Breeds</a>
+      <a href="{{ url_for('sports') }}" {% if nav == 'sports' %}aria-current="page"{% endif %}>Sports &amp; Events</a>
+      <a href="{{ url_for('articles') }}" {% if nav == 'articles' %}aria-current="page"{% endif %}>Expert Advice</a>
+    </nav>
+    <form class="masthead__search inline-form" action="{{ url_for('search') }}" method="get" role="search">
+      <input type="search" name="q" placeholder="Search" aria-label="Search akc.org" value="{{ request.args.get('q', '') }}">
+      <button class="btn" type="submit">Search</button>
+    </form>
+  </div>
+</header>
+
+{% block breedbar %}
+<div class="breedbar">
+  <div class="container">
+    <label for="breed-jump">Search for a Breed</label>
+    <form class="inline-form" action="{{ url_for('breeds') }}" method="get">
+      <select id="breed-jump" name="q">
+        <option value="">Select a Breed</option>
+        {% for row in breed_options %}
+          <option value="{{ row.name }}">{{ row.name }}</option>
+        {% endfor %}
+      </select>
+      <button class="btn btn--onnavy" type="submit">Go</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+<main>
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-      <div class="flash-wrap">
+      <div class="container" style="padding-top:18px">
         {% for category, message in messages %}
-          <div class="flash {{ category }}">{{ message }}</div>
+          <div class="flash flash--{{ category }}">{{ message }}</div>
         {% endfor %}
       </div>
     {% endif %}
   {% endwith %}
+  {% block content %}{% endblock %}
+</main>
 
-  <main>
-    {% block content %}{% endblock %}
-  </main>
-
-  <footer class="site-footer">
-    <div>
-      <strong>AKC Mirror</strong>
-      <p>Breed, training, event, and owner profile workflows for WebHarbor tasks.</p>
+<footer class="footer">
+  <div class="container">
+    <p class="footer__mission">
+      Founded in 1884, the not-for-profit AKC is the recognized and trusted expert in
+      breed, health, and training information for all dogs. AKC actively advocates for
+      responsible dog ownership and is dedicated to advancing dog sports.
+    </p>
+    <div class="footer__cols">
+      <div>
+        <h3>About Us</h3>
+        <ul>
+          <li><a href="{{ url_for('index') }}">Our Mission</a></li>
+          <li><a href="{{ url_for('breeds') }}">Breeds A-Z</a></li>
+          <li><a href="{{ url_for('articles') }}">Press Center</a></li>
+          <li><a href="{{ url_for('sports') }}">Sports Overview</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Top Services</h3>
+        <ul>
+          <li><a href="{{ url_for('breeds') }}">Find a Breed</a></li>
+          <li><a href="{{ url_for('breed_selector') }}">Breed Selector</a></li>
+          <li><a href="{{ url_for('compare') }}">Compare Breeds</a></li>
+          <li><a href="{{ url_for('register') }}">Register</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Top Resources</h3>
+        <ul>
+          <li><a href="{{ url_for('articles', category='health') }}">Dog Health</a></li>
+          <li><a href="{{ url_for('articles', category='training') }}">Dog Training Help</a></li>
+          <li><a href="{{ url_for('articles', category='nutrition') }}">Dog Nutrition</a></li>
+          <li><a href="{{ url_for('articles', category='puppy-information') }}">Puppy Info</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Get Involved</h3>
+        <ul>
+          <li><a href="{{ url_for('events') }}">Attend a Dog Show</a></li>
+          <li><a href="{{ url_for('events') }}">Participate in an Event</a></li>
+          <li><a href="{{ url_for('sports') }}">Explore Dog Sports</a></li>
+          <li><a href="{{ url_for('account') }}">My Account</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Favorite Things</h3>
+        <ul>
+          <li><a href="{{ url_for('breeds', sort='popularity') }}">Most Popular Dog Breeds</a></li>
+          <li><a href="{{ url_for('breeds', characteristic='hypoallergenic-dogs') }}">Hypoallergenic Dog Breeds</a></li>
+          <li><a href="{{ url_for('breeds', characteristic='best-dogs-for-apartment-dwellers') }}">Best Apartment Dogs</a></li>
+          <li><a href="{{ url_for('breeds', characteristic='smartest-breeds-of-dogs') }}">Smartest Dog Breeds</a></li>
+        </ul>
+      </div>
     </div>
-    <nav aria-label="Footer">
-      <a href="{{ url_for('breeds') }}">Find a Breed</a>
-      <a href="{{ url_for('articles') }}">Advice</a>
-      <a href="{{ url_for('events') }}">Event Calendar</a>
-      <a href="{{ url_for('register') }}">Create Profile</a>
-    </nav>
-  </footer>
+    <div class="footer__legal">
+      <span>&copy; {{ reference_date.year }} The American Kennel Club, Inc.</span>
+      <span>Benchmark mirror for WebHarbor &mdash; not the live akc.org.</span>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>

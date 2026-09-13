@@ -1,3 +1,10 @@
 {% extends "base.html" %}
-{% block title %}Not Found{% endblock %}
-{% block content %}<section class="page-heading"><div><h1>Page not found</h1><p>Try breed search or the event calendar.</p></div></section>{% endblock %}
+{% block title %}Page Not Found &ndash; American Kennel Club{% endblock %}
+{% block breedbar %}{% endblock %}
+
+{% block content %}
+<div class="container section">
+  <h1 class="page-title">Page Not Found</h1>
+  <p>We could not find that page. Try the <a href="{{ url_for('breeds') }}">breed directory</a> or <a href="{{ url_for('search') }}">search</a>.</p>
+</div>
+{% endblock %}

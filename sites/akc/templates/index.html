@@ -1,63 +1,102 @@
 {% extends "base.html" %}
 {% block title %}American Kennel Club{% endblock %}
+
 {% block content %}
+{% set hero = popular[0] if popular else None %}
+{% set hero_photo = hero.photo('hero') if hero else None %}
 <section class="hero">
-  <div class="hero-copy">
-    <div class="eyebrow">Find the right dog, training path, and AKC event</div>
-    <h1>American Kennel Club</h1>
-    <p>Explore breed profiles, compare owner fit, save favorites, and register for local AKC-style events.</p>
-    <div class="button-row">
-      <a class="button primary" href="{{ url_for('breed_selector') }}">Start Breed Selector</a>
-      <a class="button" href="{{ url_for('breeds') }}">Browse Breeds</a>
+  <div class="container">
+    <div>
+      <h1>Everything We Do, We Do for Dogs</h1>
+      <p>
+        Explore {{ breed_count }} AKC breed profiles with official trait ratings, breed
+        standards and care guidance, compare two breeds side by side, follow Expert
+        Advice, and register for AKC sports and events.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn--onnavy" href="{{ url_for('breed_selector') }}">Start Breed Selector</a>
+        <a class="btn btn--onnavy" href="{{ url_for('breeds') }}">Browse Breeds</a>
+      </div>
     </div>
-  </div>
-  <div class="hero-panel" aria-label="Featured breed fit signals">
-    <span>Apartment friendly</span>
-    <strong>French Bulldog</strong>
-    <span>Family sporting choice</span>
-    <strong>Golden Retriever</strong>
-    <span>High-energy training partner</span>
-    <strong>Border Collie</strong>
+    {% if hero_photo %}
+      <div class="hero__media">
+        <img src="{{ url_for('static', filename='images/' ~ hero_photo.file) }}" alt="{{ hero_photo.alt }}">
+        {% if hero_photo.credit %}<p class="hero__credit">{{ hero_photo.credit }}</p>{% endif %}
+      </div>
+    {% endif %}
   </div>
 </section>
 
 <section class="section">
-  <div class="section-head">
-    <h2>Featured Breeds</h2>
-    <a href="{{ url_for('breeds') }}">View all</a>
-  </div>
-  <div class="card-grid">
-    {% for breed in featured %}
-      {% include "_breed_card.html" %}
-    {% endfor %}
+  <div class="container">
+    <h2 class="section__title">Most Popular Breeds</h2>
+    <p class="section__lede">AKC publishes a breed popularity ranking every year. These are the highest-ranked breeds in this mirror.</p>
+    <div class="grid grid--3">
+      {% for breed in popular %}
+        {% include "_breed_card.html" %}
+      {% endfor %}
+    </div>
+    <p class="section__more"><a class="btn btn--ghost" href="{{ url_for('breeds', sort='popularity') }}">See the full ranking</a></p>
   </div>
 </section>
 
-<section class="split-section">
-  <div>
-    <div class="section-head">
-      <h2>Upcoming Events</h2>
-      <a href="{{ url_for('events') }}">Calendar</a>
-    </div>
-    <div class="list-panel">
-      {% for event in events %}
-        <a class="list-row" href="{{ url_for('event_detail', slug=event.slug) }}">
-          <span class="date-badge">{{ event.starts_on.strftime("%b") }}<strong>{{ event.starts_on.day }}</strong></span>
-          <span><strong>{{ event.title }}</strong><small>{{ event.city }}, {{ event.state }} · {{ event.event_type }}</small></span>
-        </a>
+<section class="section section--shell">
+  <div class="container">
+    <h2 class="section__title">Find The Right Breed</h2>
+    <p class="section__lede">Browse the breed collections AKC curates.</p>
+    <div class="grid grid--3">
+      {% for characteristic in characteristics %}
+        <a class="tile" href="{{ url_for('breeds', characteristic=characteristic.slug) }}">{{ characteristic.name }}</a>
       {% endfor %}
     </div>
   </div>
-  <div>
-    <div class="section-head">
-      <h2>Expert Advice</h2>
-      <a href="{{ url_for('articles') }}">Read more</a>
-    </div>
-    <div class="list-panel">
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section__title">Latest Stories</h2>
+    <div class="grid grid--3">
       {% for article in articles %}
-        <a class="list-row" href="{{ url_for('article_detail', slug=article.slug) }}">
-          <span><strong>{{ article.title }}</strong><small>{{ article.category }} · {{ article.read_minutes }} min read</small></span>
-        </a>
+        <article class="card">
+          <div class="card__body">
+            <span class="card__eyebrow">{{ article.category }}</span>
+            <h3 class="card__title"><a href="{{ url_for('article_detail', slug=article.slug) }}">{{ article.title }}</a></h3>
+            <p class="card__meta">{{ article.author }} &middot; {{ article.read_minutes }} min read</p>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+    <p class="section__more"><a class="btn btn--ghost" href="{{ url_for('articles') }}">Browse All Expert Advice</a></p>
+  </div>
+</section>
+
+<section class="section section--shell">
+  <div class="container">
+    <h2 class="section__title">Featured Events</h2>
+    <div class="grid grid--4">
+      {% for event in events %}
+        <article class="card">
+          <div class="card__body">
+            <span class="card__eyebrow">{{ event.sport }}</span>
+            <h3 class="card__title"><a href="{{ url_for('event_detail', slug=event.slug) }}">{{ event.title }}</a></h3>
+            <p class="card__meta">{{ event.date_display }}<br>{{ event.location }}</p>
+          </div>
+        </article>
+      {% else %}
+        <p>No upcoming events are listed.</p>
+      {% endfor %}
+    </div>
+    <p class="section__more"><a class="btn btn--ghost" href="{{ url_for('events') }}">Find Events Near You</a></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section__title">Sports &amp; Events</h2>
+    <p class="section__lede">AKC runs these titling sports and programs.</p>
+    <div class="grid grid--6">
+      {% for sport in sports %}
+        <a class="tile" href="{{ url_for('events', sport=sport.name) }}">{{ sport.name }}</a>
       {% endfor %}
     </div>
   </div>

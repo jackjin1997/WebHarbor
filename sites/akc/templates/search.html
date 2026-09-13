@@ -1,31 +1,55 @@
 {% extends "base.html" %}
-{% block title %}Search{% endblock %}
+{% block title %}Search &ndash; American Kennel Club{% endblock %}
+
 {% block content %}
-<section class="page-heading"><div><div class="eyebrow">Search</div><h1>{{ query or "Search AKC" }}</h1></div></section>
-<form class="filter-bar" action="{{ url_for('search') }}">
-  <input name="q" value="{{ query }}" placeholder="try apartment dog, agility, grooming">
-  <button type="submit">Search</button>
-</form>
-{% if query %}
-<section class="search-columns">
-  <div>
-    <h2>Breeds</h2>
-    {% for breed in breed_results %}
-      <a class="mini-result" href="{{ url_for('breed_detail', slug=breed.slug) }}"><strong>{{ breed.name }}</strong><small>{{ breed.group }} · {{ breed.temperament }}</small></a>
-    {% else %}<p class="empty-state">No breed results.</p>{% endfor %}
-  </div>
-  <div>
-    <h2>Advice</h2>
-    {% for article in article_results %}
-      <a class="mini-result" href="{{ url_for('article_detail', slug=article.slug) }}"><strong>{{ article.title }}</strong><small>{{ article.category }}</small></a>
-    {% else %}<p class="empty-state">No advice results.</p>{% endfor %}
-  </div>
-  <div>
-    <h2>Events</h2>
-    {% for event in event_results %}
-      <a class="mini-result" href="{{ url_for('event_detail', slug=event.slug) }}"><strong>{{ event.title }}</strong><small>{{ event.city }}, {{ event.state }}</small></a>
-    {% else %}<p class="empty-state">No event results.</p>{% endfor %}
-  </div>
-</section>
-{% endif %}
+<div class="container">
+  <p class="crumbs"><a href="{{ url_for('index') }}">Home</a> / Search</p>
+  <h1 class="page-title">Search</h1>
+  <form class="filters" method="get" action="{{ url_for('search') }}">
+    <div style="flex:1 1 320px">
+      <label for="q">Search breeds, advice and events</label>
+      <input id="q" type="search" name="q" value="{{ query }}" style="width:100%">
+    </div>
+    <button class="btn" type="submit">Search</button>
+  </form>
+
+  {% if query %}
+    <h2 class="section__title" style="text-align:left">Breeds ({{ breed_results|length }})</h2>
+    <div class="grid grid--4">
+      {% for breed in breed_results %}
+        {% include "_breed_card.html" %}
+      {% else %}
+        <p>No breeds matched.</p>
+      {% endfor %}
+    </div>
+
+    <h2 class="section__title" style="text-align:left;margin-top:34px">Expert Advice ({{ article_results|length }})</h2>
+    <div class="stack">
+      {% for article in article_results %}
+        <article class="row row--plain">
+          <div>
+            <p class="row__meta">{{ article.category }} &middot; {{ article.author }}</p>
+            <h3><a href="{{ url_for('article_detail', slug=article.slug) }}">{{ article.title }}</a></h3>
+          </div>
+        </article>
+      {% else %}
+        <p>No articles matched.</p>
+      {% endfor %}
+    </div>
+
+    <h2 class="section__title" style="text-align:left;margin-top:34px">Events ({{ event_results|length }})</h2>
+    <div class="stack">
+      {% for event in event_results %}
+        <article class="row row--plain">
+          <div>
+            <p class="row__meta">{{ event.sport }} &middot; {{ event.date_display }} &middot; {{ event.location }}</p>
+            <h3><a href="{{ url_for('event_detail', slug=event.slug) }}">{{ event.title }}</a></h3>
+          </div>
+        </article>
+      {% else %}
+        <p>No events matched.</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>
 {% endblock %}

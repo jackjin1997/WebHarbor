@@ -1,11 +1,33 @@
 {% extends "base.html" %}
-{% block title %}{{ article.title }}{% endblock %}
+{% set nav = 'articles' %}
+{% block title %}{{ article.title }} &ndash; American Kennel Club{% endblock %}
+
 {% block content %}
-<article class="article-detail">
-  <div class="eyebrow">{{ article.category }} · {{ article.read_minutes }} min read</div>
-  <h1>{{ article.title }}</h1>
-  <p class="lede">{{ article.summary }}</p>
-  <p>{{ article.body }}</p>
-  <p>Use the breed library, selector, and compare tools to turn this advice into a practical shortlist.</p>
-</article>
+<div class="container">
+  <p class="crumbs"><a href="{{ url_for('index') }}">Home</a> / <a href="{{ url_for('articles') }}">Expert Advice</a> / <a href="{{ url_for('articles', category=article.category_slug) }}">{{ article.category }}</a></p>
+  <div class="layout">
+    <article class="prose">
+      <h1 class="page-title">{{ article.title }}</h1>
+      <p class="row__meta">
+        By {{ article.author }}
+        {% if article.published_on %} &middot; Published {{ article.published_on.strftime('%B %-d, %Y') }}{% endif %}
+        {% if article.updated_on and article.updated_on != article.published_on %} &middot; Updated {{ article.updated_on.strftime('%B %-d, %Y') }}{% endif %}
+        &middot; {{ article.read_minutes }} min read
+      </p>
+      {% for paragraph in article.paragraphs %}<p>{{ paragraph }}</p>{% endfor %}
+    </article>
+    <aside class="sidebar">
+      <div class="panel">
+        <h3>More in {{ article.category }}</h3>
+        <ul class="facts">
+          {% for row in related %}
+            <li><a href="{{ url_for('article_detail', slug=row.slug) }}">{{ row.title }}</a></li>
+          {% else %}
+            <li>No other articles in this category yet.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </aside>
+  </div>
+</div>
 {% endblock %}
