@@ -1,6 +1,8 @@
 """BabyCenter mirror — pregnancy and baby development workflows."""
 from __future__ import annotations
 
+import hashlib
+import json
 import os
 import re
 from datetime import date, timedelta
@@ -8,6 +10,7 @@ from functools import wraps
 
 from flask import (
     Flask,
+    abort,
     flash,
     redirect,
     render_template,
@@ -21,6 +24,11 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 REFERENCE_DATE = date(2026, 5, 29)
+
+# Every factual sentence on this site is a verbatim excerpt from an openly
+# licensed source article, built by tools/build_corpus.py and carried with the
+# exact upstream revision it came from. See source_data/README.md.
+CORPUS_PATH = os.path.join(BASE_DIR, "source_data", "corpus.json")
 
 app = Flask(__name__, instance_path=os.path.join(BASE_DIR, "instance"))
 app.config["SECRET_KEY"] = "webharbor-babycenter-dev-key"
@@ -45,20 +53,25 @@ class User(db.Model):
 class PregnancyWeek(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     week = db.Column(db.Integer, unique=True, nullable=False)
-    baby_size = db.Column(db.String(80), nullable=False)
+    stage = db.Column(db.String(40), nullable=False)
     headline = db.Column(db.String(180), nullable=False)
     baby_summary = db.Column(db.Text, nullable=False)
     body_summary = db.Column(db.Text, nullable=False)
     checklist = db.Column(db.Text, nullable=False)
+    attribution = db.Column(db.Text, nullable=False)
 
 
 class BabyMonth(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     month = db.Column(db.Integer, unique=True, nullable=False)
     headline = db.Column(db.String(180), nullable=False)
-    milestones = db.Column(db.Text, nullable=False)
-    feeding = db.Column(db.Text, nullable=False)
-    sleep = db.Column(db.Text, nullable=False)
+    # Named after what the source article documents per age. Any of the three
+    # may be absent for an age the source does not cover; the page says so
+    # rather than filling the gap.
+    physical = db.Column(db.Text)
+    motor = db.Column(db.Text)
+    communication = db.Column(db.Text)
+    attribution = db.Column(db.Text, nullable=False)
 
 
 class Article(db.Model):
@@ -70,6 +83,7 @@ class Article(db.Model):
     read_minutes = db.Column(db.Integer, nullable=False)
     summary = db.Column(db.Text, nullable=False)
     body = db.Column(db.Text, nullable=False)
+    attribution = db.Column(db.Text, nullable=False)
 
 
 class CommunityPost(db.Model):
@@ -134,17 +148,35 @@ def scored_search(query: str, rows, fields: list[str]):
     return [row for _, row in scored]
 
 
+def sourced_weeks() -> list[int]:
+    return [row.week for row in PregnancyWeek.query.order_by(PregnancyWeek.week).all()]
+
+
 def pregnancy_week_for_due_date(due_date: date) -> int:
+    """Gestational week for a due date, snapped to the nearest sourced page.
+
+    Not every week has an upstream fact behind it, so the tracker points at the
+    closest week that does instead of inventing a page.
+    """
     days_until_due = (due_date - REFERENCE_DATE).days
     week = 40 - (days_until_due // 7)
-    return max(4, min(40, week))
+    available = sourced_weeks()
+    if not available:
+        return max(4, min(42, week))
+    week = max(available[0], min(available[-1], week))
+    return min(available, key=lambda w: (abs(w - week), w))
 
 
 def baby_month_for_birthdate(birthdate: date | None) -> int | None:
+    """Age in months, snapped to the nearest sourced month page."""
     if not birthdate:
         return None
-    days = (REFERENCE_DATE - birthdate).days
-    return max(0, min(24, days // 30))
+    months = max(0, (REFERENCE_DATE - birthdate).days // 30)
+    available = [row.month for row in BabyMonth.query.order_by(BabyMonth.month).all()]
+    if not available:
+        return min(24, months)
+    months = max(available[0], min(available[-1], months))
+    return min(available, key=lambda m: (abs(m - months), m))
 
 
 @app.route("/")
@@ -167,7 +199,7 @@ def week_index():
     trimester = request.args.get("trimester", "")
     rows = PregnancyWeek.query.order_by(PregnancyWeek.week).all()
     if trimester:
-        low, high = {"first": (4, 13), "second": (14, 27), "third": (28, 40)}[trimester]
+        low, high = {"first": (4, 12), "second": (13, 27), "third": (28, 42)}[trimester]
         rows = [row for row in rows if low <= row.week <= high]
     return render_template("weeks.html", weeks=rows, trimester=trimester)
 
@@ -299,12 +331,27 @@ def update_tracker():
     return redirect(url_for("account"))
 
 
+def saved_target_exists(item_type: str, slug: str) -> bool:
+    if item_type == "article":
+        return Article.query.filter_by(slug=slug).first() is not None
+    if item_type == "post":
+        return CommunityPost.query.filter_by(slug=slug).first() is not None
+    if not slug.lstrip("-").isdigit():
+        return False
+    if item_type == "week":
+        return PregnancyWeek.query.filter_by(week=int(slug)).first() is not None
+    return BabyMonth.query.filter_by(month=int(slug)).first() is not None
+
+
 @app.route("/save/<item_type>/<slug>", methods=["POST"])
 @login_required
 def save_item(item_type, slug):
     if item_type not in {"article", "week", "month", "post"}:
-        flash("Unsupported save type.", "error")
-        return redirect(url_for("index"))
+        abort(404)
+    if not saved_target_exists(item_type, slug):
+        # Without this the table happily stores saves for pages that do not
+        # exist, which lets a wrong-but-plausible slug look like a real save.
+        abort(404)
     existing = SavedItem.query.filter_by(user_id=current_user().id, item_type=item_type, item_slug=slug).first()
     if not existing:
         db.session.add(SavedItem(user_id=current_user().id, item_type=item_type, item_slug=slug, note=request.form.get("note", "")))
@@ -315,7 +362,10 @@ def save_item(item_type, slug):
 
 @app.route("/illustration/<kind>/<slug>.svg")
 def illustration(kind, slug):
-    hue = abs(hash(kind + slug)) % 360
+    # Python salts str hashes per process, so hash() here made the same URL
+    # render a different colour on every restart. Screenshot-based grading and
+    # visual baselines need this stable.
+    hue = int(hashlib.sha256((kind + slug).encode("utf-8")).hexdigest()[:6], 16) % 360
     label = slug.replace("-", " ").title()
     icon = "♡" if kind == "baby" else "✓"
     svg = f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-label="{label}">
@@ -335,68 +385,106 @@ def health():
 
 
 def trimester_for_week(week: int) -> str:
-    if week <= 13:
+    if week <= 12:
         return "First trimester"
     if week <= 27:
         return "Second trimester"
     return "Third trimester"
 
 
+def load_corpus() -> dict:
+    """Load the sourced content corpus, failing loudly if it is absent.
+
+    The corpus is generated by tools/build_corpus.py from the tracked source
+    articles under source_data/. Booting without it would mean serving an empty
+    site, so this raises instead.
+    """
+    if not os.path.exists(CORPUS_PATH):
+        raise RuntimeError(
+            f"content corpus missing at {CORPUS_PATH}; "
+            "run tools/fetch_sources.py then tools/build_corpus.py"
+        )
+    with open(CORPUS_PATH, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def format_attribution(citations: list[dict]) -> str:
+    """One human-readable credit line per page, as CC BY-SA requires."""
+    parts = []
+    for c in citations:
+        bit = c["source_title"]
+        if c.get("section"):
+            bit += f" \u00a7 {c['section']}"
+        parts.append(f"{bit} (revision {c['revision_id']}) {c['permanent_url']}")
+    return " | ".join(parts)
+
+
 def seed_database():
     if PregnancyWeek.query.count() > 0:
         return
-    sizes = [
-        "poppy seed", "sesame seed", "lentil", "blueberry", "raspberry", "green olive", "prune", "lime",
-        "peach", "lemon", "apple", "avocado", "turnip", "bell pepper", "banana", "carrot", "mango",
-        "ear of corn", "rutabaga", "scallion", "cauliflower", "lettuce", "coconut", "butternut squash",
-        "cabbage", "eggplant", "acorn squash", "pineapple", "cantaloupe", "honeydew", "romaine head",
-        "jicama", "pineapple crown", "melon", "papaya", "winter melon", "pumpkin", "watermelon",
-    ]
-    for idx, week in enumerate(range(4, 41)):
-        trimester = trimester_for_week(week)
-        size = sizes[min(idx, len(sizes) - 1)]
+    corpus = load_corpus()
+
+    for row in corpus["weeks"]:
         db.session.add(PregnancyWeek(
-            week=week,
-            baby_size=size,
-            headline=f"{week} weeks pregnant: your baby is about the size of a {size}",
-            baby_summary=f"At week {week}, development focuses on steady growth, organ maturation, reflexes, and practice movements.",
-            body_summary=f"{trimester} changes may include shifts in energy, sleep, appetite, and common symptoms. Track questions for your provider.",
-            checklist=f"Review appointment notes; hydrate; plan nutritious snacks; read about {trimester.lower()} warning signs; save one article for later.",
+            week=row["week"],
+            stage=row["stage"],
+            headline=row["headline"],
+            baby_summary=row["baby_summary"],
+            body_summary=row["body_summary"],
+            checklist=row["checklist"],
+            attribution=format_attribution(row["citations"]),
         ))
-    for month in range(0, 25):
+
+    for row in corpus["months"]:
         db.session.add(BabyMonth(
-            month=month,
-            headline=f"Your baby at {month} months",
-            milestones=f"Month {month} milestones may include social smiles, stronger head control, rolling, sitting, crawling, first words, or early pretend play depending on age.",
-            feeding=f"Feeding routines at month {month} focus on responsive cues, growth, and age-appropriate solids or milk intake.",
-            sleep=f"Sleep at month {month} changes quickly. Many families track naps, bedtime rhythm, night waking, and safe sleep setup.",
+            month=row["month"],
+            headline=row["headline"],
+            physical=row["physical"],
+            motor=row["motor"],
+            communication=row["communication"],
+            attribution=format_attribution(row["citations"]),
         ))
-    articles = [
-        ("first-trimester-symptoms", "First trimester symptoms and when to call", "Pregnancy Health", "First trimester", 6, "Nausea, fatigue, spotting questions, and symptoms that deserve medical advice."),
-        ("pregnancy-safe-foods", "Pregnancy-safe foods and foods to avoid", "Nutrition", "First trimester", 7, "A practical list for seafood, caffeine, deli meat, dairy, and food safety."),
-        ("second-trimester-energy", "Making the most of second trimester energy", "Pregnancy Week by Week", "Second trimester", 5, "Plan appointments, registries, movement, and gentle exercise while energy often improves."),
-        ("anatomy-scan-guide", "What happens at the anatomy scan", "Prenatal Testing", "Second trimester", 6, "What the ultrasound checks, what to ask, and how results are shared."),
-        ("third-trimester-checklist", "Third trimester checklist", "Labor and Birth", "Third trimester", 8, "Hospital bag, birth preferences, feeding plans, car seat setup, and pediatrician choices."),
-        ("signs-of-labor", "Signs of labor versus false labor", "Labor and Birth", "Third trimester", 5, "Contractions, water breaking, timing, and when to call your provider."),
-        ("newborn-sleep-basics", "Newborn sleep basics", "Baby Sleep", "Postpartum", 6, "Safe sleep, day-night confusion, wake windows, and realistic expectations."),
-        ("starting-solids", "Starting solids: readiness signs", "Baby Feeding", "Postpartum", 7, "Sitting support, tongue thrust, iron-rich foods, allergens, and pacing."),
-        ("postpartum-recovery", "Postpartum recovery week by week", "Postpartum Health", "Postpartum", 8, "Bleeding, incision care, mood, pelvic floor, and follow-up visits."),
-        ("baby-development-red-flags", "Baby development red flags to discuss", "Baby Development", "Postpartum", 6, "How to track milestones and bring concerns to pediatric visits."),
-        ("building-a-registry", "Building a practical baby registry", "Gear", "Second trimester", 5, "Sleep, feeding, diapering, transport, and nice-to-have items."),
-        ("choosing-childcare", "Choosing childcare before baby arrives", "Family Life", "Third trimester", 7, "Questions for centers, home daycares, nannies, and backup care."),
-    ]
-    for slug, title, category, trimester, minutes, summary in articles:
-        db.session.add(Article(slug=slug, title=title, category=category, trimester=trimester, read_minutes=minutes, summary=summary, body=summary + " This mirror keeps guidance visible and task-grounded for browsing, saving, and tracker workflows."))
+
+    for row in corpus["articles"]:
+        db.session.add(Article(
+            slug=row["slug"],
+            title=row["title"],
+            category=row["category"],
+            trimester=row["trimester"],
+            read_minutes=row["read_minutes"],
+            summary=row["summary"],
+            body=row["body"],
+            attribution=format_attribution(row["citations"]),
+        ))
+
+    # Community threads are benchmark state, not mirrored facts: they exist so
+    # there is something to browse, search and reply-count against. They are
+    # labelled as sample content in the UI and carry no external claims.
     posts = [
-        ("june-2026-due-date-roll-call", "June 2026 Birth Club", "Roll call: who else is due in June?", "MayaB", 48, 1, "Share your due date, symptoms, and first appointment plans."),
-        ("second-trimester-energy-tips", "Second Trimester Club", "Anyone else suddenly nesting?", "NinaR", 31, 2, "I have more energy and want realistic weekend projects."),
-        ("newborn-night-wakings", "Newborn Sleep", "How are you handling night wakings?", "SamK", 64, 0, "Looking for gentle routines that still feel manageable."),
-        ("starting-solids-allergens", "Starting Solids", "Introducing peanut and egg this week", "PriyaC", 22, 3, "What order did your pediatrician suggest?"),
-        ("hospital-bag-minimalists", "Labor and Birth", "Minimal hospital bag list", "DevonL", 39, 4, "What did you actually use during a short stay?"),
-        ("car-seat-install-check", "Gear and Registry", "Car seat install check before 36 weeks", "AnaP", 18, 5, "Our local fire station appointment is next week."),
+        ("june-2026-due-date-roll-call", "June 2026 Birth Club",
+         "Roll call: who else is due in June?", "MayaB", 48, 1,
+         "Share your due date, symptoms, and first appointment plans."),
+        ("second-trimester-energy-tips", "Second Trimester Club",
+         "Anyone else suddenly nesting?", "NinaR", 31, 2,
+         "I have more energy and want realistic weekend projects."),
+        ("newborn-night-wakings", "Newborn Sleep",
+         "How are you handling night wakings?", "SamK", 64, 0,
+         "Looking for gentle routines that still feel manageable."),
+        ("starting-solids-allergens", "Starting Solids",
+         "Introducing peanut and egg this week", "PriyaC", 22, 3,
+         "What order did your pediatrician suggest?"),
+        ("hospital-bag-minimalists", "Labor and Birth",
+         "Minimal hospital bag list", "DevonL", 39, 4,
+         "What did you actually use during a short stay?"),
+        ("car-seat-install-check", "Gear and Registry",
+         "Car seat install check before 36 weeks", "AnaP", 18, 5,
+         "Our local fire station appointment is next week."),
     ]
     for slug, club, title, author, replies, days_ago, body in posts:
-        db.session.add(CommunityPost(slug=slug, club=club, title=title, author=author, replies=replies, last_active=REFERENCE_DATE - timedelta(days=days_ago), body=body))
+        db.session.add(CommunityPost(
+            slug=slug, club=club, title=title, author=author, replies=replies,
+            last_active=REFERENCE_DATE - timedelta(days=days_ago), body=body))
+
     db.session.commit()
 
 
@@ -413,7 +501,7 @@ def seed_benchmark_users():
         user = User(username=username, email=email, display_name=display_name, due_date=due_date, baby_birthdate=birthdate, parenting_stage=stage, password_hash=generate_password_hash("TestPass123!"))
         db.session.add(user)
         db.session.flush()
-        db.session.add(SavedItem(user_id=user.id, item_type="article", item_slug="third-trimester-checklist", note="Benchmark saved article"))
+        db.session.add(SavedItem(user_id=user.id, item_type="article", item_slug="how-births-are-classified", note="Benchmark saved article"))
         db.session.add(SavedItem(user_id=user.id, item_type="week", item_slug=str(pregnancy_week_for_due_date(due_date)), note="Current pregnancy week"))
     db.session.commit()
 

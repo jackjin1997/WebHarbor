@@ -98,3 +98,18 @@ main { min-height: 72vh; }
   .filter-bar { grid-template-columns: 1fr; }
   .site-footer { flex-direction: column; }
 }
+
+/* Source credit block — required by the CC BY-SA licence on the quoted text. */
+.source-note {
+  margin: 32px 0 8px;
+  padding: 18px 20px;
+  border-left: 4px solid #1c8c7f;
+  background: #f3f8f7;
+  border-radius: 0 10px 10px 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.source-note h2 { margin: 0 0 6px; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: #1c8c7f; }
+.source-note p { margin: 0 0 6px; word-break: break-word; }
+.muted { color: #5d6b7a; }
+.article-body p { margin: 0 0 14px; }

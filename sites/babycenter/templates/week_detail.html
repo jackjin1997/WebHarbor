@@ -4,7 +4,7 @@
 <section class="detail-hero">
   <img src="{{ url_for('illustration', kind='pregnancy', slug='week-' ~ week.week) }}" alt="Week {{ week.week }}">
   <div>
-    <div class="eyebrow">Week {{ week.week }}</div>
+    <div class="eyebrow">Week {{ week.week }} &middot; {{ week.stage }}</div>
     <h1>{{ week.headline }}</h1>
     <p>{{ week.baby_summary }}</p>
     <form method="post" action="{{ url_for('save_item', item_type='week', slug=week.week) }}"><button type="submit">Save week</button></form>
@@ -23,4 +23,5 @@
     {% endfor %}
   </div>
 </section>
+{% include "_attribution.html" with context %}
 {% endblock %}

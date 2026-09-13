@@ -10,7 +10,7 @@
 </div>
 <section class="timeline-grid">
   {% for week in weeks %}
-    <a class="timeline-card" href="{{ url_for('week_detail', week=week.week) }}"><span>Week {{ week.week }}</span><strong>{{ week.baby_size }}</strong><small>{{ week.headline }}</small></a>
+    <a class="timeline-card" href="{{ url_for('week_detail', week=week.week) }}"><span>Week {{ week.week }}</span><strong>{{ week.stage }}</strong><small>{{ week.headline }}</small></a>
   {% endfor %}
 </section>
 {% endblock %}
