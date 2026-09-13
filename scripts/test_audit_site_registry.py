@@ -28,9 +28,13 @@ def build_repo(
     task_ports: dict[str, int] | None = None,
     docker_expose: str = "EXPOSE 8101 40000-40014",
 ) -> None:
-    sites = sites or ["amazon"]
-    site_dirs = site_dirs or list(sites)
-    task_ports = task_ports or {site: 40000 + index for index, site in enumerate(sites)}
+    sites = ["amazon"] if sites is None else sites
+    site_dirs = list(sites) if site_dirs is None else site_dirs
+    task_ports = (
+        {site: 40000 + index for index, site in enumerate(sites)}
+        if task_ports is None
+        else task_ports
+    )
     for index, site in enumerate(site_dirs):
         task_ports.setdefault(site, 41000 + index)
 
@@ -184,6 +188,211 @@ class AuditSiteRegistryTests(unittest.TestCase):
             self.assertIn("summary", payload)
             self.assertIn("sites", payload)
             self.assertIn("ports", payload)
+
+    def test_invalid_task_port_is_reported_without_traceback(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            build_repo(root)
+            write(
+                root / "sites" / "amazon" / "tasks.jsonl",
+                json.dumps(
+                    {
+                        "web_name": "Amazon",
+                        "id": "amazon--0",
+                        "ques": "Find something",
+                        "web": "http://localhost:not-a-port/",
+                        "upstream_url": "https://amazon.example.com/",
+                    }
+                )
+                + "\n",
+            )
+
+            result = audit.audit_repository(root)
+
+            self.assertEqual(len(result.errors), 0)
+            self.assertTrue(
+                any("invalid port" in warning.message for warning in result.warnings),
+                result.warnings,
+            )
+
+    def test_invalid_utf8_task_file_is_reported_without_traceback(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            build_repo(root)
+            (root / "sites" / "amazon" / "tasks.jsonl").write_bytes(b"\xff\xfe")
+
+            result = audit.audit_repository(root)
+
+            self.assertEqual(result.exit_code, 1)
+            self.assertTrue(
+                any("UTF-8" in error.message for error in result.errors),
+                result.errors,
+            )
+
+    def test_missing_required_repository_file_is_reported_without_traceback(self) -> None:
+        required_files = ("websyn_start.sh", "control_server.py", "site_runner.py", "Dockerfile")
+        for required_file in required_files:
+            with self.subTest(required_file=required_file):
+                with tempfile.TemporaryDirectory() as tmpdir:
+                    root = Path(tmpdir)
+                    build_repo(root)
+                    (root / required_file).unlink()
+
+                    result = audit.audit_repository(root)
+
+                    self.assertEqual(result.exit_code, 1)
+                    self.assertTrue(
+                        any(required_file in error.message for error in result.errors),
+                        result.errors,
+                    )
+
+    def test_shell_site_array_ignores_comments(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            build_repo(root)
+            write(
+                root / "websyn_start.sh",
+                """
+                SITES=(amazon # explanatory comment
+                )
+                BASE_PORT=40000
+                """,
+            )
+
+            result = audit.audit_repository(root)
+
+            self.assertEqual(result.exit_code, 0)
+            self.assertEqual([site.site for site in result.sites], ["amazon"])
+
+    def test_commented_registry_declarations_are_ignored(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            build_repo(root)
+            write(
+                root / "websyn_start.sh",
+                """
+                # SITES=(wrong_site)
+                # BASE_PORT=49999
+                SITES=(amazon)
+                BASE_PORT=40000
+                """,
+            )
+
+            result = audit.audit_repository(root)
+
+            self.assertEqual(result.exit_code, 0)
+            self.assertEqual([site.site for site in result.sites], ["amazon"])
+
+    def test_malformed_registry_is_reported_without_traceback(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            build_repo(root)
+            write(root / "control_server.py", "SITES = [unknown_name]\nBASE_PORT = 40000\n")
+
+            result = audit.audit_repository(root)
+
+            self.assertEqual(result.exit_code, 1)
+            self.assertTrue(
+                any("control_server.py" in (error.file or "") for error in result.errors),
+                result.errors,
+            )
+
+    def test_json_output_remains_valid_for_repository_errors(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            build_repo(root)
+            (root / "Dockerfile").unlink()
+            buffer = io.StringIO()
+
+            exit_code = audit.main(["--json"], root=root, stdout=buffer)
+            payload = json.loads(buffer.getvalue())
+
+            self.assertEqual(exit_code, 1)
+            self.assertEqual(payload["summary"]["errors"], 1)
+            self.assertIn("Dockerfile", payload["errors"][0]["message"])
+
+    def test_explicit_assetpaths_cover_site_without_wildcard(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            build_repo(root)
+            write(
+                root / ".assetpaths",
+                """
+                sites/amazon/instance_seed/
+                sites/amazon/static/images/
+                sites/amazon/static/external_cache/
+                """,
+            )
+
+            result = audit.audit_repository(root, strict=True)
+
+            self.assertEqual(result.exit_code, 0)
+            self.assertFalse(
+                any(".assetpaths" in warning.message for warning in result.warnings),
+                result.warnings,
+            )
+
+    def test_brand_web_name_does_not_require_slug_match(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            build_repo(root)
+            write(
+                root / "sites" / "amazon" / "tasks.jsonl",
+                json.dumps(
+                    {
+                        "web_name": "Whole Foods Market",
+                        "id": "amazon--0",
+                        "ques": "Find something",
+                        "web": "http://localhost:40000/",
+                        "upstream_url": "https://amazon.example.com/",
+                    }
+                )
+                + "\n",
+            )
+
+            result = audit.audit_repository(root, strict=True)
+
+            self.assertEqual(result.exit_code, 0)
+            self.assertFalse(
+                any("does not look related" in warning.message for warning in result.warnings),
+                result.warnings,
+            )
+
+    def test_docker_expose_protocol_suffix_is_supported(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            build_repo(root, docker_expose="expose 8101/tcp 40000/tcp")
+
+            result = audit.audit_repository(root)
+
+            self.assertEqual(result.exit_code, 0)
+            self.assertEqual(result.ports["docker_exposed_ports"], [8101, 40000])
+
+    def test_descending_docker_port_range_is_an_error(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            build_repo(root, docker_expose="EXPOSE 8101 40000-39999")
+
+            result = audit.audit_repository(root)
+
+            self.assertEqual(result.exit_code, 1)
+            self.assertTrue(
+                any("descending EXPOSE range" in error.message for error in result.errors),
+                result.errors,
+            )
+
+    def test_out_of_range_docker_port_is_an_error(self) -> None:
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            build_repo(root, docker_expose="EXPOSE 8101 40000 70000")
+
+            result = audit.audit_repository(root)
+
+            self.assertEqual(result.exit_code, 1)
+            self.assertTrue(
+                any("out-of-range EXPOSE token" in error.message for error in result.errors),
+                result.errors,
+            )
 
 
 if __name__ == "__main__":

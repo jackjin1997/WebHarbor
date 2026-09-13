@@ -11,6 +11,7 @@ import argparse
 import ast
 import json
 import re
+import shlex
 import subprocess
 import sys
 from dataclasses import asdict, dataclass
@@ -156,8 +157,26 @@ class FindingCollector:
         )
 
 
-def normalize_name(text: str | None) -> str:
-    return re.sub(r"[^a-z0-9]+", "", (text or "").lower())
+def incomplete_audit_result(
+    root: Path,
+    *,
+    strict: bool,
+    collector: FindingCollector,
+    site_directories_found: int = 0,
+) -> AuditResult:
+    return AuditResult(
+        root=str(root),
+        strict=strict,
+        site_directories_found=site_directories_found,
+        registered_sites_found=0,
+        ports_found=0,
+        task_files_checked=0,
+        task_count=0,
+        errors=collector.errors,
+        warnings=collector.warnings,
+        sites=[],
+        ports={},
+    )
 
 
 def slug_is_valid(slug: str) -> bool:
@@ -165,17 +184,26 @@ def slug_is_valid(slug: str) -> bool:
 
 
 def parse_site_array(text: str, file_label: str) -> tuple[list[str], int]:
-    sites_match = re.search(r"\bSITES\s*=\s*(\(.+?\)|\[.+?\])", text, re.DOTALL)
+    sites_match = re.search(
+        r"^[ \t]*SITES\s*=\s*(\(.*?\)|\[.*?\])",
+        text,
+        re.DOTALL | re.MULTILINE,
+    )
     if not sites_match:
         raise ValueError(f"Could not parse SITES from {file_label}")
     sites_block = sites_match.group(1)
     if sites_block.startswith("("):
-        sites = re.findall(r"[A-Za-z0-9_]+", sites_block)
+        try:
+            sites = shlex.split(sites_block[1:-1], comments=True, posix=True)
+        except ValueError as exc:
+            raise ValueError(f"Could not parse SITES from {file_label}: {exc}") from exc
     else:
         sites = ast.literal_eval(sites_block)
         if not isinstance(sites, list):
             raise ValueError(f"SITES is not a list in {file_label}")
-    base_match = re.search(r"\bBASE_PORT\s*=\s*(\d+)", text)
+    if not all(isinstance(site, str) and site for site in sites):
+        raise ValueError(f"SITES must contain only non-empty strings in {file_label}")
+    base_match = re.search(r"^[ \t]*BASE_PORT\s*=\s*(\d+)", text, re.MULTILINE)
     if not base_match:
         raise ValueError(f"Could not parse BASE_PORT from {file_label}")
     return sites, int(base_match.group(1))
@@ -187,20 +215,36 @@ def build_port_map(sites: list[str], base_port: int) -> dict[str, int]:
 
 def parse_docker_ports(dockerfile: Path) -> dict[str, Any]:
     exposed: set[int] = set()
-    lines = dockerfile.read_text(encoding="utf-8").splitlines()
+    invalid_expose_tokens: list[str] = []
+    text = dockerfile.read_text(encoding="utf-8")
+    lines = re.sub(r"\\\s*\n", " ", text).splitlines()
     for line in lines:
-        stripped = line.strip()
-        if not stripped.startswith("EXPOSE "):
+        stripped = line.split("#", 1)[0].strip()
+        tokens = stripped.split()
+        if not tokens or tokens[0].upper() != "EXPOSE":
             continue
-        for token in stripped.split()[1:]:
-            if "-" in token:
-                start_text, end_text = token.split("-", 1)
-                if start_text.isdigit() and end_text.isdigit():
-                    start, end = int(start_text), int(end_text)
-                    exposed.update(range(min(start, end), max(start, end) + 1))
-            elif token.isdigit():
-                exposed.add(int(token))
-    return {"exposed_ports": sorted(exposed)}
+        for raw_token in tokens[1:]:
+            port_token, separator, protocol = raw_token.partition("/")
+            if separator and not protocol:
+                invalid_expose_tokens.append(f"invalid EXPOSE token '{raw_token}'")
+                continue
+            port_match = re.fullmatch(r"(\d+)(?:-(\d+))?", port_token)
+            if not port_match:
+                invalid_expose_tokens.append(f"invalid EXPOSE token '{raw_token}'")
+                continue
+            start = int(port_match.group(1))
+            end = int(port_match.group(2)) if port_match.group(2) else start
+            if end < start:
+                invalid_expose_tokens.append(f"descending EXPOSE range '{raw_token}'")
+                continue
+            if start < 1 or end > 65535:
+                invalid_expose_tokens.append(f"out-of-range EXPOSE token '{raw_token}'")
+                continue
+            exposed.update(range(start, end + 1))
+    return {
+        "exposed_ports": sorted(exposed),
+        "invalid_expose_tokens": invalid_expose_tokens,
+    }
 
 
 def parse_assetpaths(assetpaths_path: Path) -> list[str]:
@@ -257,9 +301,17 @@ def parse_tasks_jsonl(
     web_names: set[str] = set()
     seen_task_objects = False
 
-    for line_number, raw_line in enumerate(
-        tasks_path.read_text(encoding="utf-8").splitlines(), start=1
-    ):
+    try:
+        task_lines = tasks_path.read_text(encoding="utf-8").splitlines()
+    except (OSError, UnicodeError) as exc:
+        collector.error(
+            f"could not read tasks.jsonl as UTF-8: {exc}",
+            file=str(tasks_path),
+            site=site,
+        )
+        return 0, None, None
+
+    for line_number, raw_line in enumerate(task_lines, start=1):
         if not raw_line.strip():
             continue
         try:
@@ -308,7 +360,19 @@ def parse_tasks_jsonl(
             )
             continue
 
-        parsed = urlparse(web_url)
+        try:
+            parsed = urlparse(web_url)
+            hostname = parsed.hostname
+            port = parsed.port
+        except ValueError as exc:
+            collector.warn(
+                f"task web URL has an invalid port or host: {exc}",
+                file=str(tasks_path),
+                site=site,
+                line=line_number,
+                task_id=str(task_id) if task_id else None,
+            )
+            continue
         if parsed.scheme not in {"http", "https"}:
             collector.warn(
                 "task web URL must use http or https",
@@ -317,7 +381,7 @@ def parse_tasks_jsonl(
                 line=line_number,
                 task_id=str(task_id) if task_id else None,
             )
-        if parsed.hostname not in {"localhost", "127.0.0.1"}:
+        if hostname not in {"localhost", "127.0.0.1"}:
             collector.warn(
                 "task web URL should point to localhost or 127.0.0.1",
                 file=str(tasks_path),
@@ -325,7 +389,7 @@ def parse_tasks_jsonl(
                 line=line_number,
                 task_id=str(task_id) if task_id else None,
             )
-        if parsed.port is None:
+        if port is None:
             collector.warn(
                 "task web URL should include an explicit port",
                 file=str(tasks_path),
@@ -334,7 +398,7 @@ def parse_tasks_jsonl(
                 task_id=str(task_id) if task_id else None,
             )
         else:
-            ports.add(parsed.port)
+            ports.add(port)
 
     if not seen_task_objects:
         collector.error("tasks.jsonl is empty", file=str(tasks_path), site=site)
@@ -379,18 +443,26 @@ def audit_repository(root: Path, *, site: str | None = None, strict: bool = Fals
 
     if not sites_root.exists():
         collector.error("sites directory is missing", file=str(sites_root))
-        return AuditResult(
-            root=str(root),
+        return incomplete_audit_result(
+            root,
             strict=strict,
-            site_directories_found=0,
-            registered_sites_found=0,
-            ports_found=0,
-            task_files_checked=0,
-            task_count=0,
-            errors=collector.errors,
-            warnings=collector.warnings,
-            sites=[],
-            ports={},
+            collector=collector,
+        )
+
+    site_dirs = sorted(path.name for path in sites_root.iterdir() if path.is_dir())
+    required_paths = (websyn_path, control_path, site_runner_path, dockerfile_path)
+    for required_path in required_paths:
+        if not required_path.is_file():
+            collector.error(
+                f"required repository file is missing: {required_path.name}",
+                file=str(required_path),
+            )
+    if collector.errors:
+        return incomplete_audit_result(
+            root,
+            strict=strict,
+            collector=collector,
+            site_directories_found=len(site_dirs),
         )
 
     websyn_text = websyn_path.read_text(encoding="utf-8", errors="replace")
@@ -400,13 +472,31 @@ def audit_repository(root: Path, *, site: str | None = None, strict: bool = Fals
     asset_patterns = parse_assetpaths(assetpaths_path)
     readme_reset_sites = parse_readme_reset_examples(readme_path)
 
-    websyn_sites, websyn_base_port = parse_site_array(websyn_text, str(websyn_path))
-    control_sites, control_base_port = parse_site_array(control_text, str(control_path))
+    websyn_registry: tuple[list[str], int] | None = None
+    control_registry: tuple[list[str], int] | None = None
+    try:
+        websyn_registry = parse_site_array(websyn_text, str(websyn_path))
+    except (SyntaxError, ValueError) as exc:
+        collector.error(str(exc), file=str(websyn_path))
+    try:
+        control_registry = parse_site_array(control_text, str(control_path))
+    except (SyntaxError, ValueError) as exc:
+        collector.error(str(exc), file=str(control_path))
+    if collector.errors:
+        return incomplete_audit_result(
+            root,
+            strict=strict,
+            collector=collector,
+            site_directories_found=len(site_dirs),
+        )
+
+    assert websyn_registry is not None
+    assert control_registry is not None
+    websyn_sites, websyn_base_port = websyn_registry
+    control_sites, control_base_port = control_registry
     websyn_port_map = build_port_map(websyn_sites, websyn_base_port)
     control_port_map = build_port_map(control_sites, control_base_port)
     exposed_ports = set(docker_ports["exposed_ports"])
-
-    site_dirs = sorted(path.name for path in sites_root.iterdir() if path.is_dir())
 
     if site is not None:
         all_known_sites = set(site_dirs) | set(websyn_sites) | set(control_sites)
@@ -449,6 +539,8 @@ def audit_repository(root: Path, *, site: str | None = None, strict: bool = Fals
 
     if 8101 not in exposed_ports:
         collector.error("Dockerfile is missing EXPOSE 8101", file=str(dockerfile_path), port=8101)
+    for invalid_expose_token in docker_ports["invalid_expose_tokens"]:
+        collector.error(invalid_expose_token, file=str(dockerfile_path))
 
     registered_site_ports = {
         site_slug: websyn_port_map[site_slug] for site_slug in websyn_sites
@@ -482,18 +574,6 @@ def audit_repository(root: Path, *, site: str | None = None, strict: bool = Fals
 
     if not asset_patterns:
         collector.warn(".assetpaths is missing or empty", file=str(assetpaths_path))
-
-    required_asset_suffixes = (
-        "instance_seed",
-        "static/images",
-        "static/external_cache",
-    )
-    for suffix in required_asset_suffixes:
-        if not pattern_covers_site(asset_patterns, "*", suffix):
-            collector.warn(
-                f".assetpaths does not include a wildcard pattern for '{suffix}'",
-                file=str(assetpaths_path),
-            )
 
     site_summaries: list[SiteSummary] = []
     total_task_count = 0
@@ -621,15 +701,6 @@ def audit_repository(root: Path, *, site: str | None = None, strict: bool = Fals
                     site=site_slug,
                     port=expected_port,
                 )
-
-            normalized_slug = normalize_name(site_slug)
-            if task_web_name and normalized_slug not in normalize_name(task_web_name):
-                if normalize_name(task_web_name) not in normalized_slug:
-                    collector.warn(
-                        f"task web_name '{task_web_name}' does not look related to site slug '{site_slug}'",
-                        file=str(tasks_path),
-                        site=site_slug,
-                    )
 
         if websyn_port is not None and not (40000 <= websyn_port <= 49999):
             collector.warn(

@@ -104,11 +104,13 @@ Any other improvement — bug fixes, UI polish, data enrichment, task suggestion
 Use the repository registry audit to check site registration consistency, port mappings, and task integration before opening a review or PR:
 
 ```bash
-python scripts/audit_site_registry.py
-python scripts/audit_site_registry.py --site amazon
-python scripts/audit_site_registry.py --strict
-python scripts/audit_site_registry.py --json
+python3 scripts/audit_site_registry.py
+python3 scripts/audit_site_registry.py --site amazon
+python3 scripts/audit_site_registry.py --strict
+python3 scripts/audit_site_registry.py --json
 ```
+
+Warnings are informational by default. Use `--strict` in pre-PR checks or CI to make warnings fail the command.
 
 ## Citation
 
