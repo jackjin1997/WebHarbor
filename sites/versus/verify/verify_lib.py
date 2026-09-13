@@ -47,7 +47,46 @@ def load_run(run_dir):
     return traj
 
 
+def site_port():
+    """This site's port, derived from the registry rather than frozen here.
+
+    Keeping it derived means a registry reorder moves the verifier with it
+    instead of silently accepting trajectories from whatever site now owns the
+    old port.
+    """
+    override = os.environ.get("WH_SITE_PORT")
+    if override:
+        return int(override)
+    registry = Path(__file__).resolve().parents[3] / "control_server.py"
+    block = re.search(r"^SITES = \[(.*?)\]", registry.read_text(), re.S | re.M).group(1)
+    return 40000 + re.findall(r"'([a-z0-9_]+)'", block).index(SITE)
+
+
+def site_origins():
+    """Origins a trajectory step may legitimately carry.
+
+    Without this, every navigation check is a bare substring match on the path,
+    so a trajectory recorded against a different mirror on the same host -- same
+    paths, different port -- satisfies them. Override with WH_SITE_ORIGINS
+    (comma separated) for a harness that maps the site to another address.
+    """
+    env = os.environ.get("WH_SITE_ORIGINS")
+    if env:
+        return tuple(x.strip().rstrip("/") for x in env.split(",") if x.strip())
+    port = site_port()
+    return (f"http://localhost:{port}", f"http://127.0.0.1:{port}")
+
+
 def step_urls(traj):
+    """Only steps on this site's own origin. Anything else is not evidence that
+    the agent visited THIS site."""
+    origins = site_origins()
+    return [s.get("url", "") or "" for s in traj.get("steps", [])
+            if (s.get("url", "") or "").startswith(origins)]
+
+
+def all_step_urls(traj):
+    """Every recorded URL, including off-site ones (for evidence messages)."""
     return [s.get("url", "") or "" for s in traj.get("steps", [])]
 
 

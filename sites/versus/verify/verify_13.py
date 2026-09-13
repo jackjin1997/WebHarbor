@@ -22,6 +22,12 @@ def body(j, traj, initial, after):
                       "the requested comparison is already saved in the seed, so the "
                       "after state would be identical whether or not the agent acted")
 
+    ans = V.final_answer(traj)
+    j.check("reported what it did, without denying it",
+            bool(ans) and not V.looks_negated(ans),
+            f"answer={ans!r} (this task is graded on the state change; the report "
+            f"must still exist and must not contradict it)")
+
     j.check("signed in", V.navigated_to(traj, "/login"),
             f"steps={V.step_urls(traj)[:6]}")
     j.check("opened the comparison page for the requested pair",
