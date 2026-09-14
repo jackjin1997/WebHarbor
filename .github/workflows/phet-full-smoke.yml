@@ -1,0 +1,159 @@
+name: PhET full environment smoke
+
+on:
+  push:
+    branches:
+      - ci/phet-full-smoke
+
+permissions:
+  contents: read
+
+jobs:
+  full-environment-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Record runner capacity and identity
+        run: |
+          set -euo pipefail
+          df -h
+          docker system df
+          available_kib=$(df -Pk . | awk 'NR==2 {print $4}')
+          test "$available_kib" -ge 52428800
+          mkdir -p /tmp/full-smoke
+          git rev-parse HEAD > /tmp/full-smoke/ci-code-sha.txt
+          cp .assets-revision /tmp/full-smoke/assets-revision.txt
+
+      - name: Fetch the pinned assets and check identity
+        run: |
+          set -euo pipefail
+          python -m pip install 'huggingface_hub[cli]'
+          ./scripts/fetch_assets.sh
+          ./scripts/check_assets.sh
+          revision=$(awk '/^revision:/ {print $2}' .assets-revision)
+          test "$revision" = 9c6ab2169d64f52cdee44a12921efc1e9061a1ee
+          test "$(sha256sum "sites/.cache/tarballs/$revision/phet_simulations.tar.gz" | awk '{print $1}')" = \
+            7ed4831ed1218bf95456a6156f82dbd769b909fb630434e042f6e6cd1987a65f
+          test "$(md5sum sites/phet_simulations/instance_seed/phet_simulations.db | awk '{print $1}')" = \
+            6eed11be4c24be21e9c647caee573745
+          sha256sum "sites/.cache/tarballs/$revision/phet_simulations.tar.gz" \
+            sites/phet_simulations/instance_seed/phet_simulations.db \
+            sites/phet_simulations/tasks.jsonl \
+            > /tmp/full-smoke/candidate-sha256.txt
+
+      - name: Registry consistency
+        run: |
+          set -euo pipefail
+          python - <<'PY' | tee /tmp/full-smoke/registry.txt
+          import re, ast, pathlib
+          root = pathlib.Path('.')
+          sites = re.search(r'SITES=\((.*?)\)', (root/'websyn_start.sh').read_text(), re.S).group(1).split()
+          ctrl = next(ast.literal_eval(n.value)
+                      for n in ast.parse((root/'control_server.py').read_text()).body
+                      if isinstance(n, ast.Assign)
+                      and any(getattr(t, 'id', '') == 'SITES' for t in n.targets))
+          assert sites == ctrl, 'registry lists differ'
+          assert len(sites) == len(set(sites)), 'duplicate site'
+          assert sites.index('phet_simulations') == 29, sites.index('phet_simulations')
+          assert f'EXPOSE 8101 40000-{40000 + len(sites) - 1}' in (root/'Dockerfile').read_text()
+          print(f'{len(sites)} sites, phet_simulations at index 29 -> port 40029')
+          PY
+
+      - name: Build the image
+        run: ./scripts/build.sh webharbor:pr114-smoke2
+
+      - name: HTTP, health, reset and reset-all gates across every site
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/full-smoke
+          docker run -d --name wh-pr114-smoke2 \
+            -p 8201:8101 -p 41000-41029:40000-40029 \
+            webharbor:pr114-smoke2
+
+          ready=0
+          for attempt in $(seq 1 120); do
+            if curl -fsS http://localhost:8201/health > /tmp/full-smoke/health-before.json; then
+              ready=1; break
+            fi
+            sleep 2
+          done
+          test "$ready" = 1
+          jq -e '.ok == true and (.sites | length == 30) and ([.sites[].alive] | all)' \
+            /tmp/full-smoke/health-before.json
+
+          : > /tmp/full-smoke/http-before.txt
+          for port in $(seq 41000 41029); do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' "http://localhost:${port}/")
+            printf '%s\n' "${port}:${code}" | tee -a /tmp/full-smoke/http-before.txt
+            test "$code" = 200
+          done
+
+          seed_md5=$(docker exec wh-pr114-smoke2 md5sum \
+            /opt/WebSyn/phet_simulations/instance_seed/phet_simulations.db | awk '{print $1}')
+          docker exec wh-pr114-smoke2 sh -c \
+            'printf reset-probe >> /opt/WebSyn/phet_simulations/instance/phet_simulations.db'
+          dirty_md5=$(docker exec wh-pr114-smoke2 md5sum \
+            /opt/WebSyn/phet_simulations/instance/phet_simulations.db | awk '{print $1}')
+          test "$dirty_md5" != "$seed_md5"
+          curl -fsS -X POST http://localhost:8201/reset/phet_simulations \
+            > /tmp/full-smoke/reset-phet.json
+          reset_md5=$(docker exec wh-pr114-smoke2 md5sum \
+            /opt/WebSyn/phet_simulations/instance/phet_simulations.db | awk '{print $1}')
+          test "$reset_md5" = "$seed_md5"
+          printf 'seed=%s\ndirty=%s\nreset=%s\n' "$seed_md5" "$dirty_md5" "$reset_md5" \
+            > /tmp/full-smoke/phet-reset-md5.txt
+
+          start=$(date +%s)
+          curl -fsS -X POST http://localhost:8201/reset-all > /tmp/full-smoke/reset-all.json
+          elapsed=$(($(date +%s) - start))
+          printf '%s\n' "$elapsed" > /tmp/full-smoke/reset-all-seconds.txt
+          test "$elapsed" -le 30
+          jq -e '.ok == true and (.sites | length == 30) and ([.sites[].ready] | all)' \
+            /tmp/full-smoke/reset-all.json
+
+          curl -fsS http://localhost:8201/health > /tmp/full-smoke/health-after.json
+          jq -e '.ok == true and (.sites | length == 30) and ([.sites[].alive] | all)' \
+            /tmp/full-smoke/health-after.json
+          : > /tmp/full-smoke/http-after.txt
+          for port in $(seq 41000 41029); do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' "http://localhost:${port}/")
+            printf '%s\n' "${port}:${code}" | tee -a /tmp/full-smoke/http-after.txt
+            test "$code" = 200
+          done
+
+      - name: Grading contract sanity inside the built tree
+        run: |
+          set -euo pipefail
+          python - <<'PY' | tee /tmp/full-smoke/task-contract.txt
+          import json, pathlib
+          rows = [json.loads(l) for l in
+                  pathlib.Path('sites/phet_simulations/tasks.jsonl').read_text().splitlines() if l.strip()]
+          assert len(rows) == 18, len(rows)
+          for r in rows:
+              assert r['web'] == 'http://localhost:40029/', r['web']
+              assert 'answer' not in r
+              assert r['verifier_path'] and r['judge_rubric']
+              assert pathlib.Path(r['verifier_path']).is_file(), r['verifier_path']
+          print(f'{len(rows)} tasks, all with a verifier and a rubric, no answer key')
+          PY
+
+      - name: Collect diagnostics
+        if: always()
+        run: |
+          mkdir -p /tmp/full-smoke
+          docker logs wh-pr114-smoke2 > /tmp/full-smoke/container.log 2>&1 || true
+          df -h > /tmp/full-smoke/disk.txt
+          docker system df > /tmp/full-smoke/docker-disk.txt
+
+      - name: Upload smoke evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phet-30-site-full-smoke
+          path: /tmp/full-smoke
